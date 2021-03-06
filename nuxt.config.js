@@ -33,12 +33,14 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/moment',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     '@nuxtjs/proxy',
     '@nuxtjs/auth-next',
     'cookie-universal-nuxt'
@@ -84,6 +86,9 @@ export default {
       }
     }
   },
+  moment: {
+    locales: ['id']
+  },
 
   tailwindcss: {
     config: {
@@ -95,13 +100,13 @@ export default {
           borderRadius: {
             'fd': '16px',
             'fds': '8px'
+          },
+          fontSize: {
+            'title' : '18px'
           }
         },
         fontFamily: {
          'sans': ['Poppins','ui-sans-serif', 'system-ui']
-        },
-        fontSize: {
-          'title' : '18px'
         }
         
       },
