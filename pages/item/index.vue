@@ -1,7 +1,6 @@
 <template>
   <div class="flex">
     <sidebar-menu class="w-2/12 px-6 pt-8 " />
-
     <div class="w-7/12 h-screen bg-gray-200 pl-6 pt-10">
       <div>
         <span class="text-title">Laporan Terkini</span>
@@ -119,7 +118,6 @@
             this.data = r.data.data
             console.log(r)
         })
-        console.log(this.$route)
     }
   }
 </script>

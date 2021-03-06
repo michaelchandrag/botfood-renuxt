@@ -47,12 +47,12 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     //baseURL: 'https://donasi.test/api/'
-    baseURL: '/api',
-    proxy: true
+    baseURL: 'http://api.botfood.xyz/api/v1/',
+    // proxy: true
   },
-  proxy: {
-    '/api/': { target: 'http://api.botfood.xyz/api/v1/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
-  },
+  // proxy: {
+  //   '/api/': { target: 'http://api.botfood.xyz/api/v1/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
+  // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
@@ -74,12 +74,12 @@ export default {
         },
         endpoints: {
           login: { 
-            url: '/api/login_brand',
+            url: 'http://api.botfood.xyz/api/v1/login_brand',
             method: 'post',
             propertyName: 'data.token'
           },
-          // logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/me', method: 'get' }
+          // logout: { url: '/auth/logout', method: 'post' },
+          user: { url: 'http://api.botfood.xyz/api/v1/me', method: 'get' }
         }
       }
     }
@@ -93,12 +93,16 @@ export default {
             'green-food':'#029835'
           },
           borderRadius: {
-            'fd': '16px'
+            'fd': '16px',
+            'fds': '8px'
           }
         },
         fontFamily: {
          'sans': ['Poppins','ui-sans-serif', 'system-ui']
         },
+        fontSize: {
+          'title' : '18px'
+        }
         
       },
       
