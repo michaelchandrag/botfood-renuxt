@@ -1,9 +1,9 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'botfood-renuxt',
+    title: 'Botfood',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'id'
     },
     meta: [
       { charset: 'utf-8' },
@@ -11,12 +11,15 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css2?family=Poppins' },
+      
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -36,12 +39,71 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    '@nuxtjs/auth-next',
+    'cookie-universal-nuxt'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
-
+  axios: {
+    //baseURL: 'https://donasi.test/api/'
+    baseURL: '/api',
+    proxy: true
+  },
+  proxy: {
+    '/api/': { target: 'http://api.botfood.xyz/api/v1/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  server: {
+    host: '0.0.0.0',
+    port: '3000' // default: localhost
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'data.token',
+          required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: 'data'
+        },
+        endpoints: {
+          login: { 
+            url: '/api/login_brand',
+            method: 'post',
+            propertyName: 'data.token'
+          },
+          // logout: { url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/me', method: 'get' }
+        }
+      }
+    }
+  },
+
+  tailwindcss: {
+    config: {
+      theme: {
+        extend: {
+          colors: {
+            'green-food':'#029835'
+          },
+          borderRadius: {
+            'fd': '16px'
+          }
+        },
+        fontFamily: {
+         'sans': ['Poppins','ui-sans-serif', 'system-ui']
+        },
+        
+      },
+      
+    }
+
   }
+
 }
