@@ -15,14 +15,14 @@
 <div class="h-6"></div>
 <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div> 
       <div v-if="!isLoading"  class="bg-white rounded-fd p-8 mr-6">
-        <div class="grid grid-cols-4 gap-4">
+        <div class="flex gap-4">
 
 
 
-          <div>
+          <div class="w-3/12 cursor-pointer items-center relative">
             <div class="relative">
               <form @submit.prevent="getData">
-               <input @keyup.enter.native="getData" type="text" class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="outlet" placeholder="Nama Outlet">
+               <input @keyup.enter.native="getData" type="text" class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="itemName" placeholder="Nama Item">
                </form>
                <div class="absolute top-0 pt-3 pl-2">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,12 +32,12 @@
             </div>
             </div>
 
-<div>
-  <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"  class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
+<div class="w-3/12 cursor-pointer items-center relative">
+  <div @click.prevent="itemStatusDropdown?itemStatusDropdown=false:itemStatusDropdown=true"  class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
               <div class="flex-auto">
-                    <span v-if="outletChannel=='GrabFood'">Grab Food</span>
-                  <span v-if="outletChannel=='GoFood'">Go Food</span>
-                  <span v-if="outletChannel==null">Semua Channel</span>
+                    <span v-if="itemStatus==true">Aktif</span>
+                  <span v-if="itemStatus==false">Tidak Aktif</span>
+                  <span v-if="itemStatus==null">Status</span>
               </div>
               <div>
               <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,21 +46,21 @@
               </div>
           
             </div>
-            <div v-if="channelDropdown" class="absolute w-full shadow-sm rounded-b-fds">
+            <div v-if="itemStatusDropdown" class="absolute w-full shadow-sm rounded-b-fds">
               <ul class="w-full border-gray-300">
-                <li @click.prevent="channelDropdown=false,outletChannel='GrabFood',getData()" class="bg-white px-4 py-3 w-full">Grab Food</li>
-                <li @click.prevent="channelDropdown=false,outletChannel='GoFood',getData()" class="bg-white px-4 py-3 w-full">Go Food</li>
-                <li @click.prevent="channelDropdown=false,outletChannel=null,getData()" class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Channel</li>
+                <li @click.prevent="itemStatusDropdown=false,itemStatus=1,getData()" class="bg-white px-4 py-3 w-full">Aktif</li>
+                <li @click.prevent="itemStatusDropdown=false,itemStatus=0,getData()" class="bg-white px-4 py-3 w-full">Tidak Aktif</li>
+                <li @click.prevent="itemStatusDropdown=false,itemStatus=null,getData()" class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Channel</li>
               </ul>
             </div>
 </div>
 
 
 
-             <div>
+             <div class="w-3/12 cursor-pointer items-center relative">
             <div class="relative">
               <form @submit.prevent="getData">
-               <input @keyup.enter.native="getData" type="text" class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="channel" placeholder="Nama Channel">
+               <input @keyup.enter.native="getData" type="text" class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="outletName" placeholder="Nama Outlet">
                </form>
                <div class="absolute top-0 pt-3 pl-2">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +71,7 @@
             </div>
 
 
-<div>
+<div class="w-3/12 cursor-pointer items-center relative">
   <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"  class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
               <div class="flex-auto">
                     <span v-if="outletChannel=='GrabFood'">Grab Food</span>
@@ -96,11 +96,7 @@
 
 
         </div>
-
-
-
-
-
+<div class="h-6"></div>
            <table class="table-auto w-full">
               <thead>
                 <tr>
@@ -111,7 +107,26 @@
                   <th class="py-4 text-text text-center">Terakhir Aktif</th>
                 </tr>
               </thead>
-              <tbody>
+                <tbody v-if="listLoading">
+                <tr class="h-12" v-for="n in 5" :key="n">
+                  <td>
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                   <td>
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                   <td>
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                   <td>
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                   <td>
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody v-if="!listLoading">
                   <tr v-for="item in data.items" :key="item.id" class="hover:bg-gray-200 border-b">
                       <td class="text-center text-text p-4 rounded-l-fds">{{item.name}}</td>
                         <td class="text-center text-text p-4">
@@ -130,7 +145,7 @@
             </table>
       </div>
     </div>
-      <right-sidebar class="w-3/12 pl-6 pt-10" />
+      <right-sidebar class="w-3/12 cursor-pointer items-center relative pl-6 pt-10" />
    </div>
 </template>
 
@@ -140,10 +155,14 @@ export default
   data() {
     return {
       data: '',
+      itemName: '',
       listLoading: true,
       isLoading: true,
-      channel: '',
-      outlet: ''
+      outletName: '',
+      channelDropdown: false,
+      outletChannel: null,
+      itemStatus: null,
+      itemStatusDropdown: false
     }
   },
   mounted() {
@@ -153,6 +172,20 @@ export default
       this.isLoading = false
       console.log(r.data.data)
     })
+  },
+  methods: {
+    getData() {
+      this.listLoading = true
+        var item_name = 'name='+this.itemName
+        var outletName = 'branch_channel_name='+this.outletName
+        var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
+        var channel = this.outletChannel==null ? '':'channel='+this.outletChannel
+        this.$axios.get('me/items?'+item_name+'&'+outletName+'&'+stock+'&'+channel)
+        .then(r=> {
+          this.data = r.data.data
+          this.listLoading = false
+        })
+    }
   }
 }
 </script>
