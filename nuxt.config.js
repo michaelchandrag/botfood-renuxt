@@ -24,6 +24,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vue-datepicker', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,6 +35,7 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     '@nuxtjs/moment',
+    '@nuxtjs/device',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -43,7 +45,8 @@ export default {
     '@nuxtjs/proxy',
     '@nuxtjs/proxy',
     '@nuxtjs/auth-next',
-    'cookie-universal-nuxt'
+    'cookie-universal-nuxt',
+    
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

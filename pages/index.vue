@@ -1,8 +1,8 @@
 <template>
   <div class="flex">
-    <sidebar-menu class="w-2/12 px-6 pt-8" />
+    <sidebar-menu class="md:w-2/12 px-6 pt-8 " />
 
-    <div class="w-7/12 h-screen  bg-gray-200 pl-6 pt-10">
+    <div class="md:w-7/12 sm:w-full h-screen  bg-gray-200 pl-6 pt-10">
       <div>
         <span class="text-title">Laporan Terkini</span>
       </div>
@@ -16,7 +16,7 @@
         <!-- table end -->
       </div>
     </div>
-    <right-sidebar class="w-3/12 pl-6 pt-10" />
+    <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
   </div>
 </template>
 <script>

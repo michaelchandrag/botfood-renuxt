@@ -149,7 +149,7 @@
         <!-- table end -->
       </div>
     </div>
-    <right-sidebar class="w-3/12 pl-6 pt-10" />
+   <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
   </div>
 </template>
 <script>
