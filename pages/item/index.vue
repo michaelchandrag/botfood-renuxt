@@ -71,7 +71,7 @@
            <div class="w-3/12 cursor-pointer items-center relative">
              <div class="relative">
                <form @submit.prevent="getData">
-                 <input @keyup.enter.native="getData" type="text"
+                 <input type="text"
                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
                    v-model="outletName" placeholder="Nama Outlet">
                </form>
@@ -130,7 +130,7 @@
              </tr>
            </thead>
            <tbody v-if="!listLoading">
-             <tr v-if="!listLoading&&data.items.length<=0">
+             <tr v-if="!listLoading&&data.length<=0">
                <td colspan="5" class="p-20 text-center">
                  <span class="block mx-auto w-full">
                    <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
@@ -185,6 +185,53 @@
              </tr>
            </tbody>
          </table>
+          <div class="mt-4 flex items-center float-right">
+                  <div class="float-right p-2">
+                <form @submit.prevent="changePageNumber()">
+                <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                  inputmode="numeric" pattern="[0-9]*" v-model="page">
+                of {{data.total_page}}
+                </form>
+              </div>
+            
+            <!-- left -->
+              <div v-if="page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+
+              <div @click.prevent="changePage(-1)" v-if="page!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+
+              <!-- end left -->
+
+              <!-- right -->
+                <div @click.prevent="changePage(1)" v-if="data.total_page>1&&page<data.total_page" class="cursor-pointer float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+              <div  v-if="page==data.total_page||data.total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+              <!-- end right -->
+
+            </div>
+            <div class="h-20 bg-white"></div>
        </div>
      </div>
      <right-sidebar class="w-3/12 cursor-pointer items-center relative pl-6 pt-10" />
@@ -204,15 +251,29 @@ export default
       channelDropdown: false,
       outletChannel: null,
       itemStatus: null,
-      itemStatusDropdown: false
+      itemStatusDropdown: false,
+      page: 1,
+      total_page: 1
     }
   },
   mounted() {
     this.$axios.get('me/items').then(r=> {
       this.data = r.data.data
+      this.total_page = r.data.data.total_page
       this.listLoading = false
       this.isLoading = false
     })
+  },
+  watch: {
+    page: {
+      handler(r) {
+        if(r>this.total_page) {
+          this.page = this.total_page
+        } else if(r<=0) {
+          this.page = 1
+        }
+      }
+    }
   },
   methods: {
     getData() {
@@ -225,6 +286,36 @@ export default
         .then(r=> {
           this.data = r.data.data
           this.listLoading = false
+          this.total_page = r.data.data.total_page
+        })
+    },
+    changePage(v) {
+      this.page = this.page+parseFloat(v)
+      this.listLoading = true
+        var item_name = 'name='+this.itemName
+        var outletName = 'branch_channel_name='+this.outletName
+        var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
+        var channel = this.outletChannel==null ? '':'channel='+this.outletChannel
+        var page = 'page='+this.page
+        this.$axios.get('me/items?'+item_name+'&'+outletName+'&'+stock+'&'+channel+'&data=10&'+page)
+        .then(r=> {
+          this.data = r.data.data
+          this.listLoading = false
+          this.total_page = r.data.data.total_page
+        })
+    },
+    changePageNumber(){
+        this.listLoading = true
+        var item_name = 'name='+this.itemName
+        var outletName = 'branch_channel_name='+this.outletName
+        var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
+        var channel = this.outletChannel==null ? '':'channel='+this.outletChannel
+        var page = 'page='+this.page
+        this.$axios.get('me/items?'+item_name+'&'+outletName+'&'+stock+'&'+channel+'&data=10&'+page)
+        .then(r=> {
+          this.data = r.data.data
+          this.listLoading = false
+          this.total_page = r.data.data.total_page
         })
     }
   }

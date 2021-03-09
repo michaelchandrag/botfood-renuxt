@@ -16,7 +16,7 @@
           <div>
             <table class="table-auto w-full">
               <thead>
-                <tr class="border-b">
+                <tr class="border-b border-t">
                   <th class="py-4 text-text text-center">Nama Item</th>
                   <th class="py-4 text-text text-center">Nama Outlet</th>
                   <th class="py-4 text-text text-center">Channel</th>
@@ -57,21 +57,42 @@
                 of {{items.total_page}}
               </div>
             
-              <div class="float-right mr-2 p-3 rounded-md border-2">
+            <!-- left -->
+              <div v-if="items.current_page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
                     fill="#9E9E9E" />
                 </svg>
               </div>
-                <div class="float-right p-3 rounded-md border-2">
+
+              <div @click.prevent="changePage(1)" v-if="items.current_page!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+
+              <!-- end left -->
+
+              <!-- right -->
+                <div @click.prevent="changePage(-1)" v-if="items.total_page>1" class="cursor-pointer float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
                     fill="#424242" />
                 </svg>
-
               </div>
+              <div  v-if="items.current_page==items.total_page||items.total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+              <!-- end right -->
+
             </div>
             <div class="h-20 bg-white"></div>
 
