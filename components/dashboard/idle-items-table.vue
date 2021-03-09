@@ -55,7 +55,6 @@ export default {
                 } else {
                     this.isLoading = false
                 }
-                console.log(r)
             }
         }
     }

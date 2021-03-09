@@ -6,7 +6,7 @@
     <div class="h-10"></div>
     <div class="pr-6">
       <client-only>
-        <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :translation="id" :inline="true" v-model="date" />
+        <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" v-model="date" />
       </client-only>
 
       
@@ -55,7 +55,7 @@ export default {
                 var fileLink = document.createElement('a');
 
      fileLink.href = url;
-     fileLink.setAttribute('download', 'file.xlsx');
+     fileLink.setAttribute('download', 'laporan-all-in-one.xlsx');
      document.body.appendChild(fileLink);
 
      fileLink.click();
