@@ -16,7 +16,7 @@
           <div>
             <table class="table-auto w-full">
               <thead>
-                <tr>
+                <tr class="border-b">
                   <th class="py-4">Nama Item</th>
                   <th class="py-4">Nama Outlet</th>
                   <th class="py-4">Channel</th>
@@ -24,11 +24,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in items.items" :key="item.id" class="hover:bg-gray-300">
-                  <td class="text-center p-4 rounded-l-fds">{{item.name}}</td>
-                  <td class="text-center p-4">{{item.branch_channel_name}}</td>
-                  <td class="text-center p-4">{{item.branch_channel_channel}}</td>
-                  <td class="text-center p-4 rounded-r-fds">{{item.last_not_active_at}}</td>
+                <tr v-for="item in items.items" :key="item.id" class="hover:bg-gray-200 text-center border-b rounded-fds hover:border-white">
+                  <td class="p-4 rounded-l-fds">{{item.name}}</td>
+                  <td class="p-4">{{item.branch_channel_name}}</td>
+                  <td class="p-4">{{item.branch_channel_channel}}</td>
+                  <td class="p-4 rounded-r-fds">{{$moment(item.last_not_active_at).format('D MMM YYYY HH:mm')}}</td>
                 </tr>
               </tbody>
             </table>

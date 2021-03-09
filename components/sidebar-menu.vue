@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="left-0 sticky">
     <div>
       <nuxt-link to="/">
         <img src="~/assets/svg/logo.svg" class="h-6" alt="">
