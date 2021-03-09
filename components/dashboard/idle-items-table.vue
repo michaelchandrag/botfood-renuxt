@@ -48,8 +48,36 @@
                 </tr>
               </tbody>
             </table>
+
+            <div class="mt-4 flex items-center float-right">
+                  <div class="float-right p-2">
+                <form action=""></form>
+                <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                  inputmode="numeric" pattern="[0-9]*" v-model="page">
+                of {{items.total_page}}
+              </div>
+            
+              <div class="float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+                <div class="float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#424242" />
+                </svg>
+
+              </div>
+            </div>
+            <div class="h-20 bg-white"></div>
+
           </div>
         </div>
+        
     </div>
 </template>
 

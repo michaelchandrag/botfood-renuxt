@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
-    <sidebar-menu class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 h-screen bg-gray-200 pl-6 pt-10">
+    <left-sidebar class="w-2/12 px-6 pt-8 " />
+    <div class="w-7/12 bg-gray-200 pl-6 pt-10">
       <div class="flex items-center gap-4 cursor-pointer" @click.prevent="$router.push('/outlet')">
         <img class="bg-white p-2 rounded-full" src="~/assets/svg/back.svg" alt="">
         <span class="text-title">
@@ -9,11 +9,11 @@
         </span>
       </div>
       <div class="h-8"></div>
-     
-     
-      <div  class="flex flex-col">
+
+
+      <div class="flex flex-col">
         <div class="mr-6">
-           <div v-if="isLoading" class="rounded-fd w-full h-48 mr-6 bg-gray-300 animate-pulse"> </div>
+          <div v-if="isLoading" class="rounded-fd w-full h-48 mr-6 bg-gray-300 animate-pulse"> </div>
           <div v-if="!isLoading" class="bg p-8 rounded-fd flex gap-10 items-center">
             <div>
               <img v-if="data.channel=='GrabFood'" class="h-32" src="~/assets/svg/grabfood.svg" alt="">
@@ -33,13 +33,13 @@
 
           </div>
         </div>
-        <div class="h-6"></div>
+        <div class="h-4"></div>
         <!-- table start -->
         <div class="mr-6">
-            <div v-if="isLoading" class="rounded-fd w-full h-64 mr-6 bg-gray-300 animate-pulse"> </div>
+          <div v-if="isLoading" class="rounded-fd w-full h-64 mr-6 bg-gray-300 animate-pulse"> </div>
         </div>
-      
-        <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6">
+
+        <div v-if="!isLoading" class="text-text bg-white rounded-fd p-8 mr-6">
 
           <div class="h-2">
           </div>
@@ -76,18 +76,14 @@
                 </div>
               </div>
               <div v-if="channelDropdown" class="absolute w-full">
-                <ul class="w-full border-gray-300">
-                  <li @click.prevent="channelDropdown=false,channelStatus='Grab Food'"
-                    class="bg-white px-4 py-3 w-full">Buka</li>
-                  <li @click.prevent="channelDropdown=false,channelStatus='Go Food'" class="bg-white px-4 py-3 w-full">
-                    Tutup</li>
-                  <li @click.prevent="channelDropdown=false,channelStatus='Semua Channel'"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Status</li>
-                </ul>
+                <client-only>
+                  <date-picker class="z-10" placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true"
+                    v-model="date" />
+                </client-only>
               </div>
             </div>
-              <!-- end tab outlet -->
-                  <!-- start tab item -->
+            <!-- end tab outlet -->
+            <!-- start tab item -->
 
             <div v-if="tab=='item'" class="w-3/12 cursor-pointer items-center relative">
               <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
@@ -105,24 +101,22 @@
                 </div>
               </div>
               <div v-if="channelDropdown" class="absolute w-full">
-                <ul class="w-full border-gray-300">
-                  <li @click.prevent="channelDropdown=false,channelStatus='Grab Food'"
-                    class="bg-white px-4 py-3 w-full">Buka</li>
-                  <li @click.prevent="channelDropdown=false,channelStatus='Go Food'" class="bg-white px-4 py-3 w-full">
-                    Tutup</li>
-                  <li @click.prevent="channelDropdown=false,channelStatus='Semua Channel'"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Status</li>
-                </ul>
+                <client-only>
+                  <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" v-model="date" />
+                </client-only>
               </div>
             </div>
-          
 
-        
+
+
             <div v-if="tab=='item'" class="w-3/12 cursor-pointer items-center relative">
-              <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
+              <div @click.prevent="itemDropdown?itemDropdown=false:itemDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
-                  <span>Select Item</span>
+                  <span v-if="listLoading">Loading...</span>
+                  <span v-if="!listLoading">{{selectedItem.slice(0,22)}}
+                    <span v-if="selectedItem.length>=22">. . .</span>
+                  </span>
                 </div>
                 <div>
                   <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
@@ -133,14 +127,11 @@
                   </svg>
                 </div>
               </div>
-              <div v-if="channelDropdown" class="absolute w-full">
-                <ul class="w-full border-gray-300">
-                  <li @click.prevent="channelDropdown=false,channelStatus='Grab Food'"
-                    class="bg-white px-4 py-3 w-full">Buka</li>
-                  <li @click.prevent="channelDropdown=false,channelStatus='Go Food'" class="bg-white px-4 py-3 w-full">
-                    Tutup</li>
-                  <li @click.prevent="channelDropdown=false,channelStatus='Semua Channel'"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Status</li>
+              <div v-if="itemDropdown" class="absolute w-full shadow-sm rounded-b-fds">
+                <ul class="w-full h-64 overflow-auto border-gray-300 h-48">
+                  <li @click.prevent="getItemHistory(l.item_id, l.item_name)" v-for="(l,i) in listItems" :key="i"
+                    class="bg-white px-4 py-3 w-full border-b hover:bg-gray-200">{{l.item_name}}</li>
+
                 </ul>
               </div>
             </div>
@@ -158,7 +149,40 @@
                   <th class="py-4">Status</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody v-if="!listLoading">
+                <tr v-if="!listLoading&&history.length<=0">
+                  <td colspan="4" class="p-20 text-center">
+                    <span class="block mx-auto w-full">
+                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
+                          fill="#9E9E9E" />
+                      </svg>
+
+                    </span>
+                    <span class="p-8 m-auto text-gray-500">
+                      Data tidak tersedia
+                    </span>
+                  </td>
+                </tr>
+
+              </tbody>
+              <tbody v-if="listLoading&&tab=='item'">
+                <tr class="h-12" v-for="n in 5" :key="n">
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+
+                </tr>
+              </tbody>
+              <tbody v-if="!listLoading">
                 <tr v-for="h in history" :key="h.id" class="hover:bg-gray-300 border-b">
                   <td class="text-center p-4 rounded-l-fds">{{$moment(h.created_at).format('DD MMMM YYYY')}}</td>
                   <td class="text-center p-4">{{$moment(h.created_at).format('HH:mm')}}</td>
@@ -173,9 +197,9 @@
 
           <!-- end tabel outlet -->
           <!-- start table item -->
-          
+
           <div class="mt-6" v-if="tab=='item'">
-          <!-- {{items_idle.history_items[0].id}} -->
+            <!-- {{items_idle.history_items[0].id}} -->
             <table class="table-auto w-full text-text">
               <thead class="border-b">
                 <tr>
@@ -184,13 +208,61 @@
                   <th class="py-4">Status</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="h in history" :key="h.id" class="hover:bg-gray-300">
-                  <td class="text-center p-4 rounded-l-fds">{{$moment(h.created_at).format('DD MMMM YYYY')}}</td>
-                  <td class="text-center p-4">{{$moment(h.created_at).format('HH:mm')}}</td>
+              <tbody v-if="!listLoading">
+                <tr v-if="!listLoading&&items_idle.history_items.length<=0">
+                  <td colspan="4" class="p-20 text-center">
+                    <span class="block mx-auto w-full">
+                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
+                          fill="#9E9E9E" />
+                      </svg>
+
+                    </span>
+                    <span class="p-8 m-auto text-gray-500">
+                      Data tidak tersedia
+                    </span>
+                  </td>
+                </tr>
+
+              </tbody>
+              <tbody v-if="listLoading&&tab=='item'">
+                <tr class="h-12" v-for="n in 5" :key="n">
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+
+                </tr>
+              </tbody>
+              <tbody v-if="listLoading">
+                <tr class="h-12" v-for="n in 5" :key="n">
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+
+                </tr>
+              </tbody>
+              <tbody v-if="!listLoading">
+                <tr v-for="i in items_idle.history_items" :key="i.id" class="hover:bg-gray-300">
+                  <td class="text-center p-4 rounded-l-fds">{{$moment(i.created_at).format('DD MMMM YYYY')}}</td>
+                  <td class="text-center p-4">{{$moment(i.created_at).format('HH:mm')}}
+                  </td>
                   <td class="text-center p-4">
-                    <span v-if="h.is_open" class="text-green-500">Buka</span>
-                    <span v-if="!h.is_open" class="text-red-500">Tutup</span>
+                    <span v-if="i.in_stock==1" class="text-green-500">Aktif</span>
+                    <span v-if="i.in_stock==0" class="text-red-500">Tidak Aktif</span>
                   </td>
                 </tr>
               </tbody>
@@ -202,56 +274,102 @@
 
       </div>
     </div>
-     <right-sidebar class="w-3/12 pl-6 pt-10" />
+    <right-sidebar class="w-3/12 pl-6 pt-10" />
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        data: {
-         
-        },
+        data: {},
         history: {},
         items_idle: {},
         isLoading: true,
         statusDropdown: false,
         channelDropdown: false,
+        itemDropdown: false,
         outletStatus: 'Semua Status',
         channelStatus: 'Semua Channel',
         date: new Date(),
-        tab: 'outlet'
+        selectedItem: {},
+        tab: 'outlet',
+        listLoading: false,
+        listItems: {},
+        itemID: ''
       }
     },
     middleware: ['auth-ssr'],
     mounted() {
-        var id = this.$route.params.id
-        var date = this.$moment(this.date).format('YYYY-MM-DD')
-        this.$axios.get('me/branch_channel/'+id).then(r=> {
-            this.data = r.data.data
-            this.isLoading = false
-        })
-        this.$axios.get('me/branch_channel/'+id+'/history?issued_at='+date+'&data=5').then(r=> {
-            this.history = r.data.data
-        })
-        // console.log($route)
+      var id = this.$route.params.id
+      var date = this.$moment(this.date).format('YYYY-MM-DD')
+      this.$axios.get('me/branch_channel/' + id).then(r => {
+        this.data = r.data.data
+        this.isLoading = false
+      })
+      this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
+        this.history = r.data.data
+      })
+    },
+    watch: {
+      date: {
+        handler(r) {
+          this.listLoading = true
+          this.channelDropdown = false
+          var id = this.$route.params.id
+          var date = this.$moment(this.date).format('YYYY-MM-DD')
+          if (this.tab == 'outlet') {
+            this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
+              this.history = r.data.data
+              this.listLoading = false
+            })
+          } else {
+            this.$axios.get('me/history_item/' + this.itemID + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
+              this.items_idle = res.data.data
+              this.listLoading = false
+            })
+          }
+
+        }
+      }
     },
     methods: {
-        changeTab(val) {
-            this.tab = val
-                var id = this.$route.params.id
-                 var date = this.$moment(this.date).format('YYYY-MM-DD')
-                 var self = this
-                if(val=='item') {
-                     this.$axios.get('me/history_item/'+id+'?until_created_at='+date+' 23:59:59&data=10&page=1').then(res=> {
-                         self.items_idle = res.data.data
-                         console.log(res.data.data)
-                          this.$axios.get('me/branch_channel/'+id+'/items_idle?issued_at='+date).then(r=> {
-            console.log(r)
+      changeTab(val) {
+        this.listLoading = true
+        this.tab = val
+        var id = this.$route.params.id
+        var date = this.$moment(this.date).format('YYYY-MM-DD')
+
+        // jika tab item
+        if (val == 'item') {
+          this.$axios.get('me/branch_channel/' + id + '/items_idle?issued_at=' + date).then(r => {
+            this.listItems = r.data.data
+            this.selectedItem = r.data.data[0].item_name
+            this.itemID = r.data.data[0].item_id
+            this.$axios.get('me/history_item/' + r.data.data[0].item_id + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
+              this.items_idle = res.data.data
+              this.listLoading = false
+            })
           })
+
+          // jika tab outlet
+        } else {
+          this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
+            this.history = r.data.data
+            this.listLoading = false
+          })
+        }
+      },
+      getItemHistory(id, name) {
+        this.itemDropdown = false
+        this.itemID = id
+        var date = this.$moment(this.date).format('YYYY-MM-DD')
+        this.selectedItem = name
+        this.$axios.get('me/history_item/' + id + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
+          this.items_idle = res.data.data
+          this.listLoading = false
         })
-                }
-            }
+      }
+
     }
   }
 </script>
@@ -260,5 +378,21 @@
   background-image:linear-gradient(90deg,rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.3)),url('~/assets/png/background.png');
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.vdp-datepicker__calendar {
+    width: 100% !important;
+    position: static !important;
+    border-radius: 8px !important;
+    padding: 2rem !important;
+}
+.vdp-datepicker__calendar .cell.selected {
+    background: #029835 !important;
+    color: #fff !important;
+    border-radius: 4px !important;
+}
+.vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover {
+    border: 1px solid #029835 !important;
+    border-radius: 4px !important;
 }
 </style>

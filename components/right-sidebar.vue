@@ -1,5 +1,5 @@
 <template>
-<div class="bg-white h-screen">
+<div class="sticky top-0 bg-white h-screen">
      <div>
         <span class="text-title">Info</span>
       </div>

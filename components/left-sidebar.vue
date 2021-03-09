@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky top-0 bg-white h-screen">
+  <aside class="sticky top-0 bg-white h-screen">
     <div>
       <nuxt-link to="/">
         <img src="~/assets/svg/logo.svg" class="h-6" alt="">
@@ -72,15 +72,13 @@ Keluar
         
       </div>
     </div>
-  </div>
+  </aside>
 </template>
 
 <script>
 export default {
   methods: {
     keluar() {
-      // this.$cookies.remove('_tk')
-      // this.$cookies.remove('hbGciOiJIUzI1NiJ9')
       this.$router.push('/login')
     }
   }
