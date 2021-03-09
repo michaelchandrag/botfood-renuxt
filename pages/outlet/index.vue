@@ -1,20 +1,21 @@
 <template>
   <div class="flex">
     <sidebar-menu class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 h-screen bg-gray-200 pl-6 pt-10">
+    <div class="w-7/12 h-screen   bg-gray-200 pl-6 pt-10">
       <div>
         <span class="text-title">Laporan Outlet</span>
       </div>
       <div class="h-8"></div>
       <div class="flex flex-col ">
         <div class="grid grid-cols-2 gap-4 mr-6">
-          <outlet-channel v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
-          <div v-if="isLoading" class="bg-gray-300 h-32 rounded-fd animate-pulse"></div>
-          <div v-if="isLoading" class="bg-gray-300 h-32 rounded-fd animate-pulse"></div>       
+          <outlet-summary v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
+          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
+          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>       
         </div>
         <div class="h-6"></div>
+        <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div>
         <!-- table start -->
-        <div class="bg-white rounded-fd p-8 mr-6">
+        <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6">
          
           <div class="h-2">
           </div>
@@ -89,10 +90,10 @@
             <table class="table-auto w-full">
               <thead>
                 <tr>
-                  <th class="py-4">Nama Outlet</th>
-                  <th class="py-4">Channel</th>
-                  <th class="py-4">Status</th>
-                  <th class="py-4">Aksi</th>
+                  <th class="py-4 text-text">Nama Outlet</th>
+                  <th class="py-4 text-text">Channel</th>
+                  <th class="py-4 text-text">Status</th>
+                  <th class="py-4 text-text">Aksi</th>
                 </tr>
               </thead>
               <tbody v-if="!listLoading">
@@ -107,44 +108,59 @@
               </tbody>
               <tbody>
                   <tr v-for="channel in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
-                      <td class="text-center p-4 rounded-l-fds">{{channel.name}}</td>
-                       <td class="text-center p-4">{{channel.channel}}</td>
-                        <td class="text-center p-4">
+                      <td class="text-center text-text p-4 rounded-l-fds">{{channel.name}}</td>
+                       <td class="text-center text-text p-4">{{channel.channel}}</td>
+                        <td class="text-center text-text p-4">
                           <span v-if="channel.is_open" class="text-green-500">Buka</span>
                            <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
                         </td>
-                         <td class="text-center p-4 rounded-r-fds">
+                         <td class="text-center text-text p-4 rounded-r-fds">
                            <nuxt-link :to="'/outlet/'+channel.id">Detail</nuxt-link>
                          </td>
                         
                   </tr>
               </tbody>
             </table>
+
+            <div class="mt-4 w-full text-right">
+             
+               <div class="float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z" fill="#424242"/>
+</svg>
+
+              </div>
+               <div class="float-right p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z" fill="#9E9E9E"/>
+</svg>
+
+
+              </div>
+               <div class="float-right p-2">
+                 <form action=""></form>
+               <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text" inputmode="numeric" pattern="[0-9]*" v-model="page" >
+               of {{data.total_page}}
+              </div>
+             
+            </div>
           </div>
         </div>
-        <ul>
-          <li v-for="p in data.total_page" :key="p">{{p}}</li>
-        </ul>
         <!-- table end -->
       </div>
     </div>
-    <div class="w-3/12 pl-6 pt-10">
-      <div>
-        <span class="text-title">Laporan All in One</span>
-        {{data}}
-      </div>
-    </div>
+    <right-sidebar class="w-3/12 pl-6 pt-10" />
   </div>
 </template>
 <script>
+
   export default {
     data() {
       return {
-        data: {
-         
-        },
+        data: {},
         // sorted: {},
         search: '',
+        page: 1,
         isLoading: true,
         statusDropdown: false,
         channelDropdown: false,
@@ -157,6 +173,7 @@
     mounted() {
         this.$axios.get('me/branch_channels?data=10&page=1').then(r=> {
             this.data = r.data.data
+            this.page = 1
             this.isLoading = false
             this.listLoading = false
         })

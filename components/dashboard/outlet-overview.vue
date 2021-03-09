@@ -8,18 +8,18 @@
               <img v-if="channel=='Go Food'" src="~/assets/png/gofood.png" alt="">
             </div>
             <div class="ml-6">
-              <h3 class="text-3xl block">{{channel}}</h3>
-              <span class="block">{{data.outlet_total}} Total Outlet</span>
+              <h3 class="text-summary-title block">{{channel}}</h3>
+              <span class="text-summary-text block">{{data.outlet_total}} Total Outlet</span>
             </div>
 
           </div>
           <div>
-            <span class="block text-green-600">{{data.outlet_open}} Outlet Buka</span>
-            <span class="block text-red-600">{{data.outlet_closed}} Outlet Tutup</span>
+            <span class="block text-summary-text text-green-600">{{data.outlet_open}} Outlet Buka</span>
+            <span class="block text-summary-text text-red-600">{{data.outlet_closed}} Outlet Tutup</span>
           </div>
           <div>
-            <span class="block text-green-600">{{data.item_active}} Item Aktif</span>
-            <span class="block text-red-600">{{data.item_inactive}} Item Tidak Aktif</span>
+            <span class="block text-summary-text text-green-600">{{data.item_active}} Item Aktif</span>
+            <span class="block text-summary-text text-red-600">{{data.item_inactive}} Item Tidak Aktif</span>
           </div>
         </div>
         

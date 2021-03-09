@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <sidebar-menu class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 h-screen bg-gray-200 pl-6 pt-10">
+    <div class="w-7/12 h-screen   bg-gray-200 pl-6 pt-10">
       <div class="flex items-center gap-4 cursor-pointer" @click.prevent="$router.push('/outlet')">
         <img class="bg-white p-2 rounded-full" src="~/assets/svg/back.svg" alt="">
         <span class="text-title">
@@ -143,7 +143,7 @@
           <!-- table outlet -->
 
           <div class="mt-6" v-if="tab=='outlet'">
-            <table class="table-auto w-full">
+            <table class="table-auto w-full text-text">
               <thead>
                 <tr>
                   <th class="py-4">Tanggal</th>
@@ -152,7 +152,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="h in history" :key="h.id" class="hover:bg-gray-300">
+                <tr v-for="h in history" :key="h.id" class="hover:bg-gray-300 border-b">
                   <td class="text-center p-4 rounded-l-fds">{{$moment(h.created_at).format('DD MMMM YYYY')}}</td>
                   <td class="text-center p-4">{{$moment(h.created_at).format('HH:mm')}}</td>
                   <td class="text-center p-4">
@@ -195,28 +195,7 @@
 
       </div>
     </div>
-    <div class="w-3/12 pl-6 pt-10">
-      <div>
-        <span class="text-title">Info</span>
-      </div>
-      <div class="h-10"></div>
-      <div class="p-8 rounded-fds bg-green-200 text-green-700 mr-6 leading-6">
-        <h2 class="items-center flex font-bold mb-4"><svg class="inline-block h-5 mr-2" fill="green"
-            viewBox="0 0 24 24">
-            <path
-              d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.351 6.493c-.08-.801.55-1.493 1.351-1.493s1.431.692 1.351 1.493l-.801 8.01c-.029.282-.266.497-.55.497s-.521-.215-.55-.498l-.801-8.009zm1.351 12.757c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" />
-            </svg>
-          Tentang Laporan
-        </h2>
-        <p class="text-sm mb-4">Laporan ini berisikan tentang item yang
-          pernah tidak aktif paling tidak sekali
-          selama tanggal yang dimasukkan
-          dengan durasi 7 hari</p>
-        <p class="text-sm mb-4">Data yang terekam dimulai dari penginputan awal restaurant ke BotFood</p>
-        <p class="text-sm mb-4">Riwayat yang dimunculkan berdurasi
-          7 hari</p>
-      </div>
-    </div>
+     <right-sidebar class="w-3/12 pl-6 pt-10" />
   </div>
 </template>
 <script>

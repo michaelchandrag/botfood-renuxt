@@ -17,18 +17,18 @@
             <table class="table-auto w-full">
               <thead>
                 <tr class="border-b">
-                  <th class="py-4">Nama Item</th>
-                  <th class="py-4">Nama Outlet</th>
-                  <th class="py-4">Channel</th>
-                  <th class="py-4">Terakhir Aktif</th>
+                  <th class="py-4 text-text text-center">Nama Item</th>
+                  <th class="py-4 text-text text-center">Nama Outlet</th>
+                  <th class="py-4 text-text text-center">Channel</th>
+                  <th class="py-4 text-text text-center">Terakhir Aktif</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="item in items.items" :key="item.id" class="hover:bg-gray-200 text-center border-b rounded-fds hover:border-white">
-                  <td class="p-4 rounded-l-fds">{{item.name}}</td>
-                  <td class="p-4">{{item.branch_channel_name}}</td>
-                  <td class="p-4">{{item.branch_channel_channel}}</td>
-                  <td class="p-4 rounded-r-fds">{{$moment(item.last_not_active_at).format('D MMM YYYY HH:mm')}}</td>
+                  <td class="p-4 text-text rounded-l-fds">{{item.name}}</td>
+                  <td class="p-4 text-text">{{item.branch_channel_name}}</td>
+                  <td class="p-4 text-text">{{item.branch_channel_channel}}</td>
+                  <td class="p-4 text-text rounded-r-fds">{{$moment(item.last_not_active_at).format('D MMM YYYY HH:mm')}}</td>
                 </tr>
               </tbody>
             </table>

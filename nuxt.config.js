@@ -102,7 +102,11 @@ export default {
             'fds': '8px'
           },
           fontSize: {
-            'title' : '18px'
+            'title' : '19px',
+            'summary-title': '33px',
+            'summary-text': '15px',
+            'text': '13px'
+
           }
         },
         fontFamily: {
