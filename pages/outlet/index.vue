@@ -31,9 +31,6 @@
 </svg>
             </div>
             </div>
-            
-           
-            
             </div>
 
             
@@ -88,7 +85,7 @@
           </div>
           <div class="mt-6">
             <table class="table-auto w-full">
-              <thead>
+              <thead class="border-b">
                 <tr>
                   <th class="py-4 text-text">Nama Outlet</th>
                   <th class="py-4 text-text">Channel</th>

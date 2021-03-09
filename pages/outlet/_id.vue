@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <sidebar-menu class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 h-screen   bg-gray-200 pl-6 pt-10">
+    <div class="w-7/12 h-screen bg-gray-200 pl-6 pt-10">
       <div class="flex items-center gap-4 cursor-pointer" @click.prevent="$router.push('/outlet')">
         <img class="bg-white p-2 rounded-full" src="~/assets/svg/back.svg" alt="">
         <span class="text-title">
@@ -9,9 +9,12 @@
         </span>
       </div>
       <div class="h-8"></div>
-      <div class="flex flex-col">
+     
+     
+      <div  class="flex flex-col">
         <div class="mr-6">
-          <div class="bg p-8 rounded-fd flex gap-10 items-center">
+           <div v-if="isLoading" class="rounded-fd w-full h-48 mr-6 bg-gray-300 animate-pulse"> </div>
+          <div v-if="!isLoading" class="bg p-8 rounded-fd flex gap-10 items-center">
             <div>
               <img v-if="data.channel=='GrabFood'" class="h-32" src="~/assets/svg/grabfood.svg" alt="">
               <img v-if="data.channel=='GoFood'" class="h-32" src="~/assets/svg/gofood.svg" alt="">
@@ -32,7 +35,11 @@
         </div>
         <div class="h-6"></div>
         <!-- table start -->
-        <div class="bg-white rounded-fd p-8 mr-6">
+        <div class="mr-6">
+            <div v-if="isLoading" class="rounded-fd w-full h-64 mr-6 bg-gray-300 animate-pulse"> </div>
+        </div>
+      
+        <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6">
 
           <div class="h-2">
           </div>
@@ -144,7 +151,7 @@
 
           <div class="mt-6" v-if="tab=='outlet'">
             <table class="table-auto w-full text-text">
-              <thead>
+              <thead class="border-b">
                 <tr>
                   <th class="py-4">Tanggal</th>
                   <th class="py-4">Waktu</th>
@@ -169,8 +176,8 @@
           
           <div class="mt-6" v-if="tab=='item'">
           <!-- {{items_idle.history_items[0].id}} -->
-            <table class="table-auto w-full">
-              <thead>
+            <table class="table-auto w-full text-text">
+              <thead class="border-b">
                 <tr>
                   <th class="py-4">Tanggal</th>
                   <th class="py-4">Waktu</th>
@@ -227,6 +234,7 @@
         this.$axios.get('me/branch_channel/'+id+'/history?issued_at='+date+'&data=5').then(r=> {
             this.history = r.data.data
         })
+        // console.log($route)
     },
     methods: {
         changeTab(val) {

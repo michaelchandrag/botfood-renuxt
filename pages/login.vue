@@ -34,6 +34,7 @@
 </template>
 <script>
 export default {
+  layout: 'unauth',
   data() {
     return {
       login: {
@@ -43,17 +44,32 @@ export default {
       isLoading: false
     }
   },
+  mounted() {
+     this.$cookies.remove('_tk')
+      this.$cookies.remove('hbGciOiJIUzI1NiJ9')
+  },
   methods: {
     userLogin() {
       this.isLoading = true
-      this.$auth.loginWith('local', { data: this.login }).then(r=>{
+      this.$axios.post('login_brand', {
+        slug: this.login.slug
+      }).then(r=> {
         this.isLoading = false
-        this.$cookies.set('hbGciOiJIUzI1NiJ9', true)
+        this.$cookies.set('hbGciOiJIUzI1NiJ9', 'RwOlwvXC9hcGkuYm90Zm9vZC54eXoiLCJkYXRhIjp7ImJyYW5kIjp7Im', 
+        {
+  path: '/',
+  maxAge: 60 * 60 * 24 * 7
+})
+        this.$cookies.set('_tk', r.data.data.token,
+        {
+  path: '/',
+  maxAge: 60 * 60 * 24 * 7
+}
+        )
         this.$router.push('/')
       }).catch(e=> {
          this.isLoading = false
         this.isError = true
-        
       })
     }
   }

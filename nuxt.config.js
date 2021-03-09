@@ -44,7 +44,6 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
     '@nuxtjs/proxy',
-    '@nuxtjs/auth-next',
     'cookie-universal-nuxt',
     
   ],
@@ -65,30 +64,7 @@ export default {
     host: '0.0.0.0',
     port: '3000' // default: localhost
   },
-
-  auth: {
-    strategies: {
-      local: {
-        token: {
-          property: 'data.token',
-          required: true,
-          // type: 'Bearer'
-        },
-        user: {
-          property: 'data'
-        },
-        endpoints: {
-          login: { 
-            url: 'http://api.botfood.xyz/api/v1/login_brand',
-            method: 'post',
-            propertyName: 'data.token'
-          },
-          // logout: { url: '/auth/logout', method: 'post' },
-          user: { url: 'http://api.botfood.xyz/api/v1/me', method: 'get' }
-        }
-      }
-    }
-  },
+  
   moment: {
     locales: ['id']
   },
