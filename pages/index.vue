@@ -40,6 +40,7 @@ import outletOverview from '~/components/dashboard/outlet-overview.vue'
         this.$axios.get('me/dashboard').then(r=> {
             this.data = r.data.data
             this.isLoading = false
+            console.log(r.data.data)
         })
     }
   }

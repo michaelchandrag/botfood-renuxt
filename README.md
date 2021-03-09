@@ -1,20 +1,18 @@
-# botfood-renuxt
-
+# BOTFOOD
 ## Build Setup
 
 ```bash
-# install dependencies
+# Install dependencies
 $ yarn install
 
-# serve with hot reload at localhost:3000
-$ yarn dev
-
-# build for production and launch server
+# Build 
 $ yarn build
-$ yarn start
 
-# generate static project
-$ yarn generate
-```
+# start with pm2 
+$ pm2 start
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+# restart
+$ pm2 restart botfood
+
+# delete running app
+$ pm2 delete botfood

@@ -23,6 +23,22 @@
                   <th class="py-4 text-text text-center">Terakhir Aktif</th>
                 </tr>
               </thead>
+               <tbody v-if="!isLoading">
+                <tr v-if="!isLoading&&items.items.length<=0">
+                  <td colspan="4" class="p-20 text-center">
+                    <span class="block mx-auto w-full">
+                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z" fill="#9E9E9E"/>
+</svg>
+
+                    </span>
+                     <span class="p-8 m-auto text-gray-500">
+                  Data tidak tersedia
+                </span>
+                  </td>
+                </tr>
+               
+              </tbody>
               <tbody>
                 <tr v-for="item in items.items" :key="item.id" class="hover:bg-gray-200 text-center border-b rounded-fds hover:border-white">
                   <td class="p-4 text-text rounded-l-fds">{{item.name}}</td>
