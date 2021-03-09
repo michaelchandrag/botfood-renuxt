@@ -193,6 +193,53 @@
                 </tr>
               </tbody>
             </table>
+            <div class="mt-4 flex items-center float-right">
+                  <div class="float-right p-2">
+                <form @submit.prevent="changePageNumber()">
+                <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                  inputmode="numeric" pattern="[0-9]*" v-model="page_outlet">
+                of {{total_page_outlet}}
+                </form>
+              </div>
+            
+            <!-- left -->
+              <div v-if="page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+
+              <div @click.prevent="changePage(-1)" v-if="page_outlet!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+
+              <!-- end left -->
+
+              <!-- right -->
+                <div @click.prevent="changePage(1)" v-if="total_page_outlet>1&&page_outlet<total_page_outlet" class="cursor-pointer float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+              <div  v-if="page==total_page_outlet||total_page_outlet<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+              <!-- end right -->
+
+            </div>
+            <div class="h-20 bg-white"></div>
           </div>
 
           <!-- end tabel outlet -->
@@ -256,7 +303,7 @@
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
-                <tr v-for="i in items_idle.history_items" :key="i.id" class="hover:bg-gray-300">
+                <tr v-for="i in items_idle.history_items" :key="i.id" class="hover:bg-gray-300 border-b">
                   <td class="text-center p-4 rounded-l-fds">{{$moment(i.created_at).format('DD MMMM YYYY')}}</td>
                   <td class="text-center p-4">{{$moment(i.created_at).format('HH:mm')}}
                   </td>
@@ -267,6 +314,53 @@
                 </tr>
               </tbody>
             </table>
+             <div class="mt-4 flex items-center float-right">
+                  <div class="float-right p-2">
+                <form @submit.prevent="changePageNumber()">
+                <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                  inputmode="numeric" pattern="[0-9]*" v-model="page_item">
+                of {{total_page_item}}
+                </form>
+              </div>
+            
+            <!-- left -->
+              <div v-if="page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+
+              <div @click.prevent="changePage(-1)" v-if="page_item!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+
+              <!-- end left -->
+
+              <!-- right -->
+                <div @click.prevent="changePage(1)" v-if="total_page_item>1&&page_item<total_page_item" class="cursor-pointer float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+              <div  v-if="page==total_page_item||total_page_item<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+              <!-- end right -->
+
+            </div>
+            <div class="h-20 bg-white"></div>
           </div>
         </div>
         <!-- table item end -->
@@ -295,7 +389,11 @@
         tab: 'outlet',
         listLoading: false,
         listItems: {},
-        itemID: ''
+        itemID: '',
+        page_outlet: 1,
+        total_page_outlet: 1,
+        page_item: 1,
+        total_page_item: 1,
       }
     },
     middleware: ['auth-ssr'],
@@ -320,12 +418,16 @@
           if (this.tab == 'outlet') {
             this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
               this.history = r.data.data
+              this.page_outlet = r.data.data.current_page
+              this.total_page_outlet = r.data.data.total_page
               this.listLoading = false
             })
           } else {
             this.$axios.get('me/history_item/' + this.itemID + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
               this.items_idle = res.data.data
               this.listLoading = false
+              this.item = r.data.data.current_page
+              this.total_item = r.data.data.total_page
             })
           }
 
@@ -348,6 +450,8 @@
             this.$axios.get('me/history_item/' + r.data.data[0].item_id + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
               this.items_idle = res.data.data
               this.listLoading = false
+              this.page_item = res.data.data.current_page
+              this.total_page_item = res.data.data.total_page
             })
           })
 
@@ -356,6 +460,8 @@
           this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
             this.history = r.data.data
             this.listLoading = false
+            this.page_outlet = r.data.data.current_page
+              this.total_page_outlet = r.data.data.total_page
           })
         }
       },
@@ -367,6 +473,8 @@
         this.$axios.get('me/history_item/' + id + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
           this.items_idle = res.data.data
           this.listLoading = false
+          this.page_item = res.data.data.current_page
+          this.total_page_item = res.data.data.total_page
         })
       }
 

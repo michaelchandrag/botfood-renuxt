@@ -291,18 +291,7 @@ export default
     },
     changePage(v) {
       this.page = this.page+parseFloat(v)
-      this.listLoading = true
-        var item_name = 'name='+this.itemName
-        var outletName = 'branch_channel_name='+this.outletName
-        var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
-        var channel = this.outletChannel==null ? '':'channel='+this.outletChannel
-        var page = 'page='+this.page
-        this.$axios.get('me/items?'+item_name+'&'+outletName+'&'+stock+'&'+channel+'&data=10&'+page)
-        .then(r=> {
-          this.data = r.data.data
-          this.listLoading = false
-          this.total_page = r.data.data.total_page
-        })
+      this.changePageNumber()
     },
     changePageNumber(){
         this.listLoading = true
