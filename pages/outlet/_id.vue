@@ -324,7 +324,7 @@
               </div>
             
             <!-- left -->
-              <div v-if="page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
+              <div v-if="page_item==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
@@ -486,7 +486,7 @@
         var id = this.itemID
         var date = this.$moment(this.date).format('YYYY-MM-DD')
         var page = 'page='+this.page_item
-        this.$axios.get('me/history_item/' + id + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
+        this.$axios.get('me/history_item/' + id + '?until_created_at=' + date + ' 23:59:59&data=10&'+page).then(res => {
           this.items_idle = res.data.data
           this.listLoading = false
           this.page_item = res.data.data.current_page

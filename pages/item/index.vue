@@ -149,7 +149,7 @@
 
            </tbody>
            <tbody v-if="listLoading">
-             <tr class="h-12" v-for="n in 5" :key="n">
+             <tr class="h-12" v-for="n in 10" :key="n">
                <td>
                  <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                </td>
