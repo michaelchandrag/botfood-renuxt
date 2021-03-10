@@ -39,7 +39,7 @@ export default {
   watch: {
     date: {
       handler(r) {
-        this.formatDate = this.$moment(this.date).format('YYYY-MM-DD')
+        this.date = new Date()
       }
     }
   },

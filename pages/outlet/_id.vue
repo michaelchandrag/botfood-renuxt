@@ -404,8 +404,9 @@
         this.data = r.data.data
         this.isLoading = false
       })
-      this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
+      this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page='+this.page_outlet).then(r => {
         this.history = r.data.data
+        console.log(r)
       })
     },
     watch: {

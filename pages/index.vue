@@ -36,8 +36,8 @@
                   <th class="py-4 text-text text-center">Terakhir Aktif</th>
                 </tr>
               </thead>
-               <tbody v-if="!isLoading">
-                <tr v-if="!isLoading&&data.idle_items.items.length<=0">
+               <tbody v-if="!isLoading&&!listLoading">
+                <tr v-if="!isLoading&&!listLoading&&data.idle_items.items.length<=0">
                   <td colspan="4" class="p-20 text-center">
                     <span class="block mx-auto w-full">
                       <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,23 @@
                 </tr>
                
               </tbody>
-              <tbody>
+                <tbody v-if="listLoading">
+                <tr class="h-12" v-for="n in 5" :key="n">
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                  <td>
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody v-if="!listLoading">
                 <tr v-for="item in data.idle_items.items" :key="item.id" class="hover:bg-gray-200 text-center border-b rounded-fds hover:border-white">
                   <td class="p-4 text-text rounded-l-fds">{{item.name}}</td>
                   <td class="p-4 text-text">{{item.branch_channel_name}}</td>
@@ -61,53 +77,6 @@
                 </tr>
               </tbody>
             </table>
-
-            <div class="mt-4 flex items-center float-right">
-                  <div class="float-right p-2">
-                <form @submit.prevent="changePageNumber()"></form>
-                <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
-                  inputmode="numeric" pattern="[0-9]*" v-model="page">
-                of {{total_page}}
-              </div>
-            
-            <!-- left -->
-              <div v-if="page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
-                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
-                    fill="#9E9E9E" />
-                </svg>
-              </div>
-
-              <div @click.prevent="changePage(1)" v-if="page!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
-                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
-                    fill="#424242" />
-                </svg>
-              </div>
-
-              <!-- end left -->
-
-              <!-- right -->
-                <div @click.prevent="changePage(-1)" v-if="total_page>1" class="cursor-pointer float-right p-3 rounded-md border-2">
-                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
-                    fill="#424242" />
-                </svg>
-              </div>
-              <div  v-if="page==total_page||total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
-                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
-                    fill="#9E9E9E" />
-                </svg>
-              </div>
-              <!-- end right -->
-
-            </div>
-            <div class="h-20 bg-white"></div>
 
           </div>
         </div>
@@ -122,13 +91,11 @@
 </template>
 
 <script>
-import IdleItemsTable from '~/components/dashboard/idle-items-table.vue'
 import outletOverview from '~/components/dashboard/outlet-overview.vue'
 import LeftSidebar from '~/components/left-sidebar.vue'
 export default {
   components: {
     outletOverview,
-    IdleItemsTable,
     LeftSidebar
   },
   data() {
@@ -140,6 +107,7 @@ export default {
         items: ''
       },
       isLoading: true,
+      listLoading: false,
       page: 1,
       total_page: 1
     }
@@ -161,14 +129,17 @@ export default {
   },
   methods: {
     changePage(v) {
+      this.listLoading = true
       this.page = this.page+parseFloat(v)
       this.changePageNumber()
     },
     changePageNumber() {
-      this.$axios.get('me/dashboard?data=10&page='+this.page).then(r => {
+      this.listLoading = true
+      this.$axios.get('me/dashboard?data=5&page='+this.page).then(r => {
       this.data = r.data.data
-      this.page = r.data.data.idle_items.current_page
+      // this.page = r.data.data.idle_items.current_page
       this.total_page = r.data.data.idle_items.total_page
+      this.listLoading = false
       this.isLoading = false
       console.log(r)
     })
