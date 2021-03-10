@@ -22,8 +22,8 @@
           <div class="flex gap-4">
             <div class="w-6/12">
               <div class="relative">
-                <form @submit.prevent="getData">
-                  <input @keyup.enter.native="getData" type="text"
+                <form>
+                  <input @change.prevent="getData" type="text"
                     class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="search"
                     placeholder="Nama Outlet">
                 </form>
@@ -247,7 +247,7 @@
     watch: {
       search: {
         handler(r) {
-          return this.$forceUpdate()
+          this.listLoading = true
         }
       }
     },

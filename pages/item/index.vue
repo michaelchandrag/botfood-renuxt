@@ -21,8 +21,8 @@
 
            <div class="w-3/12 cursor-pointer items-center relative">
              <div class="relative">
-               <form @submit.prevent="getData">
-                 <input @keyup.enter.native="getData" type="text"
+               <form>
+                 <input @change.prevent="getData" type="text"
                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
                    v-model="itemName" placeholder="Nama Item">
                </form>
@@ -70,8 +70,8 @@
 
            <div class="w-3/12 cursor-pointer items-center relative">
              <div class="relative">
-               <form @submit.prevent="getData">
-                 <input type="text"
+               <form>
+                 <input @change.prevent="getData" type="text"
                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
                    v-model="outletName" placeholder="Nama Outlet">
                </form>
@@ -273,7 +273,17 @@ export default
           this.page = 1
         }
       }
-    }
+    },
+     itemName: {
+        handler(r) {
+          this.listLoading = true
+        }
+      },
+      outletName: {
+        handler(r) {
+          this.listLoading = true
+        }
+      }
   },
   methods: {
     getData() {
