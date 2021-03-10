@@ -234,7 +234,7 @@
             <div class="h-20 bg-white"></div>
        </div>
      </div>
-     <right-sidebar class="w-3/12 cursor-pointer items-center relative pl-6 pt-10" />
+     <right-sidebar-calendar class="w-3/12 cursor-pointer items-center relative pl-6 pt-10" />
    </div>
 </template>
 

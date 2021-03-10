@@ -8,7 +8,7 @@
               <img class="h-18" v-if="channel.channel=='GrabFood'" src="~/assets/svg/grabfood.svg" alt="">
             </div>
             <div>
-              <span class="text-summary-text">{{channel.total}} Total Outlet</span>
+              <span class="text-summary-text">{{channel.total}} Total Item</span>
               <span class="block font-bold text-summary-title">{{channel.channel}}</span>
             </div>
           </div>

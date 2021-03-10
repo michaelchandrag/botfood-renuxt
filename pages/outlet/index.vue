@@ -164,8 +164,8 @@
 
             <div class="mt-4 flex items-center float-right">
                   <div class="float-right p-2">
-                <form @submit.prevent="changePageNumber()">
-                <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                <form>
+                <input @change="changePageNumber()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
                   inputmode="numeric" pattern="[0-9]*" v-model="page">
                 of {{data.total_page}}
                 </form>
@@ -249,6 +249,14 @@
         handler(r) {
           this.listLoading = true
         }
+      },
+      page: {
+        handler(r) {
+          this.listLoading = true
+          if(r>this.data.total_page) {
+            this.page = this.data.total_page
+          }
+        }
       }
     },
     methods: {
@@ -264,7 +272,7 @@
           })
       },
       changePage(v) {
-      this.page = this.page+parseFloat(v)
+      this.page = parseFloat(this.page)+parseFloat(v)
       this.changePageNumber()
     },
     changePageNumber(){
