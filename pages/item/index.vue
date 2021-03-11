@@ -21,7 +21,7 @@
 
            <div class="w-3/12 cursor-pointer items-center relative">
              <div class="relative">
-               <form>
+               <form @submit.prevent="getData">
                  <input @change.prevent="getData" type="text"
                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
                    v-model="itemName" placeholder="Nama Item">
@@ -70,7 +70,7 @@
 
            <div class="w-3/12 cursor-pointer items-center relative">
              <div class="relative">
-               <form>
+               <form @submit.prevent="getData">
                  <input @change.prevent="getData" type="text"
                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
                    v-model="outletName" placeholder="Nama Outlet">
@@ -90,9 +90,9 @@
              <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                <div class="flex-auto">
-                 <span v-if="outletChannel=='GrabFood'">Grab Food</span>
-                 <span v-if="outletChannel=='GoFood'">Go Food</span>
-                 <span v-if="outletChannel==null">Semua Channel</span>
+                 <span v-if="outletChannel=='GrabFood'">GrabFood</span>
+                 <span v-if="outletChannel=='GoFood'">GoFood</span>
+                 <span v-if="outletChannel==null">Semua</span>
                </div>
                <div>
                  <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
@@ -111,7 +111,7 @@
                  <li @click.prevent="channelDropdown=false,outletChannel='GoFood',getData()"
                    class="bg-white px-4 py-3 w-full">Go Food</li>
                  <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
-                   class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Channel</li>
+                   class="bg-white px-4 py-3 w-full rounded-b-lg">Semua</li>
                </ul>
              </div>
            </div>
