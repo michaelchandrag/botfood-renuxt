@@ -142,7 +142,6 @@ export default {
       this.total_page = r.data.data.idle_items.total_page
       this.listLoading = false
       this.isLoading = false
-      console.log(r)
     })
     }
   }

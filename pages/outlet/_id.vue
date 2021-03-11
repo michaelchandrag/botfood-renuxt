@@ -421,12 +421,6 @@
       })
     },
     watch: {
-      outlet: {
-        deep: true,
-        handler(r) {
-          console.log(r)
-        }
-      },
       date: {
         handler(r) {
           this.listLoading = true
@@ -436,8 +430,8 @@
           if (this.tab == 'outlet') {
             this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
               this.history = r.data.data
-              this.page_outlet = r.data.data.current_page
-              this.total_page_outlet = r.data.data.total_page
+              this.page_outlet = 1
+              this.total_page_outlet = Math.ceil(this.history.length/10)
               this.listLoading = false
             })
           } else {
@@ -465,7 +459,7 @@
             this.listItems = r.data.data
             this.selectedItem = r.data.data[0].item_name
             this.itemID = r.data.data[0].item_id
-            this.$axios.get('me/history_item/' + r.data.data[0].item_id + '?until_created_at=' + date + ' 23:59:59&data=10&page=1').then(res => {
+            this.$axios.get('me/history_item/' + r.data.data[0].item_id + '?until_created_at=' + date + ' 23:59:59').then(res => {
               this.items_idle = res.data.data
               this.listLoading = false
               this.page_item = res.data.data.current_page
@@ -478,8 +472,8 @@
           this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page=1').then(r => {
             this.history = r.data.data
             this.listLoading = false
-            this.page_outlet = r.data.data.current_page
-              this.total_page_outlet = r.data.data.total_page
+            this.page_outlet = 1
+              this.total_page_outlet = Math.ceil(this.history.length/10)
           })
         }
       },
