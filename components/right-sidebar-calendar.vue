@@ -6,7 +6,7 @@
     <div class="h-10"></div>
     <div class="pr-6">
       <client-only>
-        <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" v-model="date" />
+        <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" value="2021-04-04"/>
       </client-only>
 
 
@@ -37,11 +37,11 @@ export default {
     }
   },
   watch: {
-    date: {
-      handler(r) {
-        this.date = new Date()
-      }
-    }
+    // date: {
+    //   handler(r) {
+    //     this.date = new Date()
+    //   }
+    // }
   },
   methods: {
     download() {

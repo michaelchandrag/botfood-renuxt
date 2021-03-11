@@ -1,13 +1,13 @@
 <template>
 <div >
-  <div v-if="$device.isMobile">
+  <!-- <div v-if="$device.isMobile">
     <span class="py-48 block text-center">
       Mobile under construction
     </span>
-  </div>
+  </div> -->
 
 
-  <div class="bg-gray-200" v-if="!$device.isMobile">
+  <div class="bg-gray-200">
   <Nuxt/>
   <a href="https://wa.me/6287824622895" target="new_tab" style=" position: fixed;
   bottom: 0;
