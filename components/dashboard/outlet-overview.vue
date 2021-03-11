@@ -1,14 +1,14 @@
 <template>
 <div>
      <!-- start -->
-        <div v-if="!isLoading" class="flex mr-6 bg-white rounded-fd p-8 mb-4 items-center">
+        <div style="padding:24px 32px;margin-bottom:16px;" v-if="!isLoading" class="flex mr-6 bg-white rounded-fd items-center">
           <div class="w-6/12 flex items-center">
             <div>
-              <img v-if="channel=='Grab Food'" src="~/assets/svg/grabfood.svg" alt="">
-              <img v-if="channel=='Go Food'" src="~/assets/svg/gofood.svg" alt="">
+              <img v-if="channel=='Grab Food'" class="icon-height" src="~/assets/svg/grabfood.svg" alt="">
+              <img v-if="channel=='Go Food'" class="icon-height" src="~/assets/svg/gofood.svg" alt="">
             </div>
             <div class="ml-6">
-              <h3 class="text-summary-title block">{{channel}}</h3>
+              <h3 class="block" style="font-size:32px">{{channel}}</h3>
               <span class="text-summary-text block">{{data.outlet_total}} Total Outlet</span>
             </div>
 

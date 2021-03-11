@@ -1,12 +1,12 @@
 <template>
   <div class="flex">
-    <left-sidebar class="md:w-2/12 px-6 pt-8 " />
+    <left-sidebar class="md:w-2/12 px-6 pt-8"/>
 
-    <div class="md:w-7/12 bg-gray-200 pl-6 pt-10">
+    <div class="md:w-7/12 bg-gray-200 pl-6" style="padding-top:40px">
       <div>
         <span class="text-title">Laporan Terkini</span>
       </div>
-      <div class="h-8"></div>
+      <div style="height:24px"></div>
       <div class="flex flex-col ">
         <outlet-overview :data="data.GrabFood" channel="Grab Food" />
         <outlet-overview :data="data.GoFood" channel="Go Food" />
@@ -22,15 +22,16 @@
               <path
                 d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.351 6.493c-.08-.801.55-1.493 1.351-1.493s1.431.692 1.351 1.493l-.801 8.01c-.029.282-.266.497-.55.497s-.521-.215-.55-.498l-.801-8.009zm1.351 12.757c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" />
             </svg>
-            Item tidak aktif terlama
+            <span class="ml-2">Item Tidak Aktif Terlama</span>
+            
           </span>
           <div class="h-6">
           </div>
           <div>
             <table class="table-auto w-full">
               <thead>
-                <tr class="border-b border-t">
-                  <th class="py-4 text-text text-center">Nama Item</th>
+                <tr class="border-b">
+                  <th class="py-4 text-text text-center" style="max-width:20px">Nama Item</th>
                   <th class="py-4 text-text text-center">Nama Outlet</th>
                   <th class="py-4 text-text text-center">Channel</th>
                   <th class="py-4 text-text text-center">Terakhir Aktif</th>
@@ -70,7 +71,7 @@
               </tbody>
               <tbody v-if="!listLoading">
                 <tr v-for="item in data.idle_items.items" :key="item.id" class="hover:bg-gray-200 text-center border-b rounded-fds hover:border-white">
-                  <td class="p-4 text-text rounded-l-fds">{{item.name}}</td>
+                  <td class="p-4 text-text rounded-l-fds" style="max-width:200px">{{item.name}}</td>
                   <td class="p-4 text-text">{{item.branch_channel_name}}</td>
                   <td class="p-4 text-text">{{item.branch_channel_channel}}</td>
                   <td class="p-4 text-text rounded-r-fds">{{$moment(item.last_not_active_at).format('D MMM YYYY HH:mm')}}</td>

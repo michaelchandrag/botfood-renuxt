@@ -169,7 +169,7 @@
            </tbody>
            <tbody v-if="!listLoading">
              <tr v-for="item in data.items" :key="item.id" class="hover:bg-gray-200 border-b">
-               <td class="text-center text-text p-4 rounded-l-fds">{{item.name}}</td>
+               <td class="text-center text-text p-4 rounded-l-fds" style="max-width:200px">{{item.name}}</td>
                <td class="text-center text-text p-4">
                  <span v-if="item.in_stock" class="text-green-500">Aktif</span>
                  <span v-if="!item.in_stock" class="text-red-500">Tidak Aktif</span>

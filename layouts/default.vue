@@ -7,7 +7,7 @@
   </div> -->
 
 
-  <div class="bg-gray-200">
+  <div style="background:#fafafa">
   <Nuxt/>
   <a href="https://wa.me/6287824622895" target="new_tab" style=" position: fixed;
   bottom: 0;
@@ -28,3 +28,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.icon-height {
+  height: 56px;
+  width: auto;
+}
+</style>

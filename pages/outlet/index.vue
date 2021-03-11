@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <left-sidebar class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 bg-gray-200 pl-6 pt-10">
+    <div class="w-7/12 bg-gray-200 pl-6" style="padding-top:40px">
       <div>
         <span class="text-title">Laporan Outlet</span>
       </div>
@@ -281,7 +281,7 @@
         var status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
         var channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
         var page = 'page='+this.page
-        this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param)
+        this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param +'&' + page)
           .then(r => {
           this.data = r.data.data
             this.listLoading = false
