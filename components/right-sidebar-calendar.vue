@@ -6,7 +6,7 @@
     <div class="h-10"></div>
     <div class="pr-6">
       <client-only>
-        <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" value="2021-04-04"/>
+        <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" :value="date" :disabledDates="disabledDates"/>
       </client-only>
 
 
@@ -33,7 +33,12 @@ export default {
     return {
       date: new Date(),
       formatDate: '',
-      isDownload: false
+      isDownload: false,
+      disabledDates: {
+        to: new Date(Date.now() - 8640000),
+        from: new Date()
+      }
+      
     }
   },
   watch: {

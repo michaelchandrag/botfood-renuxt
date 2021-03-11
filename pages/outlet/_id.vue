@@ -114,7 +114,7 @@
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
                   <span v-if="listLoading">Loading...</span>
-                  <span v-if="!listLoading">{{selectedItem.slice(0,22)}}
+                  <span v-if="!listLoading">{{selectedItem.slice(0,12)}}
                     <span v-if="selectedItem.length>=22">. . .</span>
                   </span>
                 </div>
