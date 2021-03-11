@@ -183,7 +183,7 @@
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
-                <tr v-for="h in history" :key="h.id" class="hover:bg-gray-300 border-b">
+                <tr v-for="(h,i) in sorted" :key="i" v-if='i <= outlet.end && i >=outlet.start ' class="hover:bg-gray-300 border-b">
                   <td class="text-center p-4 rounded-l-fds">{{$moment(h.created_at).format('DD MMMM YYYY')}}</td>
                   <td class="text-center p-4">{{$moment(h.created_at).format('HH:mm')}}</td>
                   <td class="text-center p-4">
@@ -203,7 +203,7 @@
               </div>
             
             <!-- left -->
-              <div v-if="page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
+              <div v-if="page_outlet==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
@@ -211,7 +211,7 @@
                 </svg>
               </div>
 
-              <div @click.prevent="changePage(-1)" v-if="page_outlet!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+              <div @click.prevent="changeOutletPage(-1)" v-if="page_outlet!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
@@ -222,14 +222,14 @@
               <!-- end left -->
 
               <!-- right -->
-                <div @click.prevent="changePage(1)" v-if="total_page_outlet>1&&page_outlet<total_page_outlet" class="cursor-pointer float-right p-3 rounded-md border-2">
+                <div @click.prevent="changeOutletPage(1)" v-if="total_page_outlet>1&&page_outlet<total_page_outlet" class="cursor-pointer float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
                     fill="#424242" />
                 </svg>
               </div>
-              <div  v-if="page==total_page_outlet||total_page_outlet<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+              <div  v-if="page_outlet==total_page_outlet||total_page_outlet<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
@@ -394,9 +394,20 @@
         total_page_outlet: 1,
         page_item: 1,
         total_page_item: 1,
+        outlet: {
+          start: 0,
+          end: 9
+        }
       }
     },
     middleware: ['auth-ssr'],
+    computed: {
+      sorted() {
+        if(!this.isLoading) {
+          return this.history
+        }
+      }
+    },
     mounted() {
       var id = this.$route.params.id
       var date = this.$moment(this.date).format('YYYY-MM-DD')
@@ -406,10 +417,16 @@
       })
       this.$axios.get('me/branch_channel/' + id + '/history?issued_at=' + date + '&data=10&page='+this.page_outlet).then(r => {
         this.history = r.data.data
-        console.log(r)
+        this.total_page_outlet = Math.ceil(this.history.length/10)
       })
     },
     watch: {
+      outlet: {
+        deep: true,
+        handler(r) {
+          console.log(r)
+        }
+      },
       date: {
         handler(r) {
           this.listLoading = true
@@ -493,6 +510,17 @@
           this.page_item = res.data.data.current_page
           this.total_page_item = res.data.data.total_page
         })
+    },
+    changeOutletPage(v) {
+      // return this.outlet_page = this.outlet_page+parseInt(v)
+      this.page_outlet = this.page_outlet + parseInt(v)
+      if(v===1) {
+        this.outlet.end = this.outlet.end + 9
+        this.outlet.start = this.outlet.start + 9
+      } else {
+         this.outlet.end = this.outlet.end - 9
+        this.outlet.start = this.outlet.start - 9
+      }
     }
 
     }

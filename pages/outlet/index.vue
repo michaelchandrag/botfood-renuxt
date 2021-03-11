@@ -223,7 +223,7 @@
     data() {
       return {
         data: {},
-        // sorted: {},
+        sorted: {},
         search: '',
         page: 1,
         isLoading: true,
