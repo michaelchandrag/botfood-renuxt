@@ -1,20 +1,6 @@
 <template>
 <div>
-  <div class="p-4 flex bg-white z-10 fixed top-0 w-full shadow items-center">
-    <div class="w-1/2">
-    <nuxt-link to="/">
-      <img class="h-6" src="~/assets/svg/logo.svg" alt="">
-      </nuxt-link>
-    </div>
-    <div @click.prevent="showNav=true" class="w-1/2 flex flex-row-reverse">
-      <svg  width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="24" height="4" transform="matrix(-1 0 0 1 24 0)" fill="#d2d2d2" />
-        <rect width="24" height="4" transform="matrix(-1 0 0 1 24 14)" fill="#d2d2d2" />
-        <rect width="18" height="4" transform="matrix(-1 0 0 1 24 7)" fill="#d2d2d2" />
-      </svg>
-    </div>
-  </div>
- <sidebar-menu v-if="showNav"/>
+ <sidebar-menu/>
   <div class="h-20"></div>
 
   <div class="px-4">
@@ -89,7 +75,7 @@
 <script>
 import outletOverviewMobile from '~/components/dashboard/outlet-overview-mobile.vue'
 import SidebarMenu from '~/components/mobile/sidebar-menu.vue'
-import sidebarMenu from '~/components/mobile/sidebar-menu.vue'
+
 export default {
   components: { outletOverviewMobile, SidebarMenu },
   layout: 'mobile',

@@ -1,30 +1,25 @@
 <template>
-  <div class="flex">
-    <left-sidebar class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 bg-gray-200 pl-6" style="padding-top:40px">
-      <div>
-        <span class="text-title">Laporan Outlet</span>
-      </div>
-      <div class="h-8"></div>
-      <div class="flex flex-col ">
-        <div class="grid grid-cols-2 gap-4 mr-6">
-          <outlet-summary v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-        </div>
-        <div class="h-6"></div>
-        <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div>
-        <!-- table start -->
-        <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6 text-text">
+<div>
+  <sidebar-menu/>
+  <div class="h-16"></div>
+  <div class="px-4">
+    <div class="py-4">
+         <span>Laporan Outlet</span>
+       </div>
+    <outlet-summary-mobile v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
+  <div class="h-4"></div>
+
+   <!-- table start -->
+        <div v-if="!isLoading" class="bg-white rounded-fd p-6 text-text">
 
           <div class="h-2">
           </div>
           <div class="flex gap-4">
-            <div class="w-6/12">
-              <div class="relative">
+            <div class="w-full mb-2">
+              <div class="relative w-full">
                 <form @submit.prevent="getData">
                   <input @change.prevent="getData" type="text"
-                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="search"
+                    class="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg w-full focus:outline-none" v-model="search"
                     placeholder="Nama Outlet">
                 </form>
                 <div class="absolute top-0 pt-3 pl-2">
@@ -37,9 +32,10 @@
               </div>
             </div>
 
-
-
-            <div class="w-3/12 cursor-pointer items-center relative">
+        </div>
+        <div class="flex gap-2">
+          
+            <div class="w-6/12 cursor-pointer items-center relative">
               <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
@@ -70,7 +66,7 @@
             </div>
 
 
-            <div class="w-3/12 cursor-pointer items-center relative">
+            <div class="w-6/12 cursor-pointer items-center relative">
               <div @click.prevent="statusDropdown?statusDropdown=false:statusDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
@@ -99,21 +95,13 @@
                 </ul>
               </div>
             </div>
-
-          </div>
+        </div>
           <div class="mt-6">
             <table class="table-auto w-full">
-              <thead class="border-b">
-                <tr>
-                  <th class="py-4 text-text">Nama Outlet</th>
-                  <th class="py-4 text-text">Channel</th>
-                  <th class="py-4 text-text">Status</th>
-                  <th class="py-4 text-text">Aksi</th>
-                </tr>
-              </thead>
+            
               <tbody v-if="!listLoading">
                 <tr v-if="!listLoading&&data.branch_channels.length<=0">
-                  <td colspan="4" class="p-20 text-center">
+                  <td class="p-20 text-center">
                     <span class="block mx-auto w-full">
                       <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +111,7 @@
                       </svg>
 
                     </span>
-                    <span class="p-8 m-auto text-gray-500">
+                    <span class="m-auto text-gray-500">
                       Data tidak tersedia
                     </span>
                   </td>
@@ -135,29 +123,22 @@
                   <td>
                     <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                   </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
+                 
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
                 <tr v-for="channel in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-center text-text p-4 rounded-l-fds">{{channel.name}}</td>
-                  <td class="text-center text-text p-4">{{channel.channel}}</td>
-                  <td class="text-center text-text p-4">
-                    <span v-if="channel.is_open" class="text-green-500">Buka</span>
+                  <td class="py-4">
+                    <nuxt-link :to="'/m/outlet/'+channel.id">
+                      <span v-if="channel.is_open" class="text-green-500">Buka</span>
                     <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
+                    <span class="font-bold block text-lg">{{channel.name}}</span>
+                    <span class="font-bold block mb-2">{{channel.channel}}</span>
+                    <span class="bg-green-food text-white text-xs px-2 py-1 rounded-md">
+                      Detail
+                    </span>
+                    </nuxt-link>
                   </td>
-                  <td class="text-center text-text p-4 rounded-r-fds">
-                    <nuxt-link :to="'/outlet/'+channel.id">Detail</nuxt-link>
-                  </td>
-
                 </tr>
               </tbody>
             </table>
@@ -212,14 +193,17 @@
 
           </div>
         </div>
+        <div class="h-20"></div>
         <!-- table end -->
-      </div>
-    </div>
-    <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
   </div>
+</div>
 </template>
 <script>
-  export default {
+import OutletSummaryMobile from '~/components/mobile/outlet-summary-mobile.vue'
+import sidebarMenu from '~/components/mobile/sidebar-menu.vue'
+
+export default {
+  components: { sidebarMenu, OutletSummaryMobile },
     layout: 'mobile',
     data() {
       return {

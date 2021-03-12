@@ -1,25 +1,22 @@
 <template>
-   <div class="flex">
-     <left-sidebar class="w-2/12 px-6 pt-8 " />
-
-     <div class="w-7/12 bg-gray-200 pl-6 pt-10">
-       <div>
-         <span class="text-title">Laporan Item</span>
+<div>
+  <sidebar-menu/>
+  <div class="h-16"></div>
+  <div class="px-4">
+    <div class="py-4">
+         <span >Laporan Item</span>
        </div>
-       <div class="h-8"></div>
-       <div class="grid grid-cols-2 gap-4 mr-6">
-         <item-summary v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
-         <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-         <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-       </div>
-       <div class="h-6"></div>
-       <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div>
-       <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6 text-text">
-         <div class="flex gap-4">
+
+    <item-summary-mobile v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
+
+    <div class="h-6"></div>
+       <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse"></div>
+       <div v-if="!isLoading" class="bg-white rounded-fd p-6 text-text">
+         <div class="flex gap-2">
 
 
 
-           <div class="w-3/12 cursor-pointer items-center relative">
+           <div class="w-7/12 cursor-pointer items-center relative">
              <div class="relative">
                <form @submit.prevent="getData">
                  <input @change.prevent="getData" type="text"
@@ -36,13 +33,13 @@
              </div>
            </div>
 
-           <div class="w-3/12 cursor-pointer items-center relative">
+           <div class="w-5/12 cursor-pointer items-center relative z-20 text-xs">
              <div @click.prevent="itemStatusDropdown?itemStatusDropdown=false:itemStatusDropdown=true"
                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                <div class="flex-auto">
-                 <span v-if="itemStatus==true">Aktif</span>
-                 <span v-if="itemStatus==false">Tidak Aktif</span>
-                 <span v-if="itemStatus==null">Status</span>
+                 <span class="text-xs" v-if="itemStatus==true">Aktif</span>
+                 <span class="text-xs" v-if="itemStatus==false">Tidak Aktif</span>
+                 <span class="text-xs" v-if="itemStatus==null">Status</span>
                </div>
                <div>
                  <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
@@ -54,6 +51,8 @@
                </div>
 
              </div>
+          
+         
              <div v-if="itemStatusDropdown" class="absolute w-full shadow-sm rounded-b-fds">
                <ul class="w-full border-gray-300">
                  <li @click.prevent="itemStatusDropdown=false,itemStatus=1,getData()" class="bg-white px-4 py-3 w-full">
@@ -66,9 +65,9 @@
              </div>
            </div>
 
-
-
-           <div class="w-3/12 cursor-pointer items-center relative">
+         </div>
+  <div class="flex gap-2 mt-2">
+           <div class="w-7/12 cursor-pointer items-center relative">
              <div class="relative">
                <form @submit.prevent="getData">
                  <input @change.prevent="getData" type="text"
@@ -86,9 +85,9 @@
            </div>
 
 
-           <div class="w-3/12 cursor-pointer items-center relative">
+           <div class="w-5/12 cursor-pointer items-center relative text-xs">
              <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
-               class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
+               class="border flex py-3 px-4 bg-white border-gray-300 rounded-lg w-full focus:outline-none">
                <div class="flex-auto">
                  <span v-if="outletChannel=='GrabFood'">GrabFood</span>
                  <span v-if="outletChannel=='GoFood'">GoFood</span>
@@ -116,22 +115,13 @@
              </div>
            </div>
 
-
          </div>
          <div class="h-6"></div>
          <table class="table-auto w-full">
-           <thead>
-             <tr class="border-b">
-               <th class="py-4 text-text text-center">Nama Item</th>
-               <th class="py-4 text-text text-center">Status</th>
-               <th class="py-4 text-text text-center">Nama Outlet</th>
-               <th class="py-4 text-text text-center">Channel</th>
-               <th class="py-4 text-text text-center">Terakhir Aktif</th>
-             </tr>
-           </thead>
+          
            <tbody v-if="!listLoading">
              <tr v-if="!listLoading&&data.length<=0">
-               <td colspan="5" class="p-20 text-center">
+               <td class="p-20 text-center">
                  <span class="block mx-auto w-full">
                    <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
@@ -151,36 +141,20 @@
            <tbody v-if="listLoading">
              <tr class="h-12" v-for="n in 10" :key="n">
                <td>
-                 <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-               </td>
-               <td>
-                 <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-               </td>
-               <td>
-                 <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-               </td>
-               <td>
-                 <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-               </td>
-               <td>
-                 <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                 <div class="h-16 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                </td>
              </tr>
            </tbody>
            <tbody v-if="!listLoading">
              <tr v-for="item in data.items" :key="item.id" class="hover:bg-gray-200 border-b">
-               <td class="text-center text-text p-4 rounded-l-fds" style="max-width:200px">{{item.name}}</td>
-               <td class="text-center text-text p-4">
-                 <span v-if="item.in_stock" class="text-green-500">Aktif</span>
+               <td class="text-text p-4 rounded-l-fds" style="max-width:200px">
+                  <span v-if="item.in_stock" class="text-green-500">Aktif</span>
                  <span v-if="!item.in_stock" class="text-red-500">Tidak Aktif</span>
+                 <span v-if="!item.in_stock" class="block text-xs text-gray-600">Terakhir Aktif
+                    {{$moment(item.last_not_active_at).format('D MMM YYYY HH:mm')}}</span>
+                  <span class="block font-bold">{{item.name}}</span>
+                  <span class="block text-xs">{{item.branch_channel_channel}} | {{item.branch_channel_name}}</span>
                </td>
-               <td class="text-center text-text p-4 rounded-r-fds">
-                 {{item.branch_channel_name}}
-               </td>
-               <td class="text-text text-center">{{item.branch_channel_channel}}</td>
-               <td v-if="!item.in_stock" class="text-text text-center">
-                 {{$moment(item.last_not_active_at).format('D MMM YYYY,HH:mm')}}</td>
-               <td v-if="item.in_stock" class="text-text text-center"> - </td>
 
              </tr>
            </tbody>
@@ -231,16 +205,19 @@
               <!-- end right -->
 
             </div>
-            <div class="h-20 bg-white"></div>
        </div>
-     </div>
-     <right-sidebar-calendar class="w-3/12 cursor-pointer items-center relative pl-6 pt-10" />
-   </div>
+       <div class="h-48"></div>
+  </div>
+  
+</div>
 </template>
 
 <script>
-export default 
-{
+import ItemSummaryMobile from '~/components/mobile/item-summary-mobile.vue'
+import sidebarMenu from '~/components/mobile/sidebar-menu.vue'
+
+export default {
+  components: { sidebarMenu, ItemSummaryMobile },
   layout: 'mobile',
   data() {
     return {
