@@ -373,6 +373,7 @@
 </template>
 <script>
   export default {
+    layout: 'mobile',
     data() {
       return {
         data: {},

@@ -8,8 +8,8 @@
       </div>
       <div style="height:24px"></div>
       <div class="flex flex-col ">
-        <outlet-overview :data="data.GrabFood" channel="Grab Food" />
-        <outlet-overview :data="data.GoFood" channel="Go Food" />
+        <outlet-overview :data="data.GrabFood" channel="GrabFood" />
+        <outlet-overview :data="data.GoFood" channel="GoFood" />
 
         <!-- table start -->
          <div>
