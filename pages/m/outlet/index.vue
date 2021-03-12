@@ -7,8 +7,10 @@
          <span>Laporan Outlet</span>
        </div>
     <outlet-summary-mobile v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
-  <div class="h-4"></div>
-
+  <div class="h-2"></div>
+ <div v-if="isLoading" class="bg-gray-300 h-32 rounded-fd mb-2 animate-pulse"></div>
+ <div v-if="isLoading" class="bg-gray-300 h-32 rounded-fd mb-2 animate-pulse"></div>
+ <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd mb-2 animate-pulse"></div>
    <!-- table start -->
         <div v-if="!isLoading" class="bg-white rounded-fd p-6 text-text">
 
@@ -96,7 +98,7 @@
               </div>
             </div>
         </div>
-          <div class="mt-6">
+          <div class="mt-2">
             <table class="table-auto w-full">
             
               <tbody v-if="!listLoading">
@@ -133,8 +135,8 @@
                       <span v-if="channel.is_open" class="text-green-500">Buka</span>
                     <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
                     <span class="font-bold block text-lg">{{channel.name}}</span>
-                    <span class="font-bold block mb-2">{{channel.channel}}</span>
-                    <span class="bg-green-food text-white text-xs px-2 py-1 rounded-md">
+                    <span class="text-xs block">{{channel.channel}}</span>
+                    <span class="bg-green-food text-white text-xs px-2 px-1 rounded-md">
                       Detail
                     </span>
                     </nuxt-link>

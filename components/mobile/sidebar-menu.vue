@@ -1,6 +1,6 @@
 <template>
 <div>
-     <div class="p-4 flex bg-white z-10 fixed top-0 w-full shadow items-center">
+     <div class="p-4 flex bg-white z-50 inset-x-0 fixed top-0 w-full shadow items-center">
     <div class="w-1/2">
     <nuxt-link to="/">
       <img class="h-6" src="~/assets/svg/logo.svg" alt="">
@@ -17,45 +17,45 @@
 
 
 
-<div v-if="showNav">
+<div v-if="showNav" class="h-full fixed top-0 z-40 bg-white">
   <div class="h-16"></div>
-  <div>
+  <div class="pt-2">
 <ul>
      
         <!-- menu active -->
-        <li v-if="$route.name=='m'" class="h-16 flex mx-4 rounded-fd items-center px-8 mb-2 bg-green-food text-white">
+        <li v-if="$route.name=='m'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 bg-green-food text-white">
           <nuxt-link to="/m">
             <img class="float-left" src="~/assets/svg/home-active.svg">
             <span class="ml-4">Beranda</span>
           </nuxt-link>
         </li>
-        <li v-if="$route.name!='m'" class="h-16 flex mx-4 rounded-fd items-center px-8 mb-2 text-gray-900">
+        <li v-if="$route.name!='m'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 text-gray-900">
           <nuxt-link to="/m">
             <img class="float-left" src="~/assets/svg/home.svg">
             <span class="ml-4">Beranda</span>
           </nuxt-link>
         </li>
 
-        <li v-if="$route.name=='m-outlet'" class="h-16 flex mx-4 rounded-fd items-center px-8 mb-2 bg-green-food text-white">
+        <li v-if="$route.name=='m-outlet'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 bg-green-food text-white">
           <nuxt-link to="/m/outlet">
             <img class="float-left" src="~/assets/svg/outlet-active.svg">
             <span class="ml-4">Outlet</span>
           </nuxt-link>
         </li>
-         <li v-if="$route.name!='m-outlet'" class="h-16 flex mx-4 rounded-fd items-center px-8 mb-2 text-gray-900">
+         <li v-if="$route.name!='m-outlet'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 text-gray-900">
           <nuxt-link to="/m/outlet">
             <img class="float-left" src="~/assets/svg/outlet.svg">
             <span class="ml-4">Outlet</span>
           </nuxt-link>
         </li>
 
-        <li v-if="$route.name=='m-item'" class="h-16 flex mx-4 rounded-fd items-center px-8 mb-2 bg-green-food text-white">
+        <li v-if="$route.name=='m-item'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 bg-green-food text-white">
           <nuxt-link to="/m/item">
             <img class="float-left" src="~/assets/svg/item-active.svg">
             <span class="ml-4">Item</span>
           </nuxt-link>
         </li>
-         <li v-if="$route.name!='m-item'" class="h-16 flex mx-4 rounded-fd items-center px-8 mb-2 text-gray-900">
+         <li v-if="$route.name!='m-item'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 text-gray-900">
           <nuxt-link to="/m/item">
             <img class="float-left" src="~/assets/svg/item.svg">
             <span class="ml-4">Item</span>
@@ -69,10 +69,23 @@
             
         </div>
         <div class="px-4 mt-6">
+           <div class="mt-2 mb-2">
+      <button v-if="isDownload"
+        class="w-full cursor-not-allowed  rounded-fds py-2 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
+        <span class="animate-spin">Downloading . . .</span>
+
+      </button>
+      <button v-if="!isDownload"
+        class="w-full rounded-fds py-2 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
+        @click.prevent="download()">
+        <span v-if="!isDownload">Download Laporan All in One</span>
+      </button>
+    </div>
               <client-only>
         <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" :value="date" :disabledDates="disabledDates"/>
       </client-only>
         </div>
+       
 </div>
     </div>
 </template>
@@ -82,7 +95,7 @@
     width: 100% !important;
     position: static !important;
     border-radius: 16px !important;
-    padding: 2rem !important;
+    padding: 1rem !important;
 }
 .vdp-datepicker__calendar .cell.selected {
     background: #029835 !important;
@@ -99,8 +112,34 @@
 export default {
   data() {
     return {
-      showNav: false
+      showNav: false,
+       isDownload: false,
+       date: new Date(),
+       disabledDates: {
+        to: new Date(Date.now() - 8640000),
+        from: new Date()
+      }
     }
   },
+  methods: {
+    download() {
+      this.isDownload = true
+      this.$axios({
+        method: 'GET',
+        url: 'me/channel_report?channel=GoFood&issued_at=' + this.formatDate + '&xlsx=true',
+        responseType: 'blob',
+      }).then(r => {
+        this.isDownload = false
+        const url = window.URL.createObjectURL(new Blob([r.data], {
+          'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }));
+        var fileLink = document.createElement('a');
+        fileLink.href = url;
+        fileLink.setAttribute('download', 'laporan-all-in-one.xlsx');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      })
+    }
+  }
 }
 </script>

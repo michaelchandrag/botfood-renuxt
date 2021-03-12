@@ -9,18 +9,17 @@
 
     <item-summary-mobile v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
 
-    <div class="h-6"></div>
-       <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse"></div>
+     <div class="h-2"></div>
+ <div v-if="isLoading" class="bg-gray-300 h-32 rounded-fd mb-2 animate-pulse"></div>
+ <div v-if="isLoading" class="bg-gray-300 h-32 rounded-fd mb-2 animate-pulse"></div>
+ <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd mb-2 animate-pulse"></div>
        <div v-if="!isLoading" class="bg-white rounded-fd p-6 text-text">
          <div class="flex gap-2">
-
-
-
-           <div class="w-7/12 cursor-pointer items-center relative">
+           <div class="w-7/12 cursor-pointer items-center relative text-xs">
              <div class="relative">
                <form @submit.prevent="getData">
                  <input @change.prevent="getData" type="text"
-                   class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
+                   class="pl-10 pr-4 py-3 text-xs border border-gray-300 rounded-lg w-full focus:outline-none"
                    v-model="itemName" placeholder="Nama Item">
                </form>
                <div class="absolute top-0 pt-3 pl-2">
@@ -67,11 +66,11 @@
 
          </div>
   <div class="flex gap-2 mt-2">
-           <div class="w-7/12 cursor-pointer items-center relative">
+           <div class="w-7/12 cursor-pointer items-center relative text-xs">
              <div class="relative">
                <form @submit.prevent="getData">
                  <input @change.prevent="getData" type="text"
-                   class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
+                   class="pl-10 pr-4 py-3 border border-gray-300 text-xs rounded-lg w-full focus:outline-none"
                    v-model="outletName" placeholder="Nama Outlet">
                </form>
                <div class="absolute top-0 pt-3 pl-2">
@@ -116,7 +115,7 @@
            </div>
 
          </div>
-         <div class="h-6"></div>
+         <div class="h-2"></div>
          <table class="table-auto w-full">
           
            <tbody v-if="!listLoading">
@@ -159,7 +158,7 @@
              </tr>
            </tbody>
          </table>
-          <div class="mt-4 flex items-center float-right">
+          <div class="mt-4 bg-white flex items-center float-right">
                   <div class="float-right p-2">
                 <form @submit.prevent="changePageNumber()">
                 <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
@@ -205,6 +204,7 @@
               <!-- end right -->
 
             </div>
+               <div class="h-20 bg-white"></div>
        </div>
        <div class="h-48"></div>
   </div>
