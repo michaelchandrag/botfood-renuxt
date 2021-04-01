@@ -291,7 +291,7 @@ export default
         var item_name = 'name='+this.itemName
         var outletName = 'branch_channel_name='+this.outletName
         var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
-        var channel = this.outletChannel==null ? '':'channel='+this.outletChannel
+        var channel = this.outletChannel==null ? '':'branch_channel_channel='+this.outletChannel
         this.$axios.get('me/items?'+item_name+'&'+outletName+'&'+stock+'&'+channel)
         .then(r=> {
           this.data = r.data.data
