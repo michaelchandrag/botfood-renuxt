@@ -4,14 +4,23 @@
         <div class="mx-auto h-full flex">
               <form class="mx-auto" @submit.prevent="userLogin">
               <div class="text-center">
-                <img class="mx-auto" style="height:25px;margin-top:115px;" src="~/assets/svg/logo.svg" alt="">
+                <img class="mx-auto" style="height:25px;margin-top:85px;" src="~/assets/svg/logo.svg" alt="">
               </div>
-              <div style="margin-top:80px">
+              <div style="margin-top:40px">
+                Brand <br/>
                 <input v-model="login.slug"
                 style="height:56px;width:328px"
                   :class="{'bg-red-200': isError, 'border' : isError, 'border-red-400' : isError}"
                   class="w-full px-5 py-1 text-title text-gray-700 bg-gray-200 rounded-fds focus:border focus:border-gray-400 focus:outline-none focus:bg-gray-100"
                   type="text" placeholder="Masukkan nama brand" required>
+              </div>
+              <div style="margin-top:40px">
+                Password <br/>
+                <input v-model="login.password"
+                style="height:56px;width:328px"
+                  :class="{'bg-red-200': isError, 'border' : isError, 'border-red-400' : isError}"
+                  class="w-full px-5 py-1 text-title text-gray-700 bg-gray-200 rounded-fds focus:border focus:border-gray-400 focus:outline-none focus:bg-gray-100"
+                  type="password" placeholder="Masukkan password brand" required>
               </div>
               <div v-if="isError" class="inline-block">
                 <small class="text-red-500 inline-block" style="font-size:12px;margin-top:8px;">
@@ -19,7 +28,7 @@
                     <path
                       d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.351 6.493c-.08-.801.55-1.493 1.351-1.493s1.431.692 1.351 1.493l-.801 8.01c-.029.282-.266.497-.55.497s-.521-.215-.55-.498l-.801-8.009zm1.351 12.757c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" />
                     </svg>
-                  nama brand tidak terdaftar</small>
+                  {{errorMessage}}</small>
               </div>
               <div style="margin-top:56px" class="items-center flex justify-between">
                 <button style="height:56px" class="bg-green-food text-white text-text py-3 rounded-lg w-full focus:outline-none focus:opacity-80">
@@ -48,8 +57,10 @@ export default {
   data() {
     return {
       login: {
-        slug: ''
+        slug: '',
+        password: ''
       },
+      errorMessage: '',
       isError: false,
       isLoading: false
     }
@@ -62,7 +73,8 @@ export default {
     userLogin() {
       this.isLoading = true
       this.$axios.post('login_brand', {
-        slug: this.login.slug
+        slug: this.login.slug,
+        password: this.login.password
       }).then(r => {
         this.isLoading = false
         this.$cookies.set('hbGciOiJIUzI1NiJ9', 'RwOlwvXC9hcGkuYm90Zm9vZC54eXoiLCJkYXRhIjp7ImJyYW5kIjp7Im', {
@@ -77,6 +89,11 @@ export default {
       }).catch(e => {
         this.isLoading = false
         this.isError = true
+        var errors = e.response.data.errors
+        for (var key in errors) {
+          this.errorMessage = errors[key].detail
+          return false
+        }
       })
     }
   }

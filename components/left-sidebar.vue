@@ -51,6 +51,17 @@
             <span class="ml-4">Item</span>
           </nuxt-link>
         </li>
+
+        <li v-if="$route.name=='setting'" class="btn-height flex items-center px-8 mb-2 bg-green-food text-white rounded-lg">
+          <nuxt-link to="/setting">
+            <span class="ml-4">Pengaturan</span>
+          </nuxt-link>
+        </li>
+         <li v-if="$route.name!='setting'" class="btn-height flex items-center px-8 mb-2 text-gray-900 rounded-lg">
+          <nuxt-link to="/setting">
+            <span class="ml-4">Pengaturan</span>
+          </nuxt-link>
+        </li>
         <!-- end menu active -->
 
             <!-- menu inactive -->
