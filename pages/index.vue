@@ -10,7 +10,7 @@
       <div class="flex flex-col ">
         <outlet-overview :data="data.GrabFood" channel="GrabFood" />
         <outlet-overview :data="data.GoFood" channel="GoFood" />
-
+        <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
         <!-- table start -->
          <div>
          <div v-if="isLoading" class="bg-gray-300 animate-pulse mr-6 rounded-fd h-64">
@@ -104,6 +104,7 @@ export default {
       data: {},
       GoFood: '',
       GrabFood: '',
+      ShopeeFood: '',
       idle_items: {
         items: ''
       },

@@ -4,8 +4,8 @@
         <div style="padding:24px 32px;margin-bottom:16px;" v-if="!isLoading" class="flex mr-6 bg-white rounded-fd items-center">
           <div class="w-6/12 flex items-center">
             <div>
-              <img v-if="channel=='Grab Food'" class="icon-height" src="~/assets/svg/grabfood.svg" alt="">
-              <img v-if="channel=='Go Food'" class="icon-height" src="~/assets/svg/gofood.svg" alt="">
+              <img v-if="channel=='GrabFood'" class="icon-height" src="~/assets/svg/grabfood.svg" alt="">
+              <img v-if="channel=='GoFood'" class="icon-height" src="~/assets/svg/gofood.svg" alt="">
             </div>
             <div class="ml-6">
               <h3 class="block" style="font-size:32px">{{channel}}</h3>

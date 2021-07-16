@@ -6,6 +6,7 @@
   <div class="px-4">
     <outlet-overview-mobile :data="data.GrabFood" channel="GrabFood" />
     <outlet-overview-mobile :data="data.GoFood" channel="GoFood" />
+    <outlet-overview-mobile :data="data.ShopeeFood" channel="ShopeeFood" />
   </div>
 
   <div class="px-4">
@@ -84,6 +85,7 @@ export default {
       data: {},
       GoFood: '',
       GrabFood: '',
+      ShopeeFood: '',
       idle_items: {
         items: ''
       },

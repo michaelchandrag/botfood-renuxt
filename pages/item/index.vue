@@ -92,6 +92,7 @@
                <div class="flex-auto">
                  <span v-if="outletChannel=='GrabFood'">GrabFood</span>
                  <span v-if="outletChannel=='GoFood'">GoFood</span>
+                 <span v-if="outletChannel=='ShopeeFood'">ShopeeFood</span>
                  <span v-if="outletChannel==null">Semua</span>
                </div>
                <div>
@@ -107,9 +108,11 @@
              <div v-if="channelDropdown" class="absolute w-full shadow-sm rounded-b-fds">
                <ul class="w-full border-gray-300">
                  <li @click.prevent="channelDropdown=false,outletChannel='GrabFood',getData()"
-                   class="bg-white px-4 py-3 w-full">Grab Food</li>
+                   class="bg-white px-4 py-3 w-full">GrabFood</li>
                  <li @click.prevent="channelDropdown=false,outletChannel='GoFood',getData()"
-                   class="bg-white px-4 py-3 w-full">Go Food</li>
+                   class="bg-white px-4 py-3 w-full">GoFood</li>
+                 <li @click.prevent="channelDropdown=false,outletChannel='ShopeeFood',getData()"
+                   class="bg-white px-4 py-3 w-full">Shopee Food</li>
                  <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua</li>
                </ul>
