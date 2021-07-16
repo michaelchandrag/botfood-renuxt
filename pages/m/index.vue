@@ -7,6 +7,7 @@
     <outlet-overview-mobile :data="data.GrabFood" channel="GrabFood" />
     <outlet-overview-mobile :data="data.GoFood" channel="GoFood" />
     <outlet-overview-mobile :data="data.ShopeeFood" channel="ShopeeFood" />
+    <outlet-overview-mobile :data="data.TravelokaEats" channel="TravelokaEats" />
   </div>
 
   <div class="px-4">
@@ -86,6 +87,7 @@ export default {
       GoFood: '',
       GrabFood: '',
       ShopeeFood: '',
+      TravelokaEats: '',
       idle_items: {
         items: ''
       },

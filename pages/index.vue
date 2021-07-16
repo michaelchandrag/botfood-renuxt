@@ -11,6 +11,7 @@
         <outlet-overview :data="data.GrabFood" channel="GrabFood" />
         <outlet-overview :data="data.GoFood" channel="GoFood" />
         <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
+        <outlet-overview :data="data.TravelokaEats" channel="TravelokaEats" />
         <!-- table start -->
          <div>
          <div v-if="isLoading" class="bg-gray-300 animate-pulse mr-6 rounded-fd h-64">
@@ -105,6 +106,7 @@ export default {
       GoFood: '',
       GrabFood: '',
       ShopeeFood: '',
+      TravelokaEats: '',
       idle_items: {
         items: ''
       },

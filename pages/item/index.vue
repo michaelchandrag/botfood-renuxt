@@ -93,6 +93,7 @@
                  <span v-if="outletChannel=='GrabFood'">GrabFood</span>
                  <span v-if="outletChannel=='GoFood'">GoFood</span>
                  <span v-if="outletChannel=='ShopeeFood'">ShopeeFood</span>
+                 <span v-if="outletChannel=='TravelokaEats'">TravelokaEats</span>
                  <span v-if="outletChannel==null">Semua</span>
                </div>
                <div>
@@ -112,7 +113,9 @@
                  <li @click.prevent="channelDropdown=false,outletChannel='GoFood',getData()"
                    class="bg-white px-4 py-3 w-full">GoFood</li>
                  <li @click.prevent="channelDropdown=false,outletChannel='ShopeeFood',getData()"
-                   class="bg-white px-4 py-3 w-full">Shopee Food</li>
+                   class="bg-white px-4 py-3 w-full">ShopeeFood</li>
+                 <li @click.prevent="channelDropdown=false,outletChannel='TravelokaEats',getData()"
+                   class="bg-white px-4 py-3 w-full">TravelokaEats</li>
                  <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua</li>
                </ul>

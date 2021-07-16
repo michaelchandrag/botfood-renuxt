@@ -5,8 +5,9 @@
     <div class="flex flex-row items-center gap-4">
       <div>
         <img v-if="channel=='GrabFood'" class="h-16" src="~/assets/svg/grabfood.svg" alt="">
-              <img v-if="channel=='GoFood'" class="h-16" src="~/assets/svg/gofood.svg" alt="">
-           
+        <img v-if="channel=='GoFood'" class="h-16" src="~/assets/svg/gofood.svg" alt="">
+        <img v-if="channel=='ShopeeFood'" class="icon-height" src="~/assets/svg/shopeefood.svg" alt="">
+        <img v-if="channel=='TravelokaEats'" class="icon-height" src="~/assets/svg/travelokaeats.svg" alt="">   
       </div>
       <div>
         <span class="text-3xl font-bold block">{{channel}}</span>
@@ -49,11 +50,7 @@ export default {
     watch: {
         data: {
             handler(r) {
-                if(!r.item_active) {
-                    this.isLoading = true
-                } else {
-                    this.isLoading = false
-                }
+                this.isLoading = false
             }
         }
     }
