@@ -6,6 +6,8 @@
             <div>
               <img class="h-18" v-if="channel.channel=='GoFood'" src="~/assets/svg/gofood.svg" alt="">
               <img class="h-18" v-if="channel.channel=='GrabFood'" src="~/assets/svg/grabfood.svg" alt="">
+              <img class="h-18" v-if="channel.channel=='ShopeeFood'" src="~/assets/svg/shopeefood.svg" alt="">
+              <img class="h-18" v-if="channel.channel=='TravelokaEats'" src="~/assets/svg/travelokaeats.svg" alt="">
             </div>
             <div>
               <span class="text-summary-text">{{channel.total}} Total Item</span>

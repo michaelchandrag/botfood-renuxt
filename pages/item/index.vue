@@ -132,6 +132,7 @@
                <th class="py-4 text-text text-center">Status</th>
                <th class="py-4 text-text text-center">Nama Outlet</th>
                <th class="py-4 text-text text-center">Channel</th>
+               <th class="py-4 text-text text-center">Harga</th>
                <th class="py-4 text-text text-center">Terakhir Aktif</th>
              </tr>
            </thead>
@@ -184,6 +185,7 @@
                  {{item.branch_channel_name}}
                </td>
                <td class="text-text text-center">{{item.branch_channel_channel}}</td>
+               <td class="text-text text-center">{{$toIDR(item.price)}}</td>
                <td v-if="!item.in_stock" class="text-text text-center">
                  {{$moment(item.last_not_active_at).format('D MMM YYYY,HH:mm')}}</td>
                <td v-if="item.in_stock" class="text-text text-center"> - </td>
