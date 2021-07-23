@@ -52,7 +52,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     //baseURL: 'https://donasi.test/api/'
-    baseURL: 'http://api.botfood.xyz/api/v1/',
+    baseURL: process.env.API_URL,
     // proxy: true
   },
   // proxy: {
