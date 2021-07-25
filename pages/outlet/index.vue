@@ -114,6 +114,8 @@
                   <th class="py-4 text-text">Nama Outlet</th>
                   <th class="py-4 text-text">Channel</th>
                   <th class="py-4 text-text">Status</th>
+
+                  <th class="py-4 text-text">Tersedia</th>
                   <th class="py-4 text-text">Aksi</th>
                 </tr>
               </thead>
@@ -138,18 +140,10 @@
               </tbody>
               <tbody v-if="listLoading">
                 <tr class="h-12" v-for="n in 10" :key="n">
-                  <td>
+                  <td v-for="i in 5" :key="i">
                     <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                   </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
+                 
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
@@ -161,7 +155,15 @@
                     <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
                   </td>
                   <td class="text-center text-text p-4 rounded-r-fds">
+                    <span :class="{'text-green-food': parseInt(data.branch_channels[0].items_percentage)>=90, 'text-yellow-600': parseInt(data.branch_channels[0].items_percentage)>=50&& parseInt(data.branch_channels[0].items_percentage)<90 , 'text-red-600':parseInt(data.branch_channels[0].items_percentage)<50}">
+                    {{parseInt(data.branch_channels[0].items_percentage)}}%
+
+                    </span>
+                  </td>
+                  <td class="text-center text-text p-4 rounded-r-fds">
                     <nuxt-link :to="'/outlet/'+channel.id">Detail</nuxt-link>
+                    <button class="ml-4 focus:outline-none" >Lihat Menu</button>
+
                   </td>
 
                 </tr>
@@ -266,6 +268,7 @@
         }
       }
     },
+  
     methods: {
       getData() {
         this.listLoading = true
