@@ -15,6 +15,9 @@ export default {
       { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css2?family=Poppins' },
       
     ],
+    script: [
+      { src: 'https://kit.fontawesome.com/1f26bc1e2a.js', type: 'text/javascript' }
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

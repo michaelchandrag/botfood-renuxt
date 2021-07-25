@@ -111,11 +111,13 @@
             <table class="table-auto w-full">
               <thead class="border-b">
                 <tr>
-                  <th class="py-4 text-text">Nama Outlet</th>
-                  <th class="py-4 text-text">Channel</th>
-                  <th class="py-4 text-text">Status</th>
+                  <th class="py-4 text-text" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet</th>
+                  <th class="py-4 text-text" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel</th>
+                  <th class="py-4 text-text" @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Status</th>
+                  <th class="py-4 text-text cursor-pointer" @click.prevent="sortKey='items_percentage', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Tersedia
 
-                  <th class="py-4 text-text">Tersedia</th>
+                    <i v-if="sortKey==='items_percentage'" :class="sortValue==='asc'? 'transform rotate-180': ''"  class="fas text-gray-500 fa-arrow-down"></i>
+                  </th>
                   <th class="py-4 text-text">Aksi</th>
                 </tr>
               </thead>
@@ -161,8 +163,8 @@
                     </span>
                   </td>
                   <td class="text-center text-text p-4 rounded-r-fds">
-                    <nuxt-link :to="'/outlet/'+channel.id">Detail</nuxt-link>
-                    <button class="ml-4 focus:outline-none" >Lihat Menu</button>
+                    <button class="ml-4 focus:outline-none mr-2" @click.prevent="showItems(channel.id)" ><i class="bg-blue-200 text-blue-500 rounded-full p-1 fas fa-eye"></i></button>
+                    <nuxt-link :to="'/outlet/'+channel.id"><i class="bg-gray-300 text-gray-500 rounded-full p-1 fas fa-ellipsis-h"></i></nuxt-link>
 
                   </td>
 
@@ -222,6 +224,15 @@
         </div>
         <!-- table end -->
       </div>
+
+      <!-- modal items -->
+      <div class="absolute min-h-screen min-w-screen top-0 left-0 flex items-center">
+        <div class="bg-white w-96 h-96 z-40 rounded-fds mx-auto w-full">
+tes
+        </div>
+        <div class="fixed top-0 z-30 bg-black w-screen h-screen opacity-60"></div>
+      </div>
+      <!-- end modal items -->
     </div>
     <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
   </div>
@@ -241,7 +252,12 @@
         isOutletOpen: null,
         outletChannel: null,
         listLoading: true,
-        total_page: 1
+        total_page: 1,
+        sortKey: 'channgel',
+        sortValue: 'desc',
+        isShowItems: false,
+        items: [],
+        itemsSort: 'asc'
       }
     },
     middleware: ['auth-ssr'],
@@ -275,11 +291,18 @@
         var name_param = 'name=' + this.search
         var status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
         var channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param)
+        this.$axios.get(`me/branch_channels?${name_param}&${status_param}&${channel_param}&sort_key=${this.sortKey}&sort_value=${this.sortValue}`)
           .then(r => {
             this.data = r.data.data
             this.listLoading = false
           })
+      },
+      showItem(branchId) {
+        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}`)
+        .then(r=> {
+          this.isShowItems = true
+          this.items = r.data.data
+        })
       },
       changePage(v) {
       this.page = parseFloat(this.page)+parseFloat(v)
