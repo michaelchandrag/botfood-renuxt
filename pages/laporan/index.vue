@@ -8,7 +8,7 @@
       <div class="h-8"></div>
       <div class="flex flex-col ">
         <div class="grid grid-cols-2 gap-4 mr-6">
-          <outlet-summary v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
+          <outlet-summary v-show="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
           <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
           <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
         </div>
@@ -126,7 +126,7 @@
                 </tr>
               </thead>
               <tbody v-if="!listLoading">
-                <tr v-if="!listLoading&&data.branch_channels.length<=0">
+                <tr v-if="!listLoading&&data.branch_channel_availability_reports.length<=0">
                   <td colspan="4" class="p-20 text-center">
                     <span class="block mx-auto w-full">
                       <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
@@ -161,15 +161,17 @@
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
-                <tr v-for="channel in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-center text-text p-4 rounded-l-fds">{{channel.name}}</td>
-                  <td class="text-center text-text p-4">{{channel.channel}}</td>
-                  <td class="text-center text-text p-4">
-                    <span v-if="channel.is_open" class="text-green-500">Buka</span>
-                    <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
+                <tr v-for="channel in data.branch_channel_availability_reports" :key="channel.id" class="hover:bg-gray-200 border-b">
+                  <td class="text-center text-text p-4 rounded-l-fds">{{channel.branch_channel_name}}</td>
+                  <td class="text-center text-text p-4">{{channel.branch_channel_channel}}</td>
+                  <td class="text-center text-text p-4 rounded-r-fds">
+                    <span>{{$moment.duration(channel.active_time, "seconds").hours()}} jam</span>
+                    <span>{{$moment.duration(channel.active_time, "seconds").minutes()}} menit</span>
                   </td>
                   <td class="text-center text-text p-4 rounded-r-fds">
-                    <nuxt-link :to="'/outlet/'+channel.id">Detail</nuxt-link>
+                      <span>{{$moment.duration(channel.outlet_item_not_active_time, "seconds").hours()}} jam</span>
+                    <span>{{$moment.duration(channel.outlet_item_not_active_time, "seconds").minutes()}} menit</span>
+                   
                   </td>
 
                 </tr>
@@ -275,10 +277,10 @@
       getData() {
         this.listLoading = true
         let date = this.$moment(new Date()).format('YYYY-MM-DD')
-        console.log(date)
-        this.$axios.get(`me/report/atp?date=2021-23-06&sort_key=${this.sortKey}&sort_value=${this.sort}`)
+        this.$axios.get(`me/report/atp?date=2021-07-25&sort_key=${this.sortKey}&sort_value=${this.sort}`)
           .then(r => {
             this.data = r.data.data
+            this.isLoading = false
             this.listLoading = false
           })
       },
