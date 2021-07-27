@@ -111,25 +111,25 @@
             <table class="table-auto w-full">
               <thead class="border-b">
                 <tr>
-                  <th class="py-4 text-text" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
-                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
+                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
 
                   </th>
-                  <th class="py-4 text-text" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
 
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
-
-                  </th>
-                  <th class="py-4 text-text" @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Status
-
-                    <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
 
                   </th>
-                  <th class="py-4 text-text cursor-pointer" @click.prevent="sortKey='items_percentage', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Tersedia
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='is_open'?'filter':''" @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Status
 
-                                       <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+                    <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
+
+                  </th>
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='items_percentage'?'filter':''" @click.prevent="sortKey='items_percentage', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Item Tersedia
+
+                                       <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
                   </th>
                   <th class="py-4 text-text">Aksi</th>
@@ -147,7 +147,7 @@
                       </svg>
 
                     </span>
-                    <span class="p-8 m-auto text-gray-500">
+                    <span class="p-8 m-auto">
                       Data tidak tersedia
                     </span>
                   </td>
@@ -240,12 +240,9 @@
       </div>
 
       <!-- modal items -->
-      <!-- <div class="absolute min-h-screen min-w-screen top-0 left-0 flex items-center">
-        <div class="bg-white w-96 h-96 z-40 rounded-fds mx-auto w-full">
-tes
-        </div>
-        <div class="fixed top-0 z-30 bg-black w-screen h-screen opacity-60"></div>
-      </div> -->
+      <div class="fixed bg-black w-screen h-screen">
+        tes
+      </div>
       <!-- end modal items -->
     </div>
     <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
@@ -336,5 +333,8 @@ tes
         })
     }
     },
+    getMenuData() {
+      
+    }
   }
 </script>

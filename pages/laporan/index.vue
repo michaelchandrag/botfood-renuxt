@@ -98,26 +98,26 @@
             <table class="table-auto w-full">
               <thead class="border-b">
                 <tr>
-                   <th class="py-4 text-text" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
-                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+                   <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
+                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
 
                   </th>
-                  <th class="py-4 text-text" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
 
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
-
-
-                  </th>
-                  <th class="py-4 text-text" @click.prevent="sortKey='active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Outlet Aktif
-
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
 
                   </th>
-                  <th class="py-4 text-text" @click.prevent="sortKey='outlet_item_not_active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Menit Item Tidak Aktif (Rata-rata)
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='active_time'?'filter':''" @click.prevent="sortKey='active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Outlet Aktif
 
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
+
+
+                  </th>
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='outlet_item_not_active_time'?'filter':''" @click.prevent="sortKey='outlet_item_not_active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Menit Item Tidak Aktif (Rata-rata)
+
+                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
 
                   </th>
