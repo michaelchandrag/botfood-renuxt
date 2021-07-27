@@ -128,12 +128,22 @@
          <table class="table-auto w-full">
            <thead>
              <tr class="border-b">
-               <th class="py-4 text-text text-center">Nama Item</th>
-               <th class="py-4 text-text text-center">Status</th>
-               <th class="py-4 text-text text-center">Nama Outlet</th>
-               <th class="py-4 text-text text-center">Channel</th>
-               <th class="py-4 text-text text-center">Harga</th>
-               <th class="py-4 text-text text-center">Terakhir Aktif</th>
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Item
+                  <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
+               </th>
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='in_stock'?'filter':''" @click.prevent="sortKey='in_stock', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Status
+                  <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
+               </th>
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='branch_channel_name'?'filter':''" @click.prevent="sortKey='branch_channel_name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
+                  <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
+               </th>
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='branch_channel_channel'?'filter':''" @click.prevent="sortKey='branch_channel_channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
+                  <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
+               </th>
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='price'?'filter':''" @click.prevent="sortKey='price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Harga
+                  <i :class="sortValue==='asc'? 'fa-sort-amount-down ': 'fa-sort-amount-up'"  class="fas "></i>
+               </th>
+               <th class="py-4 text-text text-center cursor-pointer">Terakhir Aktif</th>
              </tr>
            </thead>
            <tbody v-if="!listLoading">
@@ -148,7 +158,7 @@
                    </svg>
 
                  </span>
-                 <span class="p-8 m-auto text-gray-500">
+                 <span class="p-8 m-auto ">
                    Data tidak tersedia
                  </span>
                </td>
@@ -261,7 +271,9 @@ export default
       itemStatus: null,
       itemStatusDropdown: false,
       page: 1,
-      total_page: 1
+      total_page: 1,
+      sortValue: 'asc',
+      sortKey: 'branch_channel_name'
     }
   },
   mounted() {
@@ -300,7 +312,7 @@ export default
         var outletName = 'branch_channel_name='+this.outletName
         var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
         var channel = this.outletChannel==null ? '':'branch_channel_channel='+this.outletChannel
-        this.$axios.get('me/items?'+item_name+'&'+outletName+'&'+stock+'&'+channel)
+        this.$axios.get(`me/items?${item_name}&${outletName}&${stock}&${channel}&sort_key=${this.sortKey}&sort_value=${this.sortValue}`)
         .then(r=> {
           this.data = r.data.data
           this.listLoading = false
