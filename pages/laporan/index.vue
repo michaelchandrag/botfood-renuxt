@@ -173,11 +173,11 @@
                   <td class="text-center text-text p-4 rounded-l-fds">{{channel.branch_channel_name}}</td>
                   <td class="text-center text-text p-4">{{channel.branch_channel_channel}}</td>
                   <td class="text-center text-text p-4 rounded-r-fds">
-                    <span>{{$moment.duration(channel.active_time, "seconds").hours()}} jam</span>
+                    <span v-if="$moment.duration(channel.active_time, 'seconds').hours()>0">{{$moment.duration(channel.active_time, "seconds").hours()}} jam</span>
                     <span>{{$moment.duration(channel.active_time, "seconds").minutes()}} menit</span>
                   </td>
                   <td class="text-center text-text p-4 rounded-r-fds">
-                      <span>{{$moment.duration(channel.outlet_item_not_active_time, "seconds").hours()}} jam</span>
+                      <span v-if="$moment.duration(channel.outlet_item_not_active_time, 'seconds').hours()>0">{{$moment.duration(channel.outlet_item_not_active_time, "seconds").hours()}} jam</span>
                     <span>{{$moment.duration(channel.outlet_item_not_active_time, "seconds").minutes()}} menit</span>
                    
                   </td>
