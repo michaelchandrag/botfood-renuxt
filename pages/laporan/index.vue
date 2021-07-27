@@ -75,12 +75,8 @@
             <div class="w-3/12 cursor-pointer items-center relative">
               <div @click.prevent="statusDropdown?statusDropdown=false:statusDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
-                <div class="flex-auto">
-                  <span v-if="isOutletOpen">Buka</span>
-                  <span v-if="isOutletOpen==false">Tutup</span>
-                  <span v-if="isOutletOpen==null">Semua Status</span>
-                </div>
-                <div>
+              {{date}}
+                <div class="absolute right-0 mr-4">
                   <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -90,15 +86,10 @@
                 </div>
 
               </div>
-              <div v-if="statusDropdown" class="absolute w-full shadow-sm rounded-b-fds">
-                <ul class="w-full border-gray-300">
-                  <li @click.prevent="statusDropdown=false,isOutletOpen=1,getData()" class="bg-white px-4 py-3 w-full">
-                    Buka</li>
-                  <li @click.prevent="statusDropdown=false,isOutletOpen=0,getData()" class="bg-white px-4 py-3 w-full">
-                    Tutup</li>
-                  <li @click.prevent="statusDropdown=false,isOutletOpen=null,getData()"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Status</li>
-                </ul>
+              <div v-if="statusDropdown" class="absolute -ml-24 right-0 shadow-sm rounded-b-fds">
+                <client-only>
+        <date-picker class="w-96" format="YYYY-MM-DD" :inline="true" :maxDate="new Date()" v-model="date" autoclose="true" :disabledDates="disabledDates"/>
+      </client-only>
               </div>
             </div>
 
@@ -258,9 +249,12 @@
         outletChannel: null,
         listLoading: true,
         total_page: 1,
-        date: this.$moment(new Date()).format('YYYY-MM-DD'),
+         disabledDates: {
+        from: new Date()
+      },
+        date: this.$moment().format('YYYY-MM-DD'),
         sortValue: 'desc',
-        sortKey: 'outlet_item_not_active_time'
+        sortKey: 'outlet_item_not_active_time',
       }
     },
     middleware: ['auth-ssr'],
@@ -280,12 +274,19 @@
             this.page = this.data.total_page
           }
         }
+      },
+      date: {
+        handler(r) {
+          this.date = this.$moment(r).format('YYYY-MM-DD')
+          this.statusDropdown = false
+          this.getData()
+        }
       }
     },
     methods: {
       getData() {
         this.listLoading = true
-        this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}`)
+        this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&branch_channel_name=${this.search}&branch_channel_channel=${this.outletChannel}`)
           .then(r => {
             this.data = r.data.data
             this.isLoading = false
@@ -298,7 +299,7 @@
     },
     changePageNumber(){
         this.listLoading = true
-        this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}`)
+        this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}&branch_channel_name=${this.search}&branch_channel_channel=${this.outletChannel}`)
           .then(r => {
             console.log(r)
           this.data = r.data.data
