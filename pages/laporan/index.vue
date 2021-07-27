@@ -7,26 +7,14 @@
       </div>
       <div class="h-8"></div>
       <div class="flex flex-col ">
-        <div class="grid grid-cols-2 gap-4 mr-6">
-          <outlet-summary v-show="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-        </div>
-        <div class="h-6"></div>
+        
         <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div>
         <!-- table start -->
         <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6 text-text">
 
           <div class="h-2">
           </div>
-          <div class="grid grid-cols-2 gap-6 mb-6">
-           <div class="bg-green-food py-3 rounded-lg text-center text-white w-full">
-             <h3>Performa Outlet</h3>
-           </div>
-           <div class=" border border-green-food text-green-food py-3 rounded-lg text-center text-white w-full">
-             Performa Item
-           </div>
-         </div>
+         
           <div class="flex gap-4">
             <div class="w-6/12">
               <div class="relative">
@@ -119,10 +107,30 @@
             <table class="table-auto w-full">
               <thead class="border-b">
                 <tr>
-                  <th class="py-4 text-text">Nama Outlet</th>
-                  <th class="py-4 text-text">Channel</th>
-                  <th class="py-4 text-text">Outlet Aktif </th>
-                  <th class="py-4 text-text">Menit Item Tidak Aktif (Rata-rata)</th>
+                   <th class="py-4 text-text" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
+                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+
+
+                  </th>
+                  <th class="py-4 text-text" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
+
+                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+
+
+                  </th>
+                  <th class="py-4 text-text" @click.prevent="sortKey='active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Outlet Aktif
+
+                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+
+
+                  </th>
+                  <th class="py-4 text-text" @click.prevent="sortKey='outlet_item_not_active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Menit Item Tidak Aktif (Rata-rata)
+
+                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas text-gray-500"></i>
+
+
+                  </th>
+               
                 </tr>
               </thead>
               <tbody v-if="!listLoading">
@@ -250,7 +258,8 @@
         outletChannel: null,
         listLoading: true,
         total_page: 1,
-        sort: 'desc',
+        date: this.$moment(new Date()).format('YYYY-MM-DD'),
+        sortValue: 'desc',
         sortKey: 'outlet_item_not_active_time'
       }
     },
@@ -276,8 +285,7 @@
     methods: {
       getData() {
         this.listLoading = true
-        let date = this.$moment(new Date()).format('YYYY-MM-DD')
-        this.$axios.get(`me/report/atp?date=2021-07-25&sort_key=${this.sortKey}&sort_value=${this.sort}`)
+        this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}`)
           .then(r => {
             this.data = r.data.data
             this.isLoading = false
@@ -290,11 +298,7 @@
     },
     changePageNumber(){
         this.listLoading = true
-        var name_param = 'name=' + this.search
-        var status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
-        var channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        var page = 'page='+this.page
-        this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param +'&' + page)
+        this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}`)
           .then(r => {
             console.log(r)
           this.data = r.data.data
