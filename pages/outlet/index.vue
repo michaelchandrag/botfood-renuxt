@@ -177,7 +177,7 @@
                     </span>
                   </td>
                   <td class="text-center text-text p-4 rounded-r-fds">
-                    <button class="ml-4 focus:outline-none mr-2" @click.prevent="showItems(channel.id)" ><i class="bg-blue-200 text-blue-500 rounded-full p-1 fas fa-eye"></i></button>
+                    <button class="ml-4 focus:outline-none mr-2" @click.prevent="showItem(channel.id)" ><i class="bg-blue-200 text-blue-500 rounded-full p-1 fas fa-eye"></i></button>
                     <nuxt-link :to="'/outlet/'+channel.id"><i class="bg-gray-300 text-gray-500 rounded-full p-1 fas fa-ellipsis-h"></i></nuxt-link>
 
                   </td>
