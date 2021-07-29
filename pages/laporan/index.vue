@@ -3,7 +3,7 @@
     <left-sidebar class="w-2/12 px-6 pt-8 " />
     <div class="w-7/12 bg-gray-200 pl-6" style="padding-top:40px">
       <div>
-        <span class="text-title">Laporan Outlet</span>
+        <span class="text-title">Performa Outlet</span>
       </div>
       <div class="h-8"></div>
       <div class="flex flex-col ">
