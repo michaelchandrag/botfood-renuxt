@@ -43,7 +43,7 @@
                   <span v-if="outletChannel=='GoFood'">GoFood</span>
                   <span v-if="outletChannel=='ShopeeFood'">ShopeeFood</span>
                   <span v-if="outletChannel=='TravelokaEats'">TravelokaEats</span>
-                  <span v-if="outletChannel==null">Semua</span>
+                  <span v-if="outletChannel==''">Semua</span>
                 </div>
                 <div>
                   <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
@@ -168,9 +168,15 @@
                     <span>{{$moment.duration(channel.active_time, "seconds").minutes()}} menit</span>
                   </td>
                   <td class="text-center text-text p-4 rounded-r-fds">
-                      <span v-if="$moment.duration(channel.outlet_item_not_active_time, 'seconds').hours()>0">{{$moment.duration(channel.outlet_item_not_active_time, "seconds").hours()}} jam</span>
+                    <div v-if="channel.outlet_item_not_active_time<0">
+                      0 menit
+                    </div>
+                    <div v-else>
+                       <span v-if="$moment.duration(channel.outlet_item_not_active_time, 'seconds').hours()>0">{{$moment.duration(channel.outlet_item_not_active_time, "seconds").hours()}} jam</span>
                     <span>{{$moment.duration(channel.outlet_item_not_active_time, "seconds").minutes()}} menit</span>
                    
+                    </div>
+                     
                   </td>
 
                 </tr>
@@ -246,7 +252,7 @@
         statusDropdown: false,
         channelDropdown: false,
         isOutletOpen: null,
-        outletChannel: null,
+        outletChannel: '',
         listLoading: true,
         total_page: 1,
          disabledDates: {
