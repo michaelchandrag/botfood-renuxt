@@ -177,7 +177,7 @@
                     </span>
                   </td>
                   <td class="text-center text-text p-4">
-                    <button class="ml-4 focus:outline-none mr-2 bg-blue-200 text-blue-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Lihat Menu</button>
+                    <button class="ml-4 focus:outline-none mr-2 bg-blue-200 text-blue-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Menu</button>
                     <nuxt-link :to="'/outlet/'+channel.id" class="bg-gray-200 text-gray-500 text-xs rounded-full px-2 py-1 ">Detail <i class="fas fa-ellipsis-h"></i></nuxt-link>
 
                   </td>
@@ -243,18 +243,20 @@
       <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
         <div class="w-1/2 bg-white rounded-fds z-40 mx-auto">
         <div class="p-4">
-          <div class="bg p-8 relative rounded-fd flex gap-10 items-center">
+          <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
            <div class="absolute top-0 right-0">
-             <button @click.prevent="isShowItems=false">Close</button>
+             <button @click.prevent="isShowItems=false" class="text-white text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
+               <i class="fas fa-times-circle"></i> Close
+             </button>
            </div>
             <div>
               <div>
-                <span class="text-white font-bold text-xl">{{selectedOutlet.channel}} • </span>
-                <span v-if="selectedOutlet.is_open" class="px-4 py-1 bg-green-food rounded-lg text-white">BUKA</span>
-                <span v-else class="px-4 py-1 bg-red-600 rounded-lg text-white">TUTUP</span>
+                <span class="text-white font-bold text-sm">{{selectedOutlet.channel}} • </span>
+                <span v-if="selectedOutlet.is_open" class="px-4 py-1 text-sm bg-green-food rounded-lg text-white">BUKA</span>
+                <span v-else class="px-4 py-1 bg-red-600 text-sm rounded-lg text-white">TUTUP</span>
               </div>
               <div>
-                <span class="text-4xl leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
+                <span class="text-xl leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
 
               </div>
             </div>
