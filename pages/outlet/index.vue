@@ -112,15 +112,10 @@
               <thead class="border-b">
                 <tr>
                   <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
-                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-
-
+                    <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
                   </th>
                   <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
-
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-
-
+                    <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
                   </th>
                   <th class="py-4 text-text cursor-pointer" :class="sortKey==='is_open'?'filter':''" @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Status
 
@@ -241,7 +236,7 @@
 
       <!-- modal items -->
       <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
-        <div class="w-10/12 bg-white rounded-fds z-40 mx-auto">
+        <div class="w-1/2 bg-white rounded-fds z-40 mx-auto">
         <div class="p-4">
           <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
            <div class="absolute top-0 right-0">
@@ -262,12 +257,12 @@
             </div>
 
           </div>
-            <table class="table-auto w-full">
+            <table class="table-auto w-full mt-2">
               <thead class="border-b">
                 <tr>
-                  <th class="py-4 text-text">Menu</th>
-                  <th class="py-4 text-text">Harga</th>
-                  <th class="py-4 text-text">Channel</th>
+                  <th class="py-2 text-text">Menu</th>
+                  <th class="py-2 text-text">Harga</th>
+                  <th class="py-2 text-text">Status</th>
                 </tr>
               </thead>
               <tbody v-if="!listLoading">
@@ -292,16 +287,21 @@
               <tbody v-if="listLoading">
                 <tr class="h-12" v-for="n in 10" :key="n">
                   <td v-for="i in 3" :key="i">
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                    <div class="h-2 p-2 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                   </td>
                  
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
                 <tr v-for="menu in items.items" :key="menu.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-left text-text p-4">{{menu.name}}</td>
-                  <td class="text-center text-text p-4">{{$toIDR(menu.price)}}</td>
-                  <td class="text-center text-text p-4">{{menu.branch_channel_channel}}</td>
+                  <td class="text-left text-text p-2">{{menu.name}}</td>
+                  <td class="text-center text-text p-2">{{$toIDR(menu.price)}}</td>
+                  <td class="text-center text-text p-2">
+                   
+                    <span v-if="menu.in_stock" class="text-green-500">Aktif</span>
+                    <span v-if="!menu.in_stock" class="text-red-500">Tidak Aktif</span>
+ 
+                  </td>
 
                 </tr>
               </tbody>
@@ -356,7 +356,7 @@
        
         </div>
       </div>
-        <div v-if="isShowItems" class="fixed top-0 bg-black opacity-70 left-0 z-20 w-screen h-screen"></div>
+        <div v-if="isShowItems" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
 
       <!-- end modal items -->
     </div>

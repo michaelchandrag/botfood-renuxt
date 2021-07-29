@@ -35,6 +35,7 @@
             <span class="ml-4">Beranda</span>
           </nuxt-link>
         </li>
+        
 
         <li v-if="$route.name=='m-outlet'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 bg-green-food text-white">
           <nuxt-link to="/m/outlet">
