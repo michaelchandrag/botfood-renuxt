@@ -241,7 +241,7 @@
 
       <!-- modal items -->
       <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
-        <div class="w-1/2 bg-white rounded-fds z-40 mx-auto">
+        <div class="w-10/12 bg-white rounded-fds z-40 mx-auto">
         <div class="p-4">
           <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
            <div class="absolute top-0 right-0">
@@ -291,7 +291,7 @@
               </tbody>
               <tbody v-if="listLoading">
                 <tr class="h-12" v-for="n in 10" :key="n">
-                  <td v-for="i in 5" :key="i">
+                  <td v-for="i in 3" :key="i">
                     <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                   </td>
                  
@@ -299,13 +299,59 @@
               </tbody>
               <tbody v-if="!listLoading">
                 <tr v-for="menu in items.items" :key="menu.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-center text-text p-4">{{menu.name}}</td>
+                  <td class="text-left text-text p-4">{{menu.name}}</td>
                   <td class="text-center text-text p-4">{{$toIDR(menu.price)}}</td>
                   <td class="text-center text-text p-4">{{menu.branch_channel_channel}}</td>
 
                 </tr>
               </tbody>
             </table>
+             <div class="mt-4 flex items-center float-right">
+                  <div class="float-right p-2">
+                <form>
+                <input @change="changePageItem()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                  inputmode="numeric" pattern="[0-9]*" v-model="itemPage">
+                of {{items.total_page}}
+                </form>
+              </div>
+            
+            <!-- left -->
+              <div v-if="itemPage==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+
+              <div @click.prevent="changeItemPage(-1)" v-if="itemPage!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+
+              <!-- end left -->
+
+              <!-- right -->
+                <div @click.prevent="changeItemPage(1)" v-if="items.total_page>1&&page<items.total_page" class="cursor-pointer float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+              <div  v-if="page==items.total_page||items.total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+              <!-- end right -->
+
+            </div>
         </div>
        
         </div>
@@ -339,7 +385,7 @@
         selectedOutlet: {},
         items: [],
         itemsSort: 'asc',
-        pageItem: 1
+        itemPage: 1
       }
     },
     middleware: ['auth-ssr'],
@@ -380,17 +426,32 @@
           })
       },
       showItem(branchId, index) {
+        if(index) {
+          this.selectedOutlet = this.data.branch_channels[index]
+        }
         this.selectedOutlet = this.data.branch_channels[index]
-        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}`)
+        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
         .then(r=> {
           this.isShowItems = true
           this.items = r.data.data
         })
       },
+
     changePage(v) {
       this.page = parseFloat(this.page)+parseFloat(v)
       this.changePageNumber()
     },
+    changeItemPage(v) {
+      this.itemPage = parseFloat(this.itemPage)+parseFloat(v)
+      this.getItem(this.selectedOutlet.id)
+    },
+     getItem(branchId) {
+        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
+        .then(r=> {
+          this.isShowItems = true
+          this.items = r.data.data
+        })
+      },
     changePageNumber(){
         this.listLoading = true
         let name_param = 'name=' + this.search
