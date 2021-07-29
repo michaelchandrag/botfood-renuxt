@@ -163,22 +163,22 @@
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
-                <tr v-for="channel in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-center text-text p-4 rounded-l-fds">{{channel.name}}</td>
+                <tr v-for="(channel, index) in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
+                  <td class="text-center text-text p-4">{{channel.name}}</td>
                   <td class="text-center text-text p-4">{{channel.channel}}</td>
                   <td class="text-center text-text p-4">
                     <span v-if="channel.is_open" class="text-green-500">Buka</span>
                     <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
                   </td>
-                  <td class="text-center text-text p-4 rounded-r-fds">
+                  <td class="text-center text-text p-4">
                     <span :class="{'text-green-food': parseInt(data.branch_channels[0].items_percentage)>=90, 'text-yellow-600': parseInt(data.branch_channels[0].items_percentage)>=50&& parseInt(data.branch_channels[0].items_percentage)<90 , 'text-red-600':parseInt(data.branch_channels[0].items_percentage)<50}">
                     {{`${data.branch_channels[0].items_active}/${data.branch_channels[0].items_total}`}} ({{parseInt(data.branch_channels[0].items_percentage)}}%)
 
                     </span>
                   </td>
-                  <td class="text-center text-text p-4 rounded-r-fds">
-                    <button class="ml-4 focus:outline-none mr-2" @click.prevent="showItem(channel.id)" ><i class="bg-blue-200 text-blue-500 rounded-full p-1 fas fa-eye"></i></button>
-                    <nuxt-link :to="'/outlet/'+channel.id"><i class="bg-gray-300 text-gray-500 rounded-full p-1 fas fa-ellipsis-h"></i></nuxt-link>
+                  <td class="text-center text-text p-4">
+                    <button class="ml-4 focus:outline-none mr-2 bg-blue-200 text-blue-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Lihat Menu</button>
+                    <nuxt-link :to="'/outlet/'+channel.id" class="bg-gray-200 text-gray-500 text-xs rounded-full px-2 py-1 ">Detail <i class="fas fa-ellipsis-h"></i></nuxt-link>
 
                   </td>
 
@@ -240,9 +240,76 @@
       </div>
 
       <!-- modal items -->
-      <div class="fixed bg-black w-screen h-screen">
-        tes
+      <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
+        <div class="w-1/2 bg-white rounded-fds z-40 mx-auto">
+        <div class="p-4">
+          <div class="bg p-8 relative rounded-fd flex gap-10 items-center">
+           <div class="absolute top-0 right-0">
+             <button @click.prevent="isShowItems=false">Close</button>
+           </div>
+            <div>
+              <div>
+                <span class="text-white font-bold text-xl">{{selectedOutlet.channel}} • </span>
+                <span v-if="selectedOutlet.is_open" class="px-4 py-1 bg-green-food rounded-lg text-white">BUKA</span>
+                <span v-else class="px-4 py-1 bg-red-600 rounded-lg text-white">TUTUP</span>
+              </div>
+              <div>
+                <span class="text-4xl leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
+
+              </div>
+            </div>
+
+          </div>
+            <table class="table-auto w-full">
+              <thead class="border-b">
+                <tr>
+                  <th class="py-4 text-text">Menu</th>
+                  <th class="py-4 text-text">Harga</th>
+                  <th class="py-4 text-text">Channel</th>
+                </tr>
+              </thead>
+              <tbody v-if="!listLoading">
+                <tr v-if="!listLoading&&data.branch_channels.length<=0">
+                  <td colspan="4" class="p-20 text-center">
+                    <span class="block mx-auto w-full">
+                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
+                          fill="#9E9E9E" />
+                      </svg>
+
+                    </span>
+                    <span class="p-8 m-auto">
+                      Data tidak tersedia
+                    </span>
+                  </td>
+                </tr>
+
+              </tbody>
+              <tbody v-if="listLoading">
+                <tr class="h-12" v-for="n in 10" :key="n">
+                  <td v-for="i in 5" :key="i">
+                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                 
+                </tr>
+              </tbody>
+              <tbody v-if="!listLoading">
+                <tr v-for="menu in items.items" :key="menu.id" class="hover:bg-gray-200 border-b">
+                  <td class="text-center text-text p-4">{{menu.name}}</td>
+                  <td class="text-center text-text p-4">{{$toIDR(menu.price)}}</td>
+                  <td class="text-center text-text p-4">{{menu.branch_channel_channel}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+        </div>
+       
+        </div>
       </div>
+        <div v-if="isShowItems" class="fixed top-0 bg-black opacity-70 left-0 z-20 w-screen h-screen"></div>
+
       <!-- end modal items -->
     </div>
     <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
@@ -267,8 +334,10 @@
         sortKey: 'channgel',
         sortValue: 'desc',
         isShowItems: false,
+        selectedOutlet: {},
         items: [],
-        itemsSort: 'asc'
+        itemsSort: 'asc',
+        pageItem: 1
       }
     },
     middleware: ['auth-ssr'],
@@ -299,42 +368,40 @@
     methods: {
       getData() {
         this.listLoading = true
-        var name_param = 'name=' + this.search
-        var status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
-        var channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
+        let name_param = 'name=' + this.search
+        let status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
+        let channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
         this.$axios.get(`me/branch_channels?${name_param}&${status_param}&${channel_param}&sort_key=${this.sortKey}&sort_value=${this.sortValue}`)
           .then(r => {
             this.data = r.data.data
             this.listLoading = false
           })
       },
-      showItem(branchId) {
+      showItem(branchId, index) {
+        this.selectedOutlet = this.data.branch_channels[index]
         this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}`)
         .then(r=> {
           this.isShowItems = true
           this.items = r.data.data
         })
       },
-      changePage(v) {
+    changePage(v) {
       this.page = parseFloat(this.page)+parseFloat(v)
       this.changePageNumber()
     },
     changePageNumber(){
         this.listLoading = true
-        var name_param = 'name=' + this.search
-        var status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
-        var channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        var page = 'page='+this.page
+        let name_param = 'name=' + this.search
+        let status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
+        let channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
+        let page = 'page='+this.page
         this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param +'&' + page)
           .then(r => {
           this.data = r.data.data
-            this.listLoading = false
+          this.listLoading = false
           this.total_page = r.data.data.total_page
         })
     }
     },
-    getMenuData() {
-      
-    }
   }
 </script>
