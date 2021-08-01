@@ -37,6 +37,24 @@
         </li>
         
 
+          <li class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 text-gray-900">
+         <div class="cursor-pointer" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
+             <img class="float-left" src="~/assets/svg/report.svg">
+            <span class="ml-4">Laporan</span>
+         </div>
+          
+         <div v-show="subMenuLaporan">
+            <ul>
+            <li class="py-4 rounded-lg">
+               <nuxt-link class="block" to="/m/laporan">Performa Outlet
+               </nuxt-link>
+            </li>
+           
+          </ul>
+         </div>
+         
+        </li>
+
         <li v-if="$route.name=='m-outlet'" class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 bg-green-food text-white">
           <nuxt-link to="/m/outlet">
             <img class="float-left" src="~/assets/svg/outlet-active.svg">
@@ -132,6 +150,7 @@
 export default {
   data() {
     return {
+      subMenuLaporan: false,
       showNav: false,
        isDownload: false,
        date: new Date(),

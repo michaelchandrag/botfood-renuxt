@@ -1,26 +1,22 @@
 <template>
-  <div class="flex">
-    <left-sidebar class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 bg-gray-200 pl-6" style="padding-top:40px">
-      <div>
-        <span class="text-title">Laporan Outlet</span>
-      </div>
-      <div class="h-8"></div>
-      <div class="flex flex-col ">
-        
-        <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div>
-        <!-- table start -->
-        <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6 text-text">
+<div>
+  <sidebar-menu/>
+  <div class="h-16"></div>
+  <div class="px-4">
+    <div class="py-4">
+         <span>Performa Outlet</span>
+       </div>
+   <!-- table start -->
+        <div v-if="!isLoading" class="bg-white rounded-fd p-6 text-text">
 
           <div class="h-2">
           </div>
-         
           <div class="flex gap-4">
-            <div class="w-6/12">
-              <div class="relative">
+            <div class="w-full mb-2">
+              <div class="relative w-full">
                 <form @submit.prevent="getData">
                   <input @change.prevent="getData" type="text"
-                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="search"
+                    class="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg w-full focus:outline-none" v-model="search"
                     placeholder="Nama Outlet">
                 </form>
                 <div class="absolute top-0 pt-3 pl-2">
@@ -33,9 +29,32 @@
               </div>
             </div>
 
+        </div>
+        <div class="flex gap-2">
+           <div class="w-6/12 cursor-pointer items-center relative" >
+              <div @click.prevent="statusDropdown?statusDropdown=false:statusDropdown=true"
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
+                <div class="flex-auto">
+                   {{date}}
+                </div>
+                <div>
+                  <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
+                      fill="#9E9E9E" />
+                  </svg>
+                </div>
 
+              </div>
+              <div v-if="statusDropdown" class="absolute" style="max-width: 500px;width:320px">
+                <client-only>
+                  <date-picker format="YYYY-MM-DD" :inline="true" :maxDate="new Date()" v-model="date" autoclose="true" :disabledDates="disabledDates"/>
 
-            <div class="w-3/12 cursor-pointer items-center relative">
+                </client-only>
+              </div>
+            </div>
+            <div class="w-6/12 cursor-pointer items-center relative">
               <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
@@ -65,68 +84,21 @@
                     class="bg-white px-4 py-3 w-full">ShopeeFood</li>
                   <li @click.prevent="channelDropdown=false,outletChannel='TravelokaEats',getData()"
                     class="bg-white px-4 py-3 w-full">TravelokaEats</li>
-                  <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
+                  <li @click.prevent="channelDropdown=false,outletChannel='',getData()"
                     class="bg-white px-4 py-3 w-full rounded-b-lg">Semua</li>
                 </ul>
               </div>
             </div>
 
 
-            <div class="w-3/12 cursor-pointer items-center relative">
-              <div @click.prevent="statusDropdown?statusDropdown=false:statusDropdown=true"
-                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
-              {{date}}
-                <div class="absolute right-0 mr-4">
-                  <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
-                      fill="#9E9E9E" />
-                  </svg>
-                </div>
-
-              </div>
-              <div v-if="statusDropdown" class="absolute -ml-24 right-0 shadow-sm rounded-b-fds">
-                <client-only>
-        <date-picker class="w-96" format="YYYY-MM-DD" :inline="true" :maxDate="new Date()" v-model="date" autoclose="true" :disabledDates="disabledDates"/>
-      </client-only>
-              </div>
-            </div>
-
-          </div>
-          <div class="mt-6">
+           
+        </div>
+          <div class="mt-2">
             <table class="table-auto w-full">
-              <thead class="border-b">
-                <tr>
-                   <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
-                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-
-
-                  </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
-
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-
-
-                  </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='active_time'?'filter':''" @click.prevent="sortKey='active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Outlet Aktif
-
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-
-
-                  </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='outlet_item_not_active_time'?'filter':''" @click.prevent="sortKey='outlet_item_not_active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Menit Item Tidak Aktif (Rata-rata)
-
-                                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-
-
-                  </th>
-               
-                </tr>
-              </thead>
+            
               <tbody v-if="!listLoading">
                 <tr v-if="!listLoading&&data.branch_channel_availability_reports.length<=0">
-                  <td colspan="4" class="p-20 text-center">
+                  <td class="p-20 text-center">
                     <span class="block mx-auto w-full">
                       <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -136,7 +108,7 @@
                       </svg>
 
                     </span>
-                    <span class="p-8 m-auto text-gray-500">
+                    <span class="m-auto text-gray-500">
                       Data tidak tersedia
                     </span>
                   </td>
@@ -148,27 +120,31 @@
                   <td>
                     <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                   </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                  <td>
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
+                 
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
                 <tr v-for="channel in data.branch_channel_availability_reports" :key="channel.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-center text-text p-4 rounded-l-fds">{{channel.branch_channel_name}}</td>
-                  <td class="text-center text-text p-4">{{channel.branch_channel_channel}}</td>
-                  <td class="text-center text-text p-4 rounded-r-fds">
-                    <span v-if="$moment.duration(channel.active_time, 'seconds').hours()>0">{{$moment.duration(channel.active_time, "seconds").hours()}} jam</span>
+                  <td class="py-4">
+                    <nuxt-link :to="'/m/outlet/'+channel.id">
+                    <div class="flex inline-block gap-1 items-center">
+                  
+                      <div class="border px-2 py-1 text-xs rounded-md bg-green-50 text-green-food">
+                         <span class="block ">
+                                        Aktif
+
+                      <span v-if="$moment.duration(channel.active_time, 'seconds').hours()>0">{{$moment.duration(channel.active_time, "seconds").hours()}} jam</span>
                     <span>{{$moment.duration(channel.active_time, "seconds").minutes()}} menit</span>
-                  </td>
-                  <td class="text-center text-text p-4 rounded-r-fds">
-                    <div v-if="channel.outlet_item_not_active_time<0">
+                   </span>
+                      </div>
+                    </div>
+                     
+                    <span class="font-bold block text-lg">{{channel.branch_channel_channel}} - {{channel.branch_channel_name}} </span>
+                  
+                   <span class="block">
+                     <span class="text-gray-500">Item tidak aktif (Rata-rata)</span>
+                     
+                     <div v-if="channel.outlet_item_not_active_time<0">
                       0 menit
                     </div>
                     <div v-else>
@@ -176,9 +152,10 @@
                     <span>{{$moment.duration(channel.outlet_item_not_active_time, "seconds").minutes()}} menit</span>
                    
                     </div>
-                     
+                   </span>
+                   
+                    </nuxt-link>
                   </td>
-
                 </tr>
               </tbody>
             </table>
@@ -233,15 +210,18 @@
 
           </div>
         </div>
+        <div class="h-20"></div>
         <!-- table end -->
-      </div>
-    </div>
-    <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
   </div>
+</div>
 </template>
 <script>
-  export default {
-    
+import OutletSummaryMobile from '~/components/mobile/outlet-summary-mobile.vue'
+import sidebarMenu from '~/components/mobile/sidebar-menu.vue'
+
+export default {
+  components: { sidebarMenu, OutletSummaryMobile },
+    layout: 'mobile',
     data() {
       return {
         data: {},
@@ -251,11 +231,11 @@
         isLoading: true,
         statusDropdown: false,
         channelDropdown: false,
-        isOutletOpen: null,
+        isOutletOpen: '',
         outletChannel: '',
         listLoading: true,
         total_page: 1,
-         disabledDates: {
+        disabledDates: {
         from: new Date()
       },
         date: this.$moment().format('YYYY-MM-DD'),
@@ -267,7 +247,7 @@
     mounted() {
       this.getData()
     },
-    watch: {
+     watch: {
       search: {
         handler(r) {
           this.listLoading = true
@@ -289,7 +269,7 @@
         }
       }
     },
-    methods: {
+     methods: {
       getData() {
         this.listLoading = true
         this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&branch_channel_name=${this.search}&branch_channel_channel=${this.outletChannel}`)
@@ -316,5 +296,3 @@
     },
   }
 </script>
-
-

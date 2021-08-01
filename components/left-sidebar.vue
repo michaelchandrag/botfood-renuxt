@@ -35,7 +35,7 @@
             <ul>
             <li class="py-4 rounded-lg">
                <nuxt-link class="block" to="/laporan">Performa Outlet
-                 </nuxt-link>
+               </nuxt-link>
             </li>
            
           </ul>
