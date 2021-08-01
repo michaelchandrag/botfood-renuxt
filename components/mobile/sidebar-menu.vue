@@ -37,16 +37,30 @@
         </li>
         
 
-          <li class="flex mx-4 px-8 rounded-fds items-center mb-1 text-gray-900">
-            <div class="flex-col ">
-               <div class="cursor-pointer h-12 flex items-center" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
-             <img class="float-left" src="~/assets/svg/report.svg">
+          <li class="flex mx-4 px-8 w-full rounded-fds items-center mb-1 text-gray-900">
+            
+            <div class="flex-col w-full">
+               <div class="cursor-pointer w-full h-12 flex items-center" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
+                 <div class="flex justify-between w-full">
+              <div>
+                 <img class="float-left" src="~/assets/svg/report.svg">
             <span class="ml-4">Laporan</span>
+              </div>
+              <div class="pr-8">
+                  <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
+                      fill="#9E9E9E" />
+                  </svg>
+              </div>
+            </div>
+            
          </div>
           
-         <div v-show="subMenuLaporan">
-            <ul>
-            <li class="py-4 rounded-lg">
+         <div v-show="subMenuLaporan||$route.name==='m-laporan'">
+            <ul class="ml-10 mr-2">
+            <li :class="$route.name==='m-laporan'?'h-12 flex rounded-fds items-center px-8 mb-1 bg-green-food text-white': 'h-12 flex rounded-fds items-center mb-1 '">
                <nuxt-link class="block" to="/m/laporan">Performa Outlet
                </nuxt-link>
             </li>

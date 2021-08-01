@@ -26,15 +26,29 @@
 
 
         <li class="flex text-gray-900 rounded-lg">
-          <div class="flex  flex-col">
+          <div class="flex w-full flex-col">
   <div class="cursor-pointer px-4 btn-height" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
-             <img class="float-left" src="~/assets/svg/report.svg">
+    <div class="flex justify-between">
+      <div>
+         <img class="float-left" src="~/assets/svg/report.svg">
             <span class="ml-4">Laporan</span>
+      </div>
+      <div>
+          <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
+                      fill="#9E9E9E" />
+                  </svg>
+      </div>
+    </div>
+            
+           
          </div>
           
-         <div v-show="subMenuLaporan">
-            <ul class="px-4 ">
-            <li class="btn-height flex items-center w-full rounded-lg hover:text-green-food">
+         <div v-show="subMenuLaporan||$route.name==='laporan'">
+            <ul class="ml-14">
+            <li :class="$route.name==='laporan'?'bg-green-food text-white pl-4':''" class="btn-height flex items-center w-full rounded-lg">
                <nuxt-link class="block" to="/laporan">Performa Outlet
                </nuxt-link>
             </li>
