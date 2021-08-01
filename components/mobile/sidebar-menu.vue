@@ -17,7 +17,7 @@
 
 
 
-<div v-if="showNav" class="h-full fixed top-0 z-40 bg-white">
+<div v-if="showNav" class="h-full w-full fixed top-0 z-40 bg-white">
   <div class="h-16"></div>
   <div class="pt-2">
 <ul>
@@ -103,9 +103,7 @@
         <span v-if="!isDownload">Download Laporan All in One</span>
       </button>
     </div>
-              <client-only>
-        <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" :value="date" :disabledDates="disabledDates"/>
-      </client-only>
+             
         </div>
        
 </div>
@@ -161,6 +159,9 @@ export default {
         document.body.appendChild(fileLink);
         fileLink.click();
       })
+    },
+    keluar() {
+      this.$router.push('/login')
     }
   }
 }

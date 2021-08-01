@@ -40,6 +40,7 @@ export default {
     '@nuxtjs/tailwindcss',
     '@nuxtjs/moment',
     '@nuxtjs/device',
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
