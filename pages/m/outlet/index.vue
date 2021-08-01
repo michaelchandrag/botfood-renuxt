@@ -138,10 +138,24 @@
                 <tr v-for="channel in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
                   <td class="py-4">
                     <nuxt-link :to="'/m/outlet/'+channel.id">
-                      <span v-if="channel.is_open" class="text-green-500">Buka</span>
+                    <div class="flex inline-block gap-1 items-center">
+                      <div>
+                         <span v-if="channel.is_open" class="text-green-500">Buka</span>
                     <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
+                      </div>
+                      <div>
+                         <span class="text-xs block">• {{channel.channel}}</span>
+                      </div>
+                    </div>
+                     
                     <span class="font-bold block text-lg">{{channel.name}}</span>
-                    <span class="text-xs block">{{channel.channel}}</span>
+                   <span class="block ">
+                     Item tersedia 
+                      <span :class="{'text-green-food': parseInt(data.branch_channels[0].items_percentage)>=90, 'text-yellow-600': parseInt(data.branch_channels[0].items_percentage)>=50&& parseInt(data.branch_channels[0].items_percentage)<90 , 'text-red-600':parseInt(data.branch_channels[0].items_percentage)<50}">
+                    {{`${data.branch_channels[0].items_active}/${data.branch_channels[0].items_total}`}} ({{parseInt(data.branch_channels[0].items_percentage)}}%)
+
+                    </span>
+                   </span>
                     <span class="bg-green-food text-white text-xs px-2 px-1 rounded-md">
                       Detail
                     </span>
