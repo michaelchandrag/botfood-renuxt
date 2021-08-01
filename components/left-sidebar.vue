@@ -25,14 +25,22 @@
         </li>
 
 
-        <li class="btn-height flex items-center px-4 mb-4 text-gray-900 rounded-lg">
-          <nuxt-link class="block" to="/laporan">
-            <img class="float-left" src="~/assets/svg/report.svg">
+        <li class="btn-height flex flex-col px-4 text-gray-900 rounded-lg">
+         <div class="cursor-pointer" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
+             <img class="float-left" src="~/assets/svg/report.svg">
             <span class="ml-4">Laporan</span>
-          </nuxt-link>
-          <ul class="block clearfix">
-            <li>Performa Outlet</li>
+         </div>
+          
+         <div v-show="subMenuLaporan">
+            <ul>
+            <li class="py-4 rounded-lg">
+               <nuxt-link class="block" to="/laporan">Performa Outlet
+                 </nuxt-link>
+            </li>
+           
           </ul>
+         </div>
+         
         </li>
 
 
@@ -102,6 +110,11 @@ Keluar
 
 <script>
 export default {
+  data() {
+    return {
+      subMenuLaporan: false
+    }
+  },
   methods: {
     keluar() {
       this.$router.push('/login')
