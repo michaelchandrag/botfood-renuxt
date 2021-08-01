@@ -25,16 +25,16 @@
         </li>
 
 
-        <li class="btn-height flex text-gray-900 rounded-lg">
-          <div class="flex flex-col">
-  <div class="cursor-pointer px-4" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
+        <li class="flex text-gray-900 rounded-lg">
+          <div class="flex  flex-col">
+  <div class="cursor-pointer px-4 btn-height" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
              <img class="float-left" src="~/assets/svg/report.svg">
             <span class="ml-4">Laporan</span>
          </div>
           
          <div v-show="subMenuLaporan">
-            <ul>
-            <li class="py-4 rounded-lg">
+            <ul class="px-4 ">
+            <li class="btn-height flex items-center w-full rounded-lg hover:text-green-food">
                <nuxt-link class="block" to="/laporan">Performa Outlet
                </nuxt-link>
             </li>
