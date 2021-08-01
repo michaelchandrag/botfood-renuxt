@@ -37,8 +37,9 @@
         </li>
         
 
-          <li class="h-12 flex mx-4 rounded-fds items-center px-8 mb-1 text-gray-900">
-         <div class="cursor-pointer" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
+          <li class="flex mx-4 px-8 rounded-fds items-center mb-1 text-gray-900">
+            <div class="flex-col ">
+               <div class="cursor-pointer h-12 flex items-center" @click.prevent="subMenuLaporan?subMenuLaporan=false:subMenuLaporan=true">
              <img class="float-left" src="~/assets/svg/report.svg">
             <span class="ml-4">Laporan</span>
          </div>
@@ -52,6 +53,8 @@
            
           </ul>
          </div>
+            </div>
+        
          
         </li>
 
