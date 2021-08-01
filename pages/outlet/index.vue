@@ -111,18 +111,18 @@
             <table class="table-auto w-full">
               <thead class="border-b">
                 <tr>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Nama Outlet
                     <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
                   </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Channel
                     <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
                   </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='is_open'?'filter':''" @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Status
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='is_open'?'filter':''" @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Status
 
                     <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
                   </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='items_percentage'?'filter':''" @click.prevent="sortKey='items_percentage', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Item Tersedia
+                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='items_percentage'?'filter':''" @click.prevent="sortKey='items_percentage', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Item Tersedia
 
                                        <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
 
@@ -184,7 +184,7 @@
             <div class="mt-4 flex items-center float-right">
                   <div class="float-right p-2">
                 <form>
-                <input @change="changePageNumber()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                <input @change="getData()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
                   inputmode="numeric" pattern="[0-9]*" v-model="page">
                 of {{data.total_page}}
                 </form>
@@ -379,8 +379,8 @@
         outletChannel: null,
         listLoading: true,
         total_page: 1,
-        sortKey: 'channgel',
-        sortValue: 'desc',
+        sortKey: '',
+        sortValue: '',
         isShowItems: false,
         selectedOutlet: {},
         items: [],
@@ -390,12 +390,7 @@
     },
     middleware: ['auth-ssr'],
     mounted() {
-      this.$axios.get('me/branch_channels?data=10&page=1').then(r => {
-        this.data = r.data.data
-        this.page = 1
-        this.isLoading = false
-        this.listLoading = false
-      })
+      this.getData(true)
     },
     watch: {
       search: {
@@ -414,15 +409,19 @@
     },
   
     methods: {
-      getData() {
+      getData(refresh = false) {
+        if (refresh) {
+          this.page = 1
+        }
         this.listLoading = true
         let name_param = 'name=' + this.search
         let status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
         let channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        this.$axios.get(`me/branch_channels?${name_param}&${status_param}&${channel_param}&sort_key=${this.sortKey}&sort_value=${this.sortValue}`)
+        this.$axios.get(`me/branch_channels?${name_param}&${status_param}&${channel_param}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}`)
           .then(r => {
             this.data = r.data.data
             this.listLoading = false
+            this.isLoading = false
           })
       },
       showItem(branchId, index) {
@@ -439,7 +438,7 @@
 
     changePage(v) {
       this.page = parseFloat(this.page)+parseFloat(v)
-      this.changePageNumber()
+      this.getData()
     },
     changeItemPage(v) {
       this.itemPage = parseFloat(this.itemPage)+parseFloat(v)
@@ -452,19 +451,6 @@
           this.items = r.data.data
         })
       },
-    changePageNumber(){
-        this.listLoading = true
-        let name_param = 'name=' + this.search
-        let status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
-        let channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        let page = 'page='+this.page
-        this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param +'&' + page)
-          .then(r => {
-          this.data = r.data.data
-          this.listLoading = false
-          this.total_page = r.data.data.total_page
-        })
-    }
     },
   }
 </script>

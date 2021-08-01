@@ -128,19 +128,19 @@
          <table class="table-auto w-full">
            <thead>
              <tr class="border-b">
-               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Item
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Nama Item
                   <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
                </th>
-               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='in_stock'?'filter':''" @click.prevent="sortKey='in_stock', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Status
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='in_stock'?'filter':''" @click.prevent="sortKey='in_stock', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Status
                   <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
                </th>
-               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='branch_channel_name'?'filter':''" @click.prevent="sortKey='branch_channel_name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Nama Outlet
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='branch_channel_name'?'filter':''" @click.prevent="sortKey='branch_channel_name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Nama Outlet
                   <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
                </th>
-               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='branch_channel_channel'?'filter':''" @click.prevent="sortKey='branch_channel_channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Channel
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='branch_channel_channel'?'filter':''" @click.prevent="sortKey='branch_channel_channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Channel
                   <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas "></i>
                </th>
-               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='price'?'filter':''" @click.prevent="sortKey='price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">Harga
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='price'?'filter':''" @click.prevent="sortKey='price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Harga
                   <i :class="sortValue==='asc'? 'fa-sort-amount-down ': 'fa-sort-amount-up'"  class="fas "></i>
                </th>
                <th class="py-4 text-text text-center cursor-pointer">Terakhir Aktif</th>
@@ -182,6 +182,9 @@
                <td>
                  <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                </td>
+               <td>
+                 <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+               </td>
              </tr>
            </tbody>
            <tbody v-if="!listLoading">
@@ -205,7 +208,7 @@
          </table>
           <div class="mt-4 flex items-center float-right">
                   <div class="float-right p-2">
-                <form @submit.prevent="changePageNumber()">
+                <form @submit.prevent="getData(true)">
                 <input class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
                   inputmode="numeric" pattern="[0-9]*" v-model="page">
                 of {{data.total_page}}
@@ -273,16 +276,11 @@ export default
       page: 1,
       total_page: 1,
       sortValue: 'asc',
-      sortKey: 'branch_channel_name'
+      sortKey: ''
     }
   },
   mounted() {
-    this.$axios.get('me/items').then(r=> {
-      this.data = r.data.data
-      this.total_page = r.data.data.total_page
-      this.listLoading = false
-      this.isLoading = false
-    })
+    this.getData(true)
   },
   watch: {
     page: {
@@ -306,37 +304,28 @@ export default
       }
   },
   methods: {
-    getData() {
+    getData(refresh = false) {
+      if (refresh) {
+        this.page = 1
+      }
       this.listLoading = true
         var item_name = 'name='+this.itemName
         var outletName = 'branch_channel_name='+this.outletName
         var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
         var channel = this.outletChannel==null ? '':'branch_channel_channel='+this.outletChannel
-        this.$axios.get(`me/items?${item_name}&${outletName}&${stock}&${channel}&sort_key=${this.sortKey}&sort_value=${this.sortValue}`)
+        var page = 'page='+this.page
+        this.$axios.get(`me/items?${item_name}&${outletName}&${stock}&${channel}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&${page}`)
         .then(r=> {
           this.data = r.data.data
           this.listLoading = false
           this.total_page = r.data.data.total_page
+          this.isLoading = false
         })
     },
     changePage(v) {
       this.page = this.page+parseFloat(v)
-      this.changePageNumber()
+      this.getData()
     },
-    changePageNumber(){
-        this.listLoading = true
-        var item_name = 'name='+this.itemName
-        var outletName = 'branch_channel_name='+this.outletName
-        var stock = this.itemStatus==null ? 'in_stock=':'in_stock='+this.itemStatus
-        var channel = this.outletChannel==null ? '':'channel='+this.outletChannel
-        var page = 'page='+this.page
-        this.$axios.get('me/items?'+item_name+'&'+outletName+'&'+stock+'&'+channel+'&data=10&'+page)
-        .then(r=> {
-          this.data = r.data.data
-          this.listLoading = false
-          this.total_page = r.data.data.total_page
-        })
-    }
   }
 }
 </script>
