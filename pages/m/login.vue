@@ -1,6 +1,6 @@
 <template>
-    <div class="h-screen w-full bg-login bg-cover flex items-center">
-      <div style="height: 566px;width:566px" class="bg-white rounded-fd mx-auto shadow-xl">
+    <div class="h-screen w-full bg-cover flex items-center">
+      <div style=" class="bg-white rounded-fd mx-auto shadow-xl">
         <div class="mx-auto h-full flex">
               <form class="mx-auto" @submit.prevent="userLogin">
               <div class="text-center">

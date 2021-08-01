@@ -24,17 +24,15 @@
           </nuxt-link>
         </li>
 
-        <li v-if="$route.name=='laporan'" class="btn-height flex items-center px-4 mb-4 bg-green-food text-white rounded-lg">
-          <nuxt-link to="/">
-            <img class="float-left" src="~/assets/svg/report-active.svg">
-            <span class="ml-4">Laporan</span>
-          </nuxt-link>
-        </li>
-        <li v-if="$route.name!='laporan'" class="btn-height flex items-center px-4 mb-4 text-gray-900 rounded-lg">
-          <nuxt-link to="/laporan">
+
+        <li class="btn-height flex items-center px-4 mb-4 text-gray-900 rounded-lg">
+          <nuxt-link class="block" to="/laporan">
             <img class="float-left" src="~/assets/svg/report.svg">
             <span class="ml-4">Laporan</span>
           </nuxt-link>
+          <ul class="block clearfix">
+            <li>Performa Outlet</li>
+          </ul>
         </li>
 
 
