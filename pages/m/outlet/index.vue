@@ -151,8 +151,8 @@
                     <span class="font-bold block text-lg">{{channel.name}}</span>
                    <span class="block ">
                      Item tersedia 
-                      <span :class="{'text-green-food': parseInt(data.branch_channels[0].items_percentage)>=90, 'text-yellow-600': parseInt(data.branch_channels[0].items_percentage)>=50&& parseInt(data.branch_channels[0].items_percentage)<90 , 'text-red-600':parseInt(data.branch_channels[0].items_percentage)<50}">
-                    {{`${data.branch_channels[0].items_active}/${data.branch_channels[0].items_total}`}} ({{parseInt(data.branch_channels[0].items_percentage)}}%)
+                      <span :class="{'text-green-food': parseInt(channel.items_percentage)>=90, 'text-yellow-600': parseInt(channel.items_percentage)>=50&& parseInt(channel.items_percentage)<90 , 'text-red-600':parseInt(channel.items_percentage)<50}">
+                    {{`${channel.items_active}/${channel.items_total}`}} ({{parseInt(channel.items_percentage)}}%)
 
                     </span>
                    </span>
