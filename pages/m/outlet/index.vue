@@ -224,7 +224,7 @@
       <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen" style="z-index:99">
         <div class="w-11/12 bg-white rounded-fds z-40 mx-auto" style="z-index:99">
         <div class="p-2">
-          <div class="bg p-2 relative rounded-md flex justify-between items-center">
+          <div class="bg-green-food p-2 relative rounded-md flex justify-between items-center">
             <div>
                 <span class="text-white font-bold text-xs">{{selectedOutlet.channel}} • </span>
                  <span class="text-xs leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
