@@ -127,7 +127,7 @@
 
               </tbody>
               <tbody v-if="listLoading">
-                <tr class="h-12" v-for="n in 10" :key="n">
+                <tr class="h-12" v-for="n in 5" :key="n">
                   <td>
                     <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                   </td>
@@ -135,9 +135,9 @@
                 </tr>
               </tbody>
               <tbody v-if="!listLoading">
-                <tr v-for="channel in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
+                <tr v-for="(channel, index) in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
                   <td class="py-4">
-                    <nuxt-link :to="'/m/outlet/'+channel.id">
+                   
                     <div class="flex inline-block gap-1 items-center">
                       <div>
                          <span v-if="channel.is_open" class="text-green-500">Buka</span>
@@ -156,10 +156,12 @@
 
                     </span>
                    </span>
-                    <span class="bg-green-food text-white text-xs px-2 px-1 rounded-md">
-                      Detail
-                    </span>
-                    </nuxt-link>
+                    <div class="mt-4">
+                       <button class="focus:outline-none mr-2 bg-blue-200 text-blue-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Menu</button>
+                    <nuxt-link :to="'/m/outlet/'+channel.id" class="bg-gray-200 text-gray-500 text-xs rounded-full px-2 py-1 ">Detail <i class="fas fa-ellipsis-h"></i></nuxt-link>
+
+                    </div>
+                   
                   </td>
                 </tr>
               </tbody>
@@ -215,6 +217,130 @@
 
           </div>
         </div>
+
+
+
+         <!-- modal items -->
+      <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen" style="z-index:99">
+        <div class="w-11/12 bg-white rounded-fds z-40 mx-auto" style="z-index:99">
+        <div class="p-2">
+          <div class="bg p-2 relative rounded-md flex justify-between items-center">
+            <div>
+                <span class="text-white font-bold text-xs">{{selectedOutlet.channel}} • </span>
+                 <span class="text-xs leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
+              
+            </div>
+           <div>
+
+             <button @click.prevent="isShowItems=false" class="text-lg text-white">
+               <i class="fas fa-times-circle"></i>
+             </button>
+           </div>
+         
+
+          </div>
+            <table class="table-auto w-full mt-2 text-xs">
+              <thead class="border-b">
+                <tr>
+                  <th class="py-2 text-xs">Menu</th>
+                  <th class="py-2 text-xs">Harga</th>
+                  <th class="py-2 text-xs">Status</th>
+                </tr>
+              </thead>
+              <tbody v-if="!listLoading">
+                <tr v-if="!listLoading&&data.branch_channels.length<=0">
+                  <td colspan="4" class="p-20 text-center">
+                    <span class="block mx-auto w-full">
+                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
+                          fill="#9E9E9E" />
+                      </svg>
+
+                    </span>
+                    <span class="p-8 m-auto">
+                      Data tidak tersedia
+                    </span>
+                  </td>
+                </tr>
+
+              </tbody>
+              <tbody v-if="listLoading">
+                <tr class="h-12" v-for="n in 10" :key="n">
+                  <td v-for="i in 3" :key="i">
+                    <div class="h-2 p-2 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                  </td>
+                 
+                </tr>
+              </tbody>
+              <tbody v-if="!listLoading">
+                <tr v-for="menu in items.items" :key="menu.id" class="hover:bg-gray-200 border-b">
+                  <td class="text-left text-xs p-2">{{menu.name}}</td>
+                  <td class="text-center text-xs p-2">{{$toIDR(menu.price)}}</td>
+                  <td class="text-center text-xs p-2">
+                   
+                    <span v-if="menu.in_stock" class="text-green-500">Aktif</span>
+                    <span v-if="!menu.in_stock" class="text-red-500">Tidak Aktif</span>
+ 
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+             <div class="mt-4 flex items-center float-right">
+                  <div class="float-right p-2">
+                <form>
+                <input @change="changePageItem()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
+                  inputmode="numeric" pattern="[0-9]*" v-model="itemPage">
+                of {{items.total_page}}
+                </form>
+              </div>
+            
+            <!-- left -->
+              <div v-if="itemPage==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+
+              <div @click.prevent="changeItemPage(-1)" v-if="itemPage!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+                <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+
+              <!-- end left -->
+
+              <!-- right -->
+                <div @click.prevent="changeItemPage(1)" v-if="items.total_page>1&&page<items.total_page" class="cursor-pointer float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#424242" />
+                </svg>
+              </div>
+              <div  v-if="page==items.total_page||items.total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
+                    fill="#9E9E9E" />
+                </svg>
+              </div>
+              <!-- end right -->
+
+            </div>
+        </div>
+       
+        </div>
+      </div>
+        <div v-if="isShowItems" class="fixed top-0 bg-black opacity-20 left-0 z-50 w-screen h-screen"></div>
+
+      <!-- end modal items -->
         <div class="h-20"></div>
         <!-- table end -->
   </div>
@@ -227,7 +353,7 @@ import sidebarMenu from '~/components/mobile/sidebar-menu.vue'
 export default {
   components: { sidebarMenu, OutletSummaryMobile },
     layout: 'mobile',
-    data() {
+     data() {
       return {
         data: {},
         sorted: {},
@@ -239,17 +365,25 @@ export default {
         isOutletOpen: null,
         outletChannel: null,
         listLoading: true,
-        total_page: 1
+        total_page: 1,
+        sortKey: '',
+        sortValue: '',
+        isShowItems: false,
+        selectedOutlet: {},
+        items: [],
+        itemsSort: 'asc',
+        itemPage: 1
       }
     },
     middleware: ['auth-ssr'],
     mounted() {
-      this.$axios.get('me/branch_channels?data=10&page=1').then(r => {
-        this.data = r.data.data
-        this.page = 1
-        this.isLoading = false
-        this.listLoading = false
-      })
+      this.getData()
+      // this.$axios.get('me/branch_channels?data=10&page=1').then(r => {
+      //   this.data = r.data.data
+      //   this.page = 1
+      //   this.isLoading = false
+      //   this.listLoading = false
+      // })
     },
     watch: {
       search: {
@@ -267,34 +401,48 @@ export default {
       }
     },
     methods: {
-      getData() {
+      getData(refresh = false) {
+        if (refresh) {
+          this.page = 1
+        }
         this.listLoading = true
-        var name_param = 'name=' + this.search
-        var status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
-        var channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param)
+        let name_param = 'name=' + this.search
+        let status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
+        let channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
+        this.$axios.get(`me/branch_channels?${name_param}&${status_param}&${channel_param}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}`)
           .then(r => {
             this.data = r.data.data
             this.listLoading = false
+            this.isLoading = false
           })
       },
-      changePage(v) {
-      this.page = parseFloat(this.page)+parseFloat(v)
-      this.changePageNumber()
-    },
-    changePageNumber(){
-        this.listLoading = true
-        var name_param = 'name=' + this.search
-        var status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
-        var channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        var page = 'page='+this.page
-        this.$axios.get('me/branch_channels?' + name_param + '&' + status_param + '&' + channel_param +'&' + page)
-          .then(r => {
-          this.data = r.data.data
-            this.listLoading = false
-          this.total_page = r.data.data.total_page
+      showItem(branchId, index) {
+        if(index) {
+          this.selectedOutlet = this.data.branch_channels[index]
+        }
+        this.selectedOutlet = this.data.branch_channels[index]
+        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
+        .then(r=> {
+          this.isShowItems = true
+          this.items = r.data.data
         })
-    }
+      },
+
+    changePage(v) {
+      this.page = parseFloat(this.page)+parseFloat(v)
+      this.getData()
+    },
+    changeItemPage(v) {
+      this.itemPage = parseFloat(this.itemPage)+parseFloat(v)
+      this.getItem(this.selectedOutlet.id)
+    },
+     getItem(branchId) {
+        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
+        .then(r=> {
+          this.isShowItems = true
+          this.items = r.data.data
+        })
+      },
     },
   }
 </script>
