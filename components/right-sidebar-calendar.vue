@@ -20,7 +20,7 @@
       <button v-if="!isDownload"
         class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
         @click.prevent="download()">
-        <span v-if="!isDownload">Download</span>
+        <span v-if="!isDownload">Download All in One</span>
       </button>
     </div>
   </div>

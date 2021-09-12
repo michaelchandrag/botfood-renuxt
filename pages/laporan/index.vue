@@ -93,6 +93,22 @@
               </div>
             </div>
 
+            <div class="w-3/12 cursor-pointer items-center relative">
+              <div class="">
+                <button v-if="isDownload"
+                  class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
+                  <span class="animate-spin">Downloading . . .</span>
+
+                </button>
+                <button v-if="!isDownload"
+                  class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
+                  @click.prevent="download()">
+                  <span v-if="!isDownload">Download</span>
+                </button>
+              </div>
+            </div>
+
+
           </div>
           <div class="mt-6">
             <table class="table-auto w-full">
@@ -261,6 +277,7 @@
         date: this.$moment().format('YYYY-MM-DD'),
         sortValue: 'desc',
         sortKey: 'outlet_item_not_active_time',
+        isDownload: false,
       }
     },
     middleware: ['auth-ssr'],
@@ -312,6 +329,24 @@
             this.listLoading = false
           this.total_page = r.data.data.total_page
         })
+    },
+    download() {
+      this.isDownload = true
+      this.$axios({
+        method: 'GET',
+        url: 'me/report/atp_export?date=' + this.date + '&xlsx=true',
+        responseType: 'blob',
+      }).then(r => {
+        this.isDownload = false
+        const url = window.URL.createObjectURL(new Blob([r.data], {
+          'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }));
+        var fileLink = document.createElement('a');
+        fileLink.href = url;
+        fileLink.setAttribute('download', 'laporan-performa-outlet.xlsx');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      })
     }
     },
   }
