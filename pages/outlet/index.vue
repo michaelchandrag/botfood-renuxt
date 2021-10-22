@@ -400,8 +400,15 @@
             <div v-show="showSendOtpButton" class="md:flex md:items-center mb-6">
               <div class="md:w-1/3"></div>
               <div class="md:w-2/3">
-                <button @click="sendOTP" class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button" disabled>
-                  Kirim OTP
+                <button @click="sendOTP" class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                  <span v-if="showSendOtpButton">Kirim OTP</span>
+                  <span v-if="!showSendOtpButton">
+                  <svg class="h-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto; animation-play-state: running; animation-delay: 0s;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                    <circle cx="50" cy="50" fill="none" stroke="#ffffff" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138" style="animation-play-state: running; animation-delay: 0s;">
+                      <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" style="animation-play-state: running; animation-delay: 0s;"></animateTransform>
+                    </circle>
+                   </svg>
+                  </span>
                 </button>
               </div>
             </div>
@@ -562,6 +569,7 @@
         this.showTokenOtp = false
       },
       sendOTP () {
+        this.showSendOtpButton = false
         this.$axios.post(`me/seamless/connect/check/${this.selectedOutlet.id}`, {
           phone_number: this.connectData.phoneNumber
         }).then(r => {
@@ -570,6 +578,7 @@
           this.showSendOtpButton = false
           this.showTokenOtp = true
         }).catch(e => {
+          this.showSendOtpButton = true
           var errors = e.response.data.errors
           for (var key in errors) {
             this.errorMessageSeamless = errors[key].detail
@@ -578,6 +587,7 @@
         })
       },
       seamlessConnect () {
+        this.showTokenOtp = false
         this.$axios.post(`me/seamless/connect/${this.selectedOutlet.id}`, {
           phone_number: this.connectData.phoneNumber,
           otp_token: this.connectData.otpToken,
@@ -592,6 +602,7 @@
             }
           }  
         }).catch(e => {
+          this.showTokenOtp = true
           var errors = e.response.data.errors
           for (var key in errors) {
             this.errorMessageSeamless = errors[key].detail

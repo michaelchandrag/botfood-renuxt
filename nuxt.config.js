@@ -75,11 +75,6 @@ export default {
 
   tailwindcss: {
     config: {
-      variants: {
-        extend: {
-          opacity: ['disabled'],
-        }
-      },
       theme: {
         extend: {
           colors: {
