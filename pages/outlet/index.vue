@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <left-sidebar class="w-2/12 px-6 pt-8 " />
-    <div class="w-7/12 bg-gray-200 pl-6" style="padding-top:40px">
+    <div class="w-10/12 bg-gray-200 pl-6" style="padding-top:40px">
       <div>
         <span class="text-title">Laporan Outlet</span>
       </div>
@@ -172,8 +172,10 @@
                     </span>
                   </td>
                   <td class="text-center text-text p-4">
-                    <button class="ml-4 focus:outline-none mr-2 bg-blue-200 text-blue-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Menu</button>
-                    <nuxt-link :to="'/outlet/'+channel.id" class="bg-gray-200 text-gray-500 text-xs rounded-full px-2 py-1 ">Detail <i class="fas fa-ellipsis-h"></i></nuxt-link>
+                    <button class="ml-4 focus:outline-none mr-2 bg-yellow-200 text-black-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Menu</button>
+                    <button v-if="channel.channel == 'GoFood' && channel.gobiz_is_connected == 0" class="ml-4 focus:outline-none mr-2 bg-blue-200 text-black-500 text-xs rounded-full px-2 py-1" @click.prevent="checkSeamless(channel)" ><i class="fas fa-upload"></i> Hubungkan</button>
+                    <button v-else-if="channel.gobiz_is_connected == 1" class="ml-4 focus:outline-none mr-2 bg-green-200 text-black-500 text-xs rounded-full px-2 py-1" disabled><i class="fas fa-check"></i> Terhubung</button>
+                    <nuxt-link :to="'/outlet/'+channel.id" class="bg-gray-200 text-black-500 text-xs rounded-full px-2 py-1 ">Detail <i class="fas fa-ellipsis-h"></i></nuxt-link>
 
                   </td>
 
@@ -359,8 +361,95 @@
         <div v-if="isShowItems" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
 
       <!-- end modal items -->
+
+      <!-- modal seamless -->
+      <div v-if="isShowSeamless" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
+        <div class="w-1/2 bg-white rounded-fds z-40 mx-auto">
+          <div class="p-4">
+            <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
+             <div class="absolute top-0 right-0">
+               <button @click.prevent="isShowSeamless=false" class="text-white text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
+                 <i class="fas fa-times-circle"></i> Close
+               </button>
+             </div>
+              <div>
+                <div>
+                  <span class="text-white font-bold text-sm">{{selectedOutlet.channel}}</span>
+                </div>
+                <div>
+                  <span class="text-xl leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3">
+                <label class="block md:text-right mb-1 md:mb-0 pr-4" for="gobiz_phone_number">
+                  Nomor HP GoBiz
+                </label>
+              </div>
+              <div class="md:w-2/3">
+                <input v-model="connectData.phoneNumber" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="gobiz_phone_number" type="text" placeholder="6282133110099" @keydown="showSendOtpButton = true; showTokenOtp = false">
+              </div>
+            </div>
+            <div v-show="showSendOtpButton" class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3"><b>Dengan menekan tombol Kirim OTP, anda menyetujui bahwa BotFood tidak menyimpan data OTP serta data lain yang bersifat privasi ataupun rahasia</b></div>
+            </div>
+            <div v-show="showSendOtpButton" class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3">
+                <button @click="sendOTP" class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button" disabled>
+                  Kirim OTP
+                </button>
+              </div>
+            </div>
+            <div v-show="showTokenOtp" class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3">
+                <label class="block md:text-right mb-1 md:mb-0 pr-4" for="gobiz_otp">
+                  OTP
+                </label>
+              </div>
+              <div class="md:w-2/3">
+                <input v-model="connectData.otp" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="gobiz_otp" type="text" placeholder="****">
+              </div>
+            </div>
+            <div v-show="showTokenOtp" class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3"><b>Dengan menekan tombol Submit OTP, anda menyetujui bahwa BotFood tidak menyimpan data OTP serta data lain yang bersifat privasi ataupun rahasia</b></div>
+            </div>
+            <div v-show="showTokenOtp" class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3">
+                <button @click="seamlessConnect" class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                  Submit OTP
+                </button>
+              </div>
+            </div>
+            <div v-show="errorMessageSeamless.length > 0"class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3">
+                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                  <p>{{errorMessageSeamless}}</p>
+                </div>
+              </div>
+            </div>
+            <div v-show="successMessageSeamless.length > 0"class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3">
+                <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+                  <p>{{successMessageSeamless}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+        </div>
+      </div>
+        <div v-if="isShowSeamless" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
+
     </div>
-    <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
   </div>
 </template>
 <script>
@@ -382,10 +471,20 @@
         sortKey: '',
         sortValue: '',
         isShowItems: false,
+        isShowSeamless: false,
+        showSendOtpButton: true,
+        showTokenOtp: false,
         selectedOutlet: {},
         items: [],
         itemsSort: 'asc',
-        itemPage: 1
+        itemPage: 1,
+        connectData: {
+          phoneNumber: "",
+          otp: "",
+          otpToken: ""
+        },
+        errorMessageSeamless: "",
+        successMessageSeamless: "",
       }
     },
     middleware: ['auth-ssr'],
@@ -451,6 +550,55 @@
           this.items = r.data.data
         })
       },
+      checkSeamless(branchChannel) {
+        this.connectData = {
+          phoneNumber: "",
+          otp: "",
+          otpToken: ""
+        }
+        this.selectedOutlet = branchChannel
+        this.isShowSeamless = true
+        this.showSendOtpButton = true
+        this.showTokenOtp = false
+      },
+      sendOTP () {
+        this.$axios.post(`me/seamless/connect/check/${this.selectedOutlet.id}`, {
+          phone_number: this.connectData.phoneNumber
+        }).then(r => {
+          var data = r.data.data
+          this.connectData.otpToken = data.otp_token
+          this.showSendOtpButton = false
+          this.showTokenOtp = true
+        }).catch(e => {
+          var errors = e.response.data.errors
+          for (var key in errors) {
+            this.errorMessageSeamless = errors[key].detail
+            return false
+          }
+        })
+      },
+      seamlessConnect () {
+        this.$axios.post(`me/seamless/connect/${this.selectedOutlet.id}`, {
+          phone_number: this.connectData.phoneNumber,
+          otp_token: this.connectData.otpToken,
+          otp: this.connectData.otp
+        }).then(r => {
+          var data = r.data.data
+          this.showTokenOtp = false
+          this.successMessageSeamless = `Selamat outlet anda telah terhubung dengan ${data.user.outlet_name}. Data pesanan dalam outlet ini akan disinkronisasi setiap 6 jam. Silahkan tutup pop-up ini dengan menekan tombol Close di bagian atas kanan.`
+          for (var key in this.data.branch_channels) {
+            if (this.selectedOutlet.id == this.data.branch_channels[key].id) {
+              this.data.branch_channels[key].gobiz_is_connected = 1
+            }
+          }  
+        }).catch(e => {
+          var errors = e.response.data.errors
+          for (var key in errors) {
+            this.errorMessageSeamless = errors[key].detail
+            return false
+          }
+        })
+      }
     },
   }
 </script>

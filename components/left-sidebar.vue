@@ -60,6 +60,19 @@
          
         </li>
 
+        <li v-if="$route.name=='order'" class="btn-height flex items-center px-4 mb-4 bg-green-food text-white rounded-lg">
+          <nuxt-link to="/order">
+            <i class="fas fa-shopping-basket"></i>
+            <span class="ml-4">Pesanan</span>
+          </nuxt-link>
+        </li>
+         <li v-if="$route.name!='order'" class="btn-height flex items-center px-4 mb-4 text-gray-900 rounded-lg">
+          <nuxt-link to="/order">
+            <i class="fas fa-shopping-basket"></i>
+            <span class="ml-4">Pesanan</span>
+          </nuxt-link>
+        </li>
+
 
         <li v-if="$route.name=='outlet'" class="btn-height flex items-center px-4 mb-4 bg-green-food text-white rounded-lg">
           <nuxt-link to="/outlet">
