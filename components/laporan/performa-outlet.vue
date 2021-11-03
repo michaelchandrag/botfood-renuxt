@@ -1,0 +1,106 @@
+<template>
+  <div style="padding:24px 32px;margin-bottom:16px;" class="flex mr-6 bg-white rounded-fd items-center">
+   <form class="w-full max-w-m">
+      <div class="md:flex md:items-center mb-6">
+        <div class="md:w-full">
+          <label class="block font-bold mb-1 md:mb-0 pr-4">
+            Performa Outlet
+          </label>
+          <label>
+              Rekap performa dari rata-rata outlet beroperasi dan rata-rata item aktif dalam jangka waktu yang telah ditentukan.
+          </label>
+        </div>
+      </div>
+      <div class="md:flex md:items-center mb-6">
+        <div class="md:w-2/12">
+          <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-old-password">
+            Dari Tanggal
+          </label>
+        </div>
+        <div class="md:w-2/12">
+          <client-only>
+            <date-picker input-class="border-date" v-model="filters.fromDate"/>
+          </client-only>
+        </div>
+        <div class="md:w-2/12">
+          <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-old-password">
+            Sampai Tanggal
+          </label>
+        </div>
+        <div class="md:w-2/12">
+          <client-only>
+            <date-picker input-class="border-date" v-model="filters.untilDate"/>
+          </client-only>
+        </div>
+        <div class="md:w-1/12">
+        </div>
+        <div class="md:w-3/12">
+          <div class="">
+            <button v-if="isDownload" class="cursor-not-allowed shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" @click="">
+              <span class="animate-spin">Downloading . . .</span>
+            </button>
+            <button v-if="!isDownload" class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" @click.prevent="download()">
+              <span v-if="!isDownload">Download</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="md:flex md:items-center">
+        <div class="md:w-1/3"></div>
+        <div class="md:w-2/3">
+          <button class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            Ubah Password
+          </button>
+        </div>
+      </div> -->
+    </form>   
+  </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+          isDownload: false,
+          statusDropdown: false,
+          filters: {
+            fromDate: this.$moment().subtract(7, "days").format('YYYY-MM-DD'),
+            untilDate: this.$moment().subtract(1, "days").format('YYYY-MM-DD') 
+          }
+        }
+    },
+    methods: {
+      download () {
+        this.isDownload = true
+        var queryParams = {
+          start_date: this.filters.fromDate,
+          end_date: this.filters.untilDate,
+          xlsx: true
+        }
+        var queryParams = new URLSearchParams(queryParams).toString()
+        this.$axios({
+          method: 'GET',
+          url: `me/report/atp_period_export?${queryParams}`,
+          responseType: 'blob',
+        }).then(r => {
+          this.isDownload = false
+          const url = window.URL.createObjectURL(new Blob([r.data], {
+            'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }));
+          var fileLink = document.createElement('a');
+          fileLink.href = url;
+          fileLink.setAttribute('download', 'laporan-performa-outlet.xlsx');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+      }
+    }
+}
+</script>
+
+<style>
+  .border-date {
+    border: 1px solid black;
+    padding:  3px;
+  }
+</style>
