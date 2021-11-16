@@ -73,8 +73,8 @@ export default {
       download () {
         this.isDownload = true
         var queryParams = {
-          start_date: this.filters.fromDate,
-          end_date: this.filters.untilDate,
+          start_date: this.$moment(this.filters.fromDate).format('YYYY-MM-DD'),
+          end_date: this.$moment(this.filters.untilDate).format('YYYY-MM-DD'),
           xlsx: true
         }
         var queryParams = new URLSearchParams(queryParams).toString()
