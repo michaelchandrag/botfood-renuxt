@@ -2,7 +2,7 @@
    <div class="flex">
      <left-sidebar class="w-2/12 px-6 pt-8 " />
 
-     <div class="w-7/12 bg-gray-200 pl-6 pt-10">
+     <div class="w-10/12 bg-gray-200 pl-6 pt-10">
        <div>
          <span class="text-title">Laporan Item</span>
        </div>
@@ -143,6 +143,9 @@
                <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='price'?'filter':''" @click.prevent="sortKey='price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Harga
                   <i :class="sortValue==='asc'? 'fa-sort-amount-down ': 'fa-sort-amount-up'"  class="fas "></i>
                </th>
+               <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='selling_price'?'filter':''" @click.prevent="sortKey='selling_price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Harga Jual
+                  <i :class="sortValue==='asc'? 'fa-sort-amount-down ': 'fa-sort-amount-up'"  class="fas "></i>
+               </th>
                <th class="py-4 text-text text-center cursor-pointer">Terakhir Aktif</th>
              </tr>
            </thead>
@@ -185,6 +188,9 @@
                <td>
                  <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                </td>
+               <td>
+                 <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+               </td>
              </tr>
            </tbody>
            <tbody v-if="!listLoading">
@@ -199,6 +205,7 @@
                </td>
                <td class="text-text text-center">{{item.branch_channel_channel}}</td>
                <td class="text-text text-center">{{$toIDR(item.price)}}</td>
+               <td class="text-text text-center">{{$toIDR(item.selling_price)}}</td>
                <td v-if="!item.in_stock" class="text-text text-center">
                  {{$moment(item.last_not_active_at).format('D MMM YYYY,HH:mm')}}</td>
                <td v-if="item.in_stock" class="text-text text-center"> - </td>
@@ -255,7 +262,6 @@
             <div class="h-20 bg-white"></div>
        </div>
      </div>
-     <right-sidebar-calendar class="w-3/12 cursor-pointer items-center relative pl-6 pt-10" />
    </div>
 </template>
 

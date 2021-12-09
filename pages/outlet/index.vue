@@ -264,6 +264,7 @@
                 <tr>
                   <th class="py-2 text-text">Menu</th>
                   <th class="py-2 text-text">Harga</th>
+                  <th class="py-2 text-text">Harga Jual</th>
                   <th class="py-2 text-text">Status</th>
                 </tr>
               </thead>
@@ -298,6 +299,7 @@
                 <tr v-for="menu in items.items" :key="menu.id" class="hover:bg-gray-200 border-b">
                   <td class="text-left text-text p-2">{{menu.name}}</td>
                   <td class="text-center text-text p-2">{{$toIDR(menu.price)}}</td>
+                  <td class="text-center text-text p-2">{{$toIDR(menu.selling_price)}}</td>
                   <td class="text-center text-text p-2">
                    
                     <span v-if="menu.in_stock" class="text-green-500">Aktif</span>
