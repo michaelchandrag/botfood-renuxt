@@ -10,6 +10,7 @@
       <div class="flex flex-col ">
         <performa-outlet/>
         <order/>
+        <price/>
       </div>
      </div>
    </div>
@@ -18,10 +19,12 @@
 <script>
 import performaOutlet from '~/components/laporan/performa-outlet.vue'
 import order from '~/components/laporan/order.vue'
+import price from '~/components/laporan/price.vue'
 export default {
   components: {
     performaOutlet,
-    order
+    order,
+    price
   },
   data() {
     return {

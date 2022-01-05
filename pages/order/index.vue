@@ -50,7 +50,7 @@
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
                   <span v-if="filters.state=='COMPLETED'">COMPLETED</span>
-                  <span v-if="filters.state=='CAMCELLED'">CANCELLED</span>
+                  <span v-if="filters.state=='CANCELLED'">CANCELLED</span>
                   <span v-if="filters.state==''">Semua</span>
                 </div>
                 <div>
