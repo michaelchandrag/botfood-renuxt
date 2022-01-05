@@ -63,7 +63,7 @@ export default {
           }));
           var fileLink = document.createElement('a');
           fileLink.href = url;
-          fileLink.setAttribute('download', 'laporan-performa-outlet.xlsx');
+          fileLink.setAttribute('download', 'laporan-harga.xlsx');
           document.body.appendChild(fileLink);
           fileLink.click();
         })
