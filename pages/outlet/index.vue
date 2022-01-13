@@ -160,10 +160,14 @@
               <tbody v-if="!listLoading">
                 <tr v-for="(channel, index) in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
                   <td class="text-center text-text p-4">{{channel.name}}</td>
-                  <td class="text-center text-text p-4">{{channel.channel}}</td>
+                  <td class="text-center text-text p-4">{{channel.channel}}
+                    <span v-if="channel.gobiz_is_connected == 1" class="m-1 pr-1 pl-1 focus:outline-none bg-green-200 text-black-500 text-xs rounded-full" disabled><i class="fas fa-check"></i></span>
+                  </td>
                   <td class="text-center text-text p-4">
                     <span v-if="channel.is_open" class="text-green-500">Buka</span>
-                    <span v-if="!channel.is_open" class="text-red-500">Tutup</span>
+                    <span v-if="!channel.is_open">
+                      <span class="text-red-500">Tutup</span>
+                    </span>
                   </td>
                   <td class="text-center text-text p-4">
                     <span :class="{'text-green-food': parseInt(channel.items_percentage)>=90, 'text-yellow-600': parseInt(channel.items_percentage)>=50&& parseInt(channel.items_percentage)<90 , 'text-red-600':parseInt(channel.items_percentage)<50}">
@@ -174,9 +178,8 @@
                   <td class="text-center text-text p-4">
                     <button class="ml-4 focus:outline-none mr-2 bg-yellow-200 text-black-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Menu</button>
                     <button v-if="channel.channel == 'GoFood' && channel.gobiz_is_connected == 0" class="ml-4 focus:outline-none mr-2 bg-blue-200 text-black-500 text-xs rounded-full px-2 py-1" @click.prevent="checkSeamless(channel)" ><i class="fas fa-upload"></i> Hubungkan</button>
-                    <button v-else-if="channel.gobiz_is_connected == 1" class="ml-4 focus:outline-none mr-2 bg-green-200 text-black-500 text-xs rounded-full px-2 py-1" disabled><i class="fas fa-check"></i> Terhubung</button>
+                    <button v-if="channel.gobiz_is_connected == 1" class="ml-4 focus:outline-none mr-2 text-black-500 bg-green-300 text-xs rounded-full px-2 py-1" @click.prevent="handleOpenStatus(channel, false)" ><i class="fas fa-store"></i> Ubah Status</button>
                     <nuxt-link :to="'/outlet/'+channel.id" class="bg-gray-200 text-black-500 text-xs rounded-full px-2 py-1 ">Detail <i class="fas fa-ellipsis-h"></i></nuxt-link>
-
                   </td>
 
                 </tr>
@@ -360,8 +363,7 @@
        
         </div>
       </div>
-        <div v-if="isShowItems" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
-
+      <div v-if="isShowItems" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
       <!-- end modal items -->
 
       <!-- modal seamless -->
@@ -456,7 +458,56 @@
        
         </div>
       </div>
-        <div v-if="isShowSeamless" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
+      <div v-if="isShowSeamless" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
+
+      <!-- modal open status -->
+      <div v-if="isShowOpenStatus" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
+        <div class="w-1/3 bg-white rounded-fds z-40 mx-auto">
+          <div class="p-4">
+            <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
+             <div class="absolute top-0 right-0">
+               <button @click.prevent="isShowOpenStatus=false" class="text-white text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
+                 <i class="fas fa-times-circle"></i> Close
+               </button>
+             </div>
+              <div>
+                <div>
+                  <span class="text-white font-bold text-sm">{{selectedOutlet.channel}} • </span>
+                </div>
+                <div>
+                  <span class="text-xl leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4">
+              <div class="md:flex md:items-center mb-6">
+                <div class="md:w-1/1">
+                  <p class="block mb-1 md:mb-0 pr-4" v-html="openStatusData.text"></p>
+                </div>
+              </div>
+              <div class="md:flex md:items-center mb-6">
+                <div class="md:w-1/1 mx-auto">
+                  <button v-if="openStatusData.confirm"
+                    class="cursor-not-allowed shadow bg-gray-400 hover:bg-gray-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+                    <span class="animate-spin">Mengubah . . .</span>
+
+                  </button>
+                  <button v-if="!openStatusData.confirm"
+                    class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                    @click.prevent="handleOpenStatus(selectedOutlet, true)">
+                    <span v-if="!isDownload">Lanjutkan</span>
+                  </button>
+                  <button v-if="!openStatusData.confirm" @click="isShowOpenStatus = false" class="shadow bg-gray-100 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded ml-6" type="button">Kembali</button>
+                </div>
+              </div>
+            </div>
+
+          </div> 
+        </div>
+      </div>
+      <div v-if="isShowOpenStatus" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
+      <!-- end modal open status -->
 
     </div>
   </div>
@@ -477,10 +528,11 @@
         outletChannel: null,
         listLoading: true,
         total_page: 1,
-        sortKey: '',
+        sortKey: 'branch_channels.updated_at',
         sortValue: '',
         isShowItems: false,
         isShowSeamless: false,
+        isShowOpenStatus: false,
         showSendOtpButton: true,
         showTokenOtp: false,
         selectedOutlet: {},
@@ -491,6 +543,10 @@
           phoneNumber: "",
           otp: "",
           otpToken: ""
+        },
+        openStatusData: {
+          confirm: false,
+          text: ''
         },
         errorMessageSeamless: "",
         successMessageSeamless: "",
@@ -569,6 +625,36 @@
         this.isShowSeamless = true
         this.showSendOtpButton = true
         this.showTokenOtp = false
+      },
+      handleOpenStatus (branchChannel, confirm) {
+        if (confirm) {
+          this.openStatusData.confirm = true
+          this.$axios.post(`me/seamless/open_status/${branchChannel.id}`, {
+            confirm: this.openStatusData.confirm
+          }).then(r=> {
+              branchChannel.is_open = r.data.data.is_open
+              this.isShowOpenStatus = false
+              this.$toast.success('Sukses ubah status outlet', {duration: 2500})
+          }).catch(error => {
+              this.isShowOpenStatus = false
+              this.$toast.error('Gagal. Hubungi kami untuk informasi lebih lanjut.', {duration: 2500})
+          })
+        } else {
+          this.openStatusData = {
+            confirm: false,
+            text: ''
+          }
+          this.selectedOutlet = branchChannel
+          this.$axios.post(`me/seamless/open_status/${branchChannel.id}`, {
+            confirm: this.openStatusData.confirm
+          }).then(r=> {
+              this.openStatusData.text = r.data.data.message
+              this.isShowOpenStatus = true
+          }).catch(error => {
+              this.isShowOpenStatus = false
+              this.$toast.error('Gagal. Hubungi kami untuk informasi lebih lanjut.', {duration: 2500})
+          }) 
+        }
       },
       sendOTP () {
         this.showSendOtpButton = false

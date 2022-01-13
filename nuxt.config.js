@@ -50,7 +50,7 @@ export default {
     '@nuxtjs/proxy',
     '@nuxtjs/proxy',
     'cookie-universal-nuxt',
-    
+    '@nuxtjs/toast'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
