@@ -124,7 +124,6 @@
     <right-sidebar-calendar class="w-3/12 pl-6 pt-10" />
   </div>
 </template>
-
 <script>
 import outletOverview from '~/components/dashboard/outlet-overview.vue'
 import LeftSidebar from '~/components/left-sidebar.vue'

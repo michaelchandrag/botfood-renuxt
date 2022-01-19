@@ -268,7 +268,7 @@
               <tbody v-if="!listLoading">
                 <tr
                   v-for="(h, i) in sorted"
-                  v-if="i <= outlet.end && i >= outlet.start"
+                  v-show="i <= outlet.end && i >= outlet.start"
                   :key="i"
                   class="hover:bg-gray-300 border-b">
                   <td class="text-center p-4 rounded-l-fds">

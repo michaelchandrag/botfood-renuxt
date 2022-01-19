@@ -1,4 +1,7 @@
-export default function ({ redirect, app }) {
+export default function ({
+  redirect,
+  app
+}) {
   const _ac = app.$cookies.get('hbGciOiJIUzI1NiJ9')
   const _tk = app.$cookies.get('_tk')
 
