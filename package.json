@@ -3,31 +3,44 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "yarn lintfix && nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint:prettier": "prettier --check .",
+    "lint": "yarn lint:js && yarn lint:prettier",
+    "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
   },
   "dependencies": {
-    "@nuxtjs/auth-next": "^5.0.0-1613647907.37b1156",
-    "@nuxtjs/axios": "^5.12.5",
-    "@nuxtjs/device": "^2.0.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/device": "^2.1.0",
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/toast": "^3.3.1",
-    "autoprefixer": "^10.3.1",
-    "cookie-universal-nuxt": "^2.1.4",
-    "core-js": "^3.8.3",
+    "autoprefixer": "^10.4.2",
+    "cookie-universal-nuxt": "^2.1.5",
+    "core-js": "^3.20.3",
+    "eslint-plugin-nuxt": "^3.1.0",
     "lightpick": "^1.6.2",
-    "nuxt": "^2.14.12",
-    "postcss": "^8.3.6",
-    "sass-loader": "^11.0.1",
-    "tailwindcss": "^2.2.7",
-    "vue-functional-calendar": "^2.9.3",
+    "nuxt": "^2.15.8",
+    "postcss": "^8.4.5",
+    "sass-loader": "^12.4.0",
+    "tailwindcss": "^3.0.15",
+    "vue-functional-calendar": "^2.9.92",
     "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-config": "^8.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/tailwindcss": "^4.2.1"
+    "@nuxtjs/tailwindcss": "^4.2.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.3.0",
+    "prettier": "^2.5.1"
   }
 }

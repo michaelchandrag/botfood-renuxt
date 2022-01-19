@@ -1,19 +1,19 @@
 <template>
-   <div class="flex">
-     <left-sidebar class="w-2/12 px-6 pt-8 " />
+  <div class="flex">
+    <left-sidebar class="w-2/12 px-6 pt-8" />
 
-     <div class="w-10/12 bg-gray-200 pl-6 pt-10">
+    <div class="w-10/12 bg-gray-200 pl-6 pt-10">
       <div>
         <span class="text-title">Rekap</span>
       </div>
-      <div style="height:24px"></div>
-      <div class="flex flex-col ">
-        <performa-outlet/>
-        <order/>
-        <price/>
+      <div style="height: 24px"></div>
+      <div class="flex flex-col">
+        <performa-outlet />
+        <order />
+        <price />
       </div>
-     </div>
-   </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -24,15 +24,12 @@ export default {
   components: {
     performaOutlet,
     order,
-    price
+    price,
   },
   data() {
-    return {
-    }
+    return {}
   },
-  mounted() {
-  },
-  methods: {
-  }
+  mounted() {},
+  methods: {},
 }
 </script>
