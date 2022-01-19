@@ -15,7 +15,7 @@
           <div style="margin-top: 40px">
             Brand <br />
             <input
-              v-model="login.slug"
+              v-model="user.username"
               style="height: 56px; width: 328px"
               :class="{
                 'bg-red-200': isError,
@@ -30,7 +30,7 @@
           <div style="margin-top: 40px">
             Password <br />
             <input
-              v-model="login.password"
+              v-model="user.password"
               style="height: 56px; width: 328px"
               :class="{
                 'bg-red-200': isError,
@@ -109,12 +109,13 @@
 </template>
 
 <script>
+import login from '@/services/auth'
 export default {
   layout: 'unauth',
   data() {
     return {
-      login: {
-        slug: '',
+      user: {
+        username: '',
         password: '',
       },
       errorMessage: '',
@@ -122,43 +123,14 @@ export default {
       isLoading: false,
     }
   },
-  mounted() {
-    this.$cookies.remove('_tk')
-    this.$cookies.remove('hbGciOiJIUzI1NiJ9')
-  },
   methods: {
-    userLogin() {
+    async userLogin() {
       this.isLoading = true
-      this.$axios
-        .post('login_brand', {
-          slug: this.login.slug,
-          password: this.login.password,
-        })
-        .then((r) => {
-          this.isLoading = false
-          this.$cookies.set(
-            'hbGciOiJIUzI1NiJ9',
-            'RwOlwvXC9hcGkuYm90Zm9vZC54eXoiLCJkYXRhIjp7ImJyYW5kIjp7Im',
-            {
-              path: '/',
-              maxAge: 60 * 60 * 24 * 7,
-            }
-          )
-          this.$cookies.set('_tk', r.data.data.token, {
-            path: '/',
-            maxAge: 60 * 60 * 24 * 7,
-          })
-          this.$router.push('/')
-        })
-        .catch((e) => {
-          this.isLoading = false
-          this.isError = true
-          const errors = e.response.data.errors
-          for (const key in errors) {
-            this.errorMessage = errors[key].detail
-            return false
-          }
-        })
+      let res = await login(this.user)
+      try {
+        res
+        this.$router.push('/djsaoijsa')
+      } catch (error) {}
     },
   },
 }
