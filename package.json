@@ -1,0 +1,33 @@
+{
+  "name": "botfood-renuxt",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/auth-next": "^5.0.0-1613647907.37b1156",
+    "@nuxtjs/axios": "^5.12.5",
+    "@nuxtjs/device": "^2.0.1",
+    "@nuxtjs/moment": "^1.6.1",
+    "@nuxtjs/proxy": "^2.1.0",
+    "@nuxtjs/toast": "^3.3.1",
+    "autoprefixer": "^10.3.1",
+    "cookie-universal-nuxt": "^2.1.4",
+    "core-js": "^3.8.3",
+    "lightpick": "^1.6.2",
+    "nuxt": "^2.14.12",
+    "postcss": "^8.3.6",
+    "sass-loader": "^11.0.1",
+    "tailwindcss": "^2.2.7",
+    "vue-functional-calendar": "^2.9.3",
+    "vuejs-datepicker": "^1.6.2"
+  },
+  "devDependencies": {
+    "@nuxtjs/pwa": "^3.3.5",
+    "@nuxtjs/tailwindcss": "^4.2.1"
+  }
+}
