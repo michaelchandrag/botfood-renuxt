@@ -3,32 +3,36 @@ export default {
   head: {
     title: 'Botfood',
     htmlAttrs: {
-      lang: 'id'
+      lang: 'id',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: '' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css2?family=Poppins' },
-      
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://fonts.googleapis.com/css2?family=Poppins',
+      },
     ],
     script: [
-      { src: 'https://kit.fontawesome.com/1f26bc1e2a.js', type: 'text/javascript' }
-    ]
+      {
+        src: 'https://kit.fontawesome.com/1f26bc1e2a.js',
+        type: 'text/javascript',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '@/assets/css/global.css'
-  ],
+  css: ['@/assets/css/global.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vue-datepicker', ssr: false },
-    { src: '~/plugins/formatter'},
+    { src: '~/plugins/formatter' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -50,7 +54,7 @@ export default {
     '@nuxtjs/proxy',
     '@nuxtjs/proxy',
     'cookie-universal-nuxt',
-    '@nuxtjs/toast'
+    '@nuxtjs/toast',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -62,15 +66,14 @@ export default {
   //   '/api/': { target: 'http://api.botfood.xyz/api/v1/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
   // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
+  build: {},
   server: {
     host: '0.0.0.0',
-    port: '3000' // default: localhost
+    port: '3000', // default: localhost
   },
-  
+
   moment: {
-    locales: ['id']
+    locales: ['id'],
   },
 
   tailwindcss: {
@@ -78,28 +81,23 @@ export default {
       theme: {
         extend: {
           colors: {
-            'green-food':'#029835'
+            'green-food': '#029835',
           },
           borderRadius: {
-            'fd': '16px',
-            'fds': '8px'
+            fd: '16px',
+            fds: '8px',
           },
           fontSize: {
-            'title' : '19px',
+            title: '19px',
             'summary-title': '33px',
             'summary-text': '15px',
-            'text': '13px'
-
-          }
+            text: '13px',
+          },
         },
         fontFamily: {
-         'sans': ['Poppins','ui-sans-serif', 'system-ui']
-        }
-        
+          sans: ['Poppins', 'ui-sans-serif', 'system-ui'],
+        },
       },
-      
-    }
-
-  }
-
+    },
+  },
 }
