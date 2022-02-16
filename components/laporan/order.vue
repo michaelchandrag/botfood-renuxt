@@ -89,7 +89,7 @@ export default {
     data() {
         return {
           isDownload: false,
-          statusDropdown: false,
+          statusDropdownFrom: false,
           statusDropdownUntil: false,
           filters: {
             fromDate: this.$moment().subtract(7, "days").format('YYYY-MM-DD'),
