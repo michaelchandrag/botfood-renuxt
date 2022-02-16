@@ -1,5 +1,5 @@
 <template>
-<div class="sticky top-0 bg-white h-screen">
+<div class="fixed right-0 top-0 bg-white h-screen right-sidebar-calendar flex items-center justify-center p-4 flex-col">
      <div>
         <span class="text-title">Info</span>
       </div>
@@ -27,6 +27,6 @@
 // import Calendar from './calendar.vue'
 // import lightpick from 'lightpick'
 export default {
-  
+
 }
 </script>

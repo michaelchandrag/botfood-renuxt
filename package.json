@@ -21,13 +21,14 @@
     "lightpick": "^1.6.2",
     "nuxt": "^2.14.12",
     "postcss": "^8.3.6",
-    "sass-loader": "^11.0.1",
+    "sass-loader": "^10.1.1",
     "tailwindcss": "^2.2.7",
     "vue-functional-calendar": "^2.9.3",
     "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/tailwindcss": "^4.2.1"
+    "@nuxtjs/tailwindcss": "^4.2.1",
+    "webpack": "^4.46.0"
   }
 }

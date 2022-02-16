@@ -1,6 +1,6 @@
 <template>
 <div >
-  <div v-if="!$device.isMobile" style="background:#fafafa">
+  <div style="background:#fafafa">
   <Nuxt/>
 </div>
 </div>
@@ -14,16 +14,16 @@ export default {
     this.$axios.defaults.headers.common['Authorization'] = 'Bearer '+this.$cookies.get('_tk')
   },
   mounted() {
-    if(this.$device.isMobile) {
-      this.$router.push('m')
-    }
+    // if(this.$device.isMobile) {
+    //   this.$router.push('m')
+    // }
   }
 }
 </script>
 
 <style>
 .icon-height {
-  height: 56px;
-  width: auto;
+  height: 50px;
+  width: 50px;
 }
 </style>

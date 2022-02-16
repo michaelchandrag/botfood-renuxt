@@ -5,19 +5,35 @@ export default {
     htmlAttrs: {
       lang: 'id'
     },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+    meta: [{
+        charset: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: ''
+      }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css2?family=Poppins' },
-      
+    link: [{
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://fonts.googleapis.com/css2?family=Poppins'
+      },
+
     ],
-    script: [
-      { src: 'https://kit.fontawesome.com/1f26bc1e2a.js', type: 'text/javascript' }
-    ]
+    script: [{
+      src: 'https://kit.fontawesome.com/1f26bc1e2a.js',
+      type: 'text/javascript'
+    }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -26,9 +42,13 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '~/plugins/vue-datepicker', ssr: false },
-    { src: '~/plugins/formatter'},
+  plugins: [{
+      src: '~/plugins/vue-datepicker',
+      ssr: false
+    },
+    {
+      src: '~/plugins/formatter'
+    },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -62,13 +82,12 @@ export default {
   //   '/api/': { target: 'http://api.botfood.xyz/api/v1/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
   // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
+  build: {},
   server: {
     host: '0.0.0.0',
     port: '3000' // default: localhost
   },
-  
+
   moment: {
     locales: ['id']
   },
@@ -78,26 +97,34 @@ export default {
       theme: {
         extend: {
           colors: {
-            'green-food':'#029835'
+            'green-food': '#029835'
           },
           borderRadius: {
             'fd': '16px',
             'fds': '8px'
           },
           fontSize: {
-            'title' : '19px',
+            'title': '19px',
             'summary-title': '33px',
             'summary-text': '15px',
             'text': '13px'
 
-          }
+          },
+          screens: {
+            'xs' : '480px',
+            'lg': '1024px',
+            // => @media (min-width: 1024px) { ... }
+
+            'xl': '1280px',
+            // => @media (min-width: 1280px) { ... }
+          },
         },
         fontFamily: {
-         'sans': ['Poppins','ui-sans-serif', 'system-ui']
+          'sans': ['Poppins', 'ui-sans-serif', 'system-ui']
         }
-        
+
       },
-      
+
     }
 
   }

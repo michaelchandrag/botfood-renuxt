@@ -1,25 +1,26 @@
 <template>
-  <div style="padding:24px 32px;margin-bottom:16px;" class="flex mr-6 bg-white rounded-fd items-center">
-   <form class="w-full max-w-m">
+  <div style="padding:24px 32px;margin-bottom:16px;" class="flex bg-white rounded-fd items-center">
+    <form class="w-full max-w-m">
       <div class="md:flex md:items-center mb-6">
         <div class="md:w-full">
           <label class="block font-bold mb-1 md:mb-0 pr-4">
             Harga Item
           </label>
           <label>
-              Rekap semua harga item yang dapat menunjukkan perbedaan harga di setiap outlet dan channel.
+            Rekap semua harga item yang dapat menunjukkan perbedaan harga di setiap outlet dan channel.
           </label>
         </div>
       </div>
       <div class="md:flex md:items-center mb-6">
-        <div class="md:w-1/12">
-        </div>
         <div class="md:w-3/12">
           <div class="">
-            <button v-if="isDownload" class="cursor-not-allowed shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" @click="">
+            <button v-if="isDownload"
+              class="cursor-not-allowed shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm">
               <span class="animate-spin">Downloading . . .</span>
             </button>
-            <button v-if="!isDownload" class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" @click.prevent="download()">
+            <button v-if="!isDownload"
+              class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm"
+              @click.prevent="download()">
               <span v-if="!isDownload">Download</span>
             </button>
           </div>
@@ -33,20 +34,20 @@
           </button>
         </div>
       </div> -->
-    </form>   
+    </form>
   </div>
 </template>
 
 <script>
-export default {
+  export default {
     data() {
-        return {
-          isDownload: false,
-          statusDropdown: false,
-        }
+      return {
+        isDownload: false,
+        statusDropdown: false,
+      }
     },
     methods: {
-      download () {
+      download() {
         this.isDownload = true
         var queryParams = {
           xlsx: true
@@ -69,12 +70,14 @@ export default {
         })
       }
     }
-}
+  }
+
 </script>
 
 <style>
   .border-date {
     border: 1px solid black;
-    padding:  3px;
+    padding: 3px;
   }
+
 </style>

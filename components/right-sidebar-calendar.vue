@@ -1,24 +1,24 @@
 <template>
-  <div class="sticky top-0 bg-white h-screen">
+  <div class="fixed right-0 top-0 bg-white h-screen right-sidebar-calendar flex items-center justify-center p-4 flex-col">
     <div>
       <span class="text-title">Laporan All in One</span>
     </div>
     <div class="h-10"></div>
-    <div class="pr-6">
+    <div class="">
       <client-only>
         <date-picker placeholder="MM/DD/YYYY" format="MM/dd/yyyy" :inline="true" :value="date" :disabledDates="disabledDates"/>
       </client-only>
 
 
     </div>
-    <div class="mt-4 pr-6">
+    <div class="mt-4">
       <button v-if="isDownload"
-        class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
+        class="w-full cursor-not-allowed  rounded-fd p-3 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
         <span class="animate-spin">Downloading . . .</span>
 
       </button>
       <button v-if="!isDownload"
-        class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
+        class="w-full rounded-fd p-3 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
         @click.prevent="download()">
         <span v-if="!isDownload">Download All in One</span>
       </button>
@@ -38,7 +38,7 @@ export default {
         to: new Date(Date.now() - 8640000),
         from: new Date()
       }
-      
+
     }
   },
   watch: {

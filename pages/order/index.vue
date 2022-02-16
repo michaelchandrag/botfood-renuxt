@@ -1,37 +1,43 @@
 <template>
-  <div class="flex">
-    <left-sidebar class="w-2/12 px-6 pt-8 " />
-    <div class="w-10/12 bg-gray-200 pl-6" style="padding-top:40px">
+  <div>
+    <left-sidebar class="px-6 pt-8" />
+
+    <div class="bg-gray-200 wrapper-content">
       <div>
         <span class="text-title">Pesanan</span>
       </div>
-      <div class="h-8"></div>
       <div class="flex flex-col ">
-        <div class="grid grid-cols-4 gap-4 mr-6">
-          <order-summary v-if="!isLoadingStats" :stats="stats.this_month" title="Bulan ini" />
-          <order-summary v-if="!isLoadingStats" :stats="stats.this_week" title="Minggu ini"/>
-          <order-summary v-if="!isLoadingStats" :stats="stats.yesterday" title="Kemarin"/>
-          <order-summary v-if="!isLoadingStats" :stats="stats.today" title="Hari ini"/>
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
-          <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
+        <div class="flex flex-wrap -m-3" v-if="isLoadingStats">
+          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3" v-for="a in 4" :key="a">
+            <div class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3">
+          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
+            <order-summary v-if="!isLoadingStats" :stats="stats.this_month" title="Bulan ini" />
+          </div>
+          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
+            <order-summary v-if="!isLoadingStats" :stats="stats.this_week" title="Minggu ini" />
+          </div>
+          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
+            <order-summary v-if="!isLoadingStats" :stats="stats.yesterday" title="Kemarin" />
+          </div>
+          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
+            <order-summary v-if="!isLoadingStats" :stats="stats.today" title="Hari ini" />
+          </div>
         </div>
 
         <div class="h-6"></div>
-        <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div>
+        <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse" style="margin-top:0 !important;"></div>
         <!-- table start -->
-        <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6 text-text">
-
-          <div class="h-2">
-          </div>
-          <div class="flex gap-4">
-            <div class="w-6/12">
+        <div v-if="!isLoading" class="bg-white rounded-fd p-8 text-text">
+          <div class="flex flex-wrap -mx-3">
+            <div class="w-full sm:w-6/12 p-3">
               <div class="relative">
                 <form @submit.prevent="getData">
                   <input @change.prevent="getData" type="text"
-                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none" v-model="filters.q"
-                    placeholder="Nama Outlet, Channel, Kode Pesanan, Status">
+                    class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
+                    v-model="filters.q" placeholder="Nama Outlet, Channel, Kode Pesanan, Status">
                 </form>
                 <div class="absolute top-0 pt-3 pl-2">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,10 +48,7 @@
                 </div>
               </div>
             </div>
-
-
-
-            <div class="w-3/12 cursor-pointer items-center relative">
+            <div class="w-full sm:w-3/12 cursor-pointer items-center relative p-3">
               <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
@@ -77,73 +80,107 @@
 
           </div>
           <div class="mt-6">
-            <table class="table-auto w-full">
-              <thead class="border-b">
-                <tr>
-                  <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='branch_channel_name'?'filter':''" @click.prevent="sortPage('branch_channel_name')">Nama Outlet<i :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th>
-                  <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='ordered_at'?'filter':''" @click.prevent="sortPage('ordered_at')">Tanggal Pesanan<i :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th>
-                  <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='order_number'?'filter':''" @click.prevent="sortPage('order_number')">Kode Pesanan<i :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th>
-                  <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='net_price'?'filter':''" @click.prevent="sortPage('net_price')">Harga Total<i :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th>
-                  <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='shopping_price'?'filter':''" @click.prevent="sortPage('shopping_price')">Harga Belanja<i :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th>
-                  <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='total_discounts'?'filter':''" @click.prevent="sortPage('total_discounts')">Diskon<i :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th>
-                  <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='state'?'filter':''" @click.prevent="sortPage('state')">Status<i :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th>
-                  <!-- <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='state'?'filter':''" @click.prevent="sortKey='state', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Kondisi<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
-                  <!-- <th class="py-4 text-text">Aksi</th><th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='net_price'?'filter':''" @click.prevent="sortKey='net_price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Diskon<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
-                </tr>
-              </thead>
-              <tbody v-if="!listLoading">
-                <tr v-if="!listLoading&&data.orders.length<=0">
-                  <td colspan="9" class="p-20 text-center">
-                    <span class="block mx-auto w-full">
-                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
-                          fill="#9E9E9E" />
-                      </svg>
+            <div class="table-responsive">
+              <table class="table-auto w-full">
+                <thead class="border-b">
+                  <tr>
+                    <th class="py-4 text-text cursor-pointer"
+                      :class="filters.sort_key==='branch_channel_name'?'filter':''"
+                      @click.prevent="sortPage('branch_channel_name')">Nama Outlet<i
+                        :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
+                        class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='ordered_at'?'filter':''"
+                      @click.prevent="sortPage('ordered_at')">Tanggal Pesanan<i
+                        :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
+                        class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='order_number'?'filter':''"
+                      @click.prevent="sortPage('order_number')">Kode Pesanan<i
+                        :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
+                        class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='net_price'?'filter':''"
+                      @click.prevent="sortPage('net_price')">Harga Total<i
+                        :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
+                        class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='shopping_price'?'filter':''"
+                      @click.prevent="sortPage('shopping_price')">Harga Belanja<i
+                        :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
+                        class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='total_discounts'?'filter':''"
+                      @click.prevent="sortPage('total_discounts')">Diskon<i
+                        :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
+                        class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='state'?'filter':''"
+                      @click.prevent="sortPage('state')">Status<i
+                        :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
+                        class="fas ml-2"></i>
+                    </th>
+                    <!-- <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='state'?'filter':''" @click.prevent="sortKey='state', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Kondisi<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
+                    <!-- <th class="py-4 text-text">Aksi</th><th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='net_price'?'filter':''" @click.prevent="sortKey='net_price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Diskon<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
+                  </tr>
+                </thead>
+                <tbody v-if="!listLoading">
+                  <tr v-if="!listLoading&&data.orders.length<=0">
+                    <td colspan="9" class="p-20 text-center">
+                      <span class="block mx-auto w-full">
+                        <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
+                            fill="#9E9E9E" />
+                        </svg>
 
-                    </span>
-                    <span class="p-8 m-auto">
-                      Data tidak tersedia
-                    </span>
-                  </td>
-                </tr>
+                      </span>
+                      <span class="p-8 m-auto">
+                        Data tidak tersedia
+                      </span>
+                    </td>
+                  </tr>
 
-              </tbody>
-              <tbody v-if="listLoading">
-                <tr class="h-12" v-for="n in 10" :key="n">
-                  <td v-for="i in 8" :key="i">
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                 
-                </tr>
-              </tbody>
-              <tbody v-if="!listLoading">
-                <tr v-for="(order, index) in data.orders" :key="order.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-center text-text p-4">{{order.branch_channel_name}} - {{order.branch_channel_channel}}</td>
-                  <td class="text-center text-text p-4">{{$moment(order.ordered_at).format('DD-MMM-YYYY H:s')}}</td>
-                  <td class="text-center text-text p-4">{{order.order_number}}</td>
-                  <td class="text-center text-text p-4">{{$toIDR(order.net_price)}}</td>
-                  <td class="text-center text-text p-4">{{$toIDR(order.shopping_price)}}</td>
-                  <td class="text-center text-text p-4">{{$toIDR(order.total_discounts)}}</td>
-                  <td class="text-center text-text p-4">
-                    <span class="text-red-500" v-if="order.state == 'CANCELLED'">{{order.state}} <br/> ({{order.cancel_reason}})</span>
-                    <span class="text-green-700" v-else>{{order.state}}</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                </tbody>
+                <tbody v-if="listLoading">
+                  <tr class="h-12" v-for="n in 10" :key="n">
+                    <td v-for="i in 8" :key="i">
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                    </td>
+
+                  </tr>
+                </tbody>
+                <tbody v-if="!listLoading">
+                  <tr v-for="(order, index) in data.orders" :key="index" class="hover:bg-gray-200 border-b">
+                    <td class="text-center text-text p-4">{{order.branch_channel_name}} -
+                      {{order.branch_channel_channel}}
+                    </td>
+                    <td class="text-center text-text p-4">{{$moment(order.ordered_at).format('DD-MMM-YYYY H:s')}}</td>
+                    <td class="text-center text-text p-4">{{order.order_number}}</td>
+                    <td class="text-center text-text p-4">{{$toIDR(order.net_price)}}</td>
+                    <td class="text-center text-text p-4">{{$toIDR(order.shopping_price)}}</td>
+                    <td class="text-center text-text p-4">{{$toIDR(order.total_discounts)}}</td>
+                    <td class="text-center text-text p-4">
+                      <span class="text-red-500" v-if="order.state == 'CANCELLED'">{{order.state}} <br />
+                        ({{order.cancel_reason}})</span>
+                      <span class="text-green-700" v-else>{{order.state}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <div class="mt-4 flex items-center float-right">
-                  <div class="float-right p-2">
+              <div class="float-right p-2">
                 <form>
-                <input @change="getData()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
-                  inputmode="numeric" pattern="[0-9]*" v-model="filters.page">
-                of {{data.total_page}}
+                  <input @change="getData()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none"
+                    type="text" inputmode="numeric" pattern="[0-9]*" v-model="filters.page">
+                  of {{data.total_page}}
                 </form>
               </div>
-            
-            <!-- left -->
+
+              <!-- left -->
               <div v-if="filters.page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -152,7 +189,8 @@
                 </svg>
               </div>
 
-              <div @click.prevent="changePage(-1)" v-if="filters.page!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+              <div @click.prevent="changePage(-1)" v-if="filters.page!=1"
+                class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
@@ -163,14 +201,16 @@
               <!-- end left -->
 
               <!-- right -->
-                <div @click.prevent="changePage(1)" v-if="data.total_page>1&&filters.page<data.total_page" class="cursor-pointer float-right p-3 rounded-md border-2">
+              <div @click.prevent="changePage(1)" v-if="data.total_page>1&&filters.page<data.total_page"
+                class="cursor-pointer float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
                     fill="#424242" />
                 </svg>
               </div>
-              <div  v-if="filters.page==data.total_page||data.total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+              <div v-if="filters.page==data.total_page||data.total_page<=1"
+                class="cursor-not-allowed float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
@@ -187,7 +227,7 @@
         <!-- table end -->
       </div>
 
-     
+
 
       <!-- end modal items -->
 
@@ -196,7 +236,7 @@
 </template>
 <script>
   export default {
-    
+
     data() {
       return {
         data: {},
@@ -238,15 +278,15 @@
       filters: {
         handler(r) {
           this.listLoading = true
-          if(r>this.data.total_page) {
+          if (r > this.data.total_page) {
             this.filters.page = this.data.total_page
           }
         }
       }
     },
-  
+
     methods: {
-      getOrderStats () {
+      getOrderStats() {
         this.$axios.get(`me/order/stats`)
           .then(r => {
             this.stats = r.data.data
@@ -266,15 +306,16 @@
             this.isLoading = false
           })
       },
-      sortPage (key) {
+      sortPage(key) {
         this.filters.sort_key = key
         this.filters.sort_value = (this.filters.sort_value == 'asc') ? 'desc' : 'asc'
         this.getData(true)
       },
       changePage(v) {
-        this.filters.page = parseFloat(this.filters.page)+parseFloat(v)
+        this.filters.page = parseFloat(this.filters.page) + parseFloat(v)
         this.getData()
       },
     },
   }
+
 </script>

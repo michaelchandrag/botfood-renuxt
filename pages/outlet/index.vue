@@ -1,26 +1,29 @@
 <template>
-  <div class="flex">
-    <left-sidebar class="w-2/12 px-6 pt-8 " />
-    <div class="w-10/12 bg-gray-200 pl-6" style="padding-top:40px">
+  <div>
+    <left-sidebar class="px-6 pt-8" />
+
+    <div class="bg-gray-200 wrapper-content">
       <div>
         <span class="text-title">Laporan Outlet</span>
       </div>
       <div class="h-8"></div>
       <div class="flex flex-col ">
-        <div class="grid grid-cols-2 gap-4 mr-6">
-          <outlet-summary v-if="!isLoading" v-for="(d,index) in data.summary" :key="index" :channel="d" />
+        <div class="flex flex-wrap -m-2" v-if="!isLoading">
+          <outlet-summary v-for="(d,index) in data.summary" :key="index" :channel="d" class="w-full sm:w-6/12 p-2" />
+        </div>
+        <div class="grid grid-cols-2 gap-4" v-if="isLoading">
           <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
           <div v-if="isLoading" class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
         </div>
         <div class="h-6"></div>
-        <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse mr-6"></div>
+        <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse"></div>
         <!-- table start -->
-        <div v-if="!isLoading" class="bg-white rounded-fd p-8 mr-6 text-text">
+        <div v-if="!isLoading" class="bg-white rounded-fd p-8 text-text">
 
           <div class="h-2">
           </div>
-          <div class="flex gap-4">
-            <div class="w-6/12">
+          <div class="flex flex-wrap -m-2">
+            <div class="w-full xl:w-6/12 lg:w-6/12 p-2">
               <div class="relative">
                 <form @submit.prevent="getData">
                   <input @change.prevent="getData" type="text"
@@ -36,10 +39,7 @@
                 </div>
               </div>
             </div>
-
-
-
-            <div class="w-3/12 cursor-pointer items-center relative">
+            <div class="w-full xl:w-3/12 lg:w-3/12  sm:w-6/12 p-2 cursor-pointer items-center relative">
               <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
@@ -76,7 +76,7 @@
             </div>
 
 
-            <div class="w-3/12 cursor-pointer items-center relative">
+            <div class="w-full xl:w-3/12 lg:w-3/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
               <div @click.prevent="statusDropdown?statusDropdown=false:statusDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
@@ -108,94 +108,119 @@
 
           </div>
           <div class="mt-6">
-            <table class="table-auto w-full">
-              <thead class="border-b">
-                <tr>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''" @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Nama Outlet
-                    <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-                  </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''" @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Channel
-                    <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
-                  </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='is_open'?'filter':''" @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Status
+            <div class="table-responsive">
+              <table class="table-auto w-full">
+                <thead class="border-b">
+                  <tr>
+                    <th class="py-4 text-text cursor-pointer" :class="sortKey==='name'?'filter':''"
+                      @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">
+                      Nama Outlet
+                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'" class="fas"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="sortKey==='channel'?'filter':''"
+                      @click.prevent="sortKey='channel', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">
+                      Channel
+                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'" class="fas"></i>
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="sortKey==='is_open'?'filter':''"
+                      @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">
+                      Status
 
-                    <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
+                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'" class="fas"></i>
 
-                  </th>
-                  <th class="py-4 text-text cursor-pointer" :class="sortKey==='items_percentage'?'filter':''" @click.prevent="sortKey='items_percentage', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Item Tersedia
+                    </th>
+                    <th class="py-4 text-text cursor-pointer" :class="sortKey==='items_percentage'?'filter':''"
+                      @click.prevent="sortKey='items_percentage', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">
+                      Item Tersedia
 
-                                       <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i>
+                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'" class="fas"></i>
 
-                  </th>
-                  <th class="py-4 text-text">Aksi</th>
-                </tr>
-              </thead>
-              <tbody v-if="!listLoading">
-                <tr v-if="!listLoading&&data.branch_channels.length<=0">
-                  <td colspan="4" class="p-20 text-center">
-                    <span class="block mx-auto w-full">
-                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
-                          fill="#9E9E9E" />
-                      </svg>
+                    </th>
+                    <th class="py-4 text-text">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody v-if="!listLoading">
+                  <tr v-if="!listLoading&&data.branch_channels.length<=0">
+                    <td colspan="4" class="p-20 text-center">
+                      <span class="block mx-auto w-full">
+                        <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
+                            fill="#9E9E9E" />
+                        </svg>
 
-                    </span>
-                    <span class="p-8 m-auto">
-                      Data tidak tersedia
-                    </span>
-                  </td>
-                </tr>
+                      </span>
+                      <span class="p-8 m-auto">
+                        Data tidak tersedia
+                      </span>
+                    </td>
+                  </tr>
 
-              </tbody>
-              <tbody v-if="listLoading">
-                <tr class="h-12" v-for="n in 10" :key="n">
-                  <td v-for="i in 5" :key="i">
-                    <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                 
-                </tr>
-              </tbody>
-              <tbody v-if="!listLoading">
-                <tr v-for="(channel, index) in data.branch_channels" :key="channel.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-center text-text p-4">{{channel.name}}</td>
-                  <td class="text-center text-text p-4">{{channel.channel}}
-                    <span v-if="channel.gobiz_is_connected == 1" class="m-1 pr-1 pl-1 focus:outline-none bg-green-200 text-black-500 text-xs rounded-full" disabled><i class="fas fa-check"></i></span>
-                  </td>
-                  <td class="text-center text-text p-4">
-                    <span v-if="channel.is_open" class="text-green-500">Buka</span>
-                    <span v-if="!channel.is_open">
-                      <span class="text-red-500">Tutup</span>
-                    </span>
-                  </td>
-                  <td class="text-center text-text p-4">
-                    <span :class="{'text-green-food': parseInt(channel.items_percentage)>=90, 'text-yellow-600': parseInt(channel.items_percentage)>=50&& parseInt(channel.items_percentage)<90 , 'text-red-600':parseInt(channel.items_percentage)<50}">
-                    {{`${channel.items_active}/${channel.items_total}`}} ({{parseInt(channel.items_percentage)}}%)
+                </tbody>
+                <tbody v-if="listLoading">
+                  <tr class="h-12" v-for="n in 10" :key="n">
+                    <td v-for="i in 5" :key="i">
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                    </td>
 
-                    </span>
-                  </td>
-                  <td class="text-center text-text p-4">
-                    <button class="ml-4 focus:outline-none mr-2 bg-yellow-200 text-black-500 text-xs rounded-full px-2 py-1" @click.prevent="showItem(channel.id, index)" ><i class="fas fa-eye"></i> Menu</button>
-                    <button v-if="channel.channel == 'GoFood' && channel.gobiz_is_connected == 0" class="ml-4 focus:outline-none mr-2 bg-blue-200 text-black-500 text-xs rounded-full px-2 py-1" @click.prevent="checkSeamless(channel)" ><i class="fas fa-upload"></i> Hubungkan</button>
-                    <button v-if="channel.gobiz_is_connected == 1" class="ml-4 focus:outline-none mr-2 text-black-500 bg-green-300 text-xs rounded-full px-2 py-1" @click.prevent="handleOpenStatus(channel, false)" ><i class="fas fa-store"></i> Ubah Status</button>
-                    <nuxt-link :to="'/outlet/'+channel.id" class="bg-gray-200 text-black-500 text-xs rounded-full px-2 py-1 ">Detail <i class="fas fa-ellipsis-h"></i></nuxt-link>
-                  </td>
+                  </tr>
+                </tbody>
+                <tbody v-if="!listLoading">
+                  <tr v-for="(channel, index) in data.branch_channels" :key="channel.id"
+                    class="hover:bg-gray-200 border-b">
+                    <td class="text-center text-text p-4">{{channel.name}}</td>
+                    <td class="text-center text-text p-4">{{channel.channel}}
+                      <span v-if="channel.gobiz_is_connected == 1"
+                        class="m-1 pr-1 pl-1 focus:outline-none bg-green-200 text-black-500 text-xs rounded-full"
+                        disabled><i class="fas fa-check"></i></span>
+                    </td>
+                    <td class="text-center text-text p-4">
+                      <span v-if="channel.is_open" class="text-green-500">Buka</span>
+                      <span v-if="!channel.is_open">
+                        <span class="text-red-500">Tutup</span>
+                      </span>
+                    </td>
+                    <td class="text-center text-text p-4">
+                      <span
+                        :class="{'text-green-food': parseInt(channel.items_percentage)>=90, 'text-yellow-600': parseInt(channel.items_percentage)>=50&& parseInt(channel.items_percentage)<90 , 'text-red-600':parseInt(channel.items_percentage)<50}">
+                        {{`${channel.items_active}/${channel.items_total}`}} ({{parseInt(channel.items_percentage)}}%)
 
-                </tr>
-              </tbody>
-            </table>
+                      </span>
+                    </td>
+                    <td class="text-center text-text p-4">
+                      <div class="flex justify-center flex-wrap">
+                        <button
+                          class="m-1 focus:outline-none mr-2 bg-yellow-200 text-black-500 text-xs rounded-full px-2 py-1"
+                          @click.prevent="showItem(channel.id, index)"><i class="fas fa-eye"></i> Menu</button>
+                        <button v-if="channel.channel == 'GoFood' && channel.gobiz_is_connected == 0"
+                          class="m-1 focus:outline-none mr-2 bg-blue-200 text-black-500 text-xs rounded-full px-2 py-1"
+                          @click.prevent="checkSeamless(channel)"><i class="fas fa-upload"></i> Hubungkan</button>
+                        <button v-if="channel.gobiz_is_connected == 1"
+                          class="m-1 focus:outline-none mr-2 text-black-500 bg-green-300 text-xs rounded-full px-2 py-1"
+                          @click.prevent="handleOpenStatus(channel, false)"><i class="fas fa-store"></i> Ubah
+                          Status</button>
+                        <nuxt-link :to="'/outlet/'+channel.id"
+                          class="bg-gray-200 text-black-500 text-xs rounded-full px-2 py-1 m-1">Detail <i
+                            class="fas fa-ellipsis-h"></i></nuxt-link>
+                      </div>
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <div class="mt-4 flex items-center float-right">
-                  <div class="float-right p-2">
+              <div class="float-right p-2">
                 <form>
-                <input @change="getData()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
-                  inputmode="numeric" pattern="[0-9]*" v-model="page">
-                of {{data.total_page}}
+                  <input @change="getData()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none"
+                    type="text" inputmode="numeric" pattern="[0-9]*" v-model="page">
+                  of {{data.total_page}}
                 </form>
               </div>
-            
-            <!-- left -->
+
+              <!-- left -->
               <div v-if="page==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -204,7 +229,8 @@
                 </svg>
               </div>
 
-              <div @click.prevent="changePage(-1)" v-if="page!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+              <div @click.prevent="changePage(-1)" v-if="page!=1"
+                class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
@@ -215,14 +241,16 @@
               <!-- end left -->
 
               <!-- right -->
-                <div @click.prevent="changePage(1)" v-if="data.total_page>1&&page<data.total_page" class="cursor-pointer float-right p-3 rounded-md border-2">
+              <div @click.prevent="changePage(1)" v-if="data.total_page>1&&page<data.total_page"
+                class="cursor-pointer float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
                     fill="#424242" />
                 </svg>
               </div>
-              <div  v-if="page==data.total_page||data.total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+              <div v-if="page==data.total_page||data.total_page<=1"
+                class="cursor-not-allowed float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
@@ -240,89 +268,93 @@
       </div>
 
       <!-- modal items -->
-      <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
-        <div class="w-1/2 bg-white rounded-fds z-40 mx-auto">
-        <div class="p-4">
-          <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
-           <div class="absolute top-0 right-0">
-             <button @click.prevent="isShowItems=false" class="text-white text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
-               <i class="fas fa-times-circle"></i> Close
-             </button>
-           </div>
-            <div>
-              <div>
-                <span class="text-white font-bold text-sm">{{selectedOutlet.channel}} • </span>
-                <span v-if="selectedOutlet.is_open" class="px-4 py-1 text-sm bg-green-food rounded-lg text-white">BUKA</span>
-                <span v-else class="px-4 py-1 bg-red-600 text-sm rounded-lg text-white">TUTUP</span>
+      <div v-if="isShowItems" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen py-1 px-2">
+        <div class="w-full max-w-2xl bg-white rounded-fds z-40 mx-auto max-h-full" style="height:auto;overflow-y:auto;">
+          <div class="p-4">
+            <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
+              <div class="absolute top-0 right-0">
+                <button @click.prevent="isShowItems=false"
+                  class="text-white text-xs sm:text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
+                  <i class="fas fa-times-circle"></i> Close
+                </button>
               </div>
               <div>
-                <span class="text-xl leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
+                <div>
+                  <span class="text-white font-bold text-sm">{{selectedOutlet.channel}} • </span>
+                  <span v-if="selectedOutlet.is_open"
+                    class="px-4 py-1 text-xs sm:text-sm bg-green-food rounded-lg text-white">BUKA</span>
+                  <span v-else class="px-4 py-1 bg-red-600 text-xs sm:text-sm rounded-lg text-white">TUTUP</span>
+                </div>
+                <div>
+                  <span class="text-xl leading-loose font-bold text-white">{{selectedOutlet.name}}</span>
 
+                </div>
               </div>
+
             </div>
+            <div class="table-responsive">
+              <table class="table-auto w-full mt-2">
+                <thead class="border-b">
+                  <tr>
+                    <th class="py-2 text-text">Menu</th>
+                    <th class="py-2 text-text">Harga</th>
+                    <th class="py-2 text-text">Harga Jual</th>
+                    <th class="py-2 text-text">Status</th>
+                  </tr>
+                </thead>
+                <tbody v-if="!listLoading">
+                  <tr v-if="!listLoading&&data.branch_channels.length<=0">
+                    <td colspan="4" class="p-20 text-center">
+                      <span class="block mx-auto w-full">
+                        <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
+                            fill="#9E9E9E" />
+                        </svg>
 
-          </div>
-            <table class="table-auto w-full mt-2">
-              <thead class="border-b">
-                <tr>
-                  <th class="py-2 text-text">Menu</th>
-                  <th class="py-2 text-text">Harga</th>
-                  <th class="py-2 text-text">Harga Jual</th>
-                  <th class="py-2 text-text">Status</th>
-                </tr>
-              </thead>
-              <tbody v-if="!listLoading">
-                <tr v-if="!listLoading&&data.branch_channels.length<=0">
-                  <td colspan="4" class="p-20 text-center">
-                    <span class="block mx-auto w-full">
-                      <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 11C9.45 11 9 10.55 9 10V6C9 5.45 9.45 5 10 5C10.55 5 11 5.45 11 6V10C11 10.55 10.55 11 10 11ZM10 15C9.45 15 9 14.55 9 14C9 13.45 9.45 13 10 13C10.55 13 11 13.45 11 14C11 14.55 10.55 15 10 15Z"
-                          fill="#9E9E9E" />
-                      </svg>
+                      </span>
+                      <span class="p-8 m-auto">
+                        Data tidak tersedia
+                      </span>
+                    </td>
+                  </tr>
 
-                    </span>
-                    <span class="p-8 m-auto">
-                      Data tidak tersedia
-                    </span>
-                  </td>
-                </tr>
+                </tbody>
+                <tbody v-if="listLoading">
+                  <tr class="h-12" v-for="n in 10" :key="n">
+                    <td v-for="i in 3" :key="i">
+                      <div class="h-2 p-2 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                    </td>
 
-              </tbody>
-              <tbody v-if="listLoading">
-                <tr class="h-12" v-for="n in 10" :key="n">
-                  <td v-for="i in 3" :key="i">
-                    <div class="h-2 p-2 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                  </td>
-                 
-                </tr>
-              </tbody>
-              <tbody v-if="!listLoading">
-                <tr v-for="menu in items.items" :key="menu.id" class="hover:bg-gray-200 border-b">
-                  <td class="text-left text-text p-2">{{menu.name}}</td>
-                  <td class="text-center text-text p-2">{{$toIDR(menu.price)}}</td>
-                  <td class="text-center text-text p-2">{{$toIDR(menu.selling_price)}}</td>
-                  <td class="text-center text-text p-2">
-                   
-                    <span v-if="menu.in_stock" class="text-green-500">Aktif</span>
-                    <span v-if="!menu.in_stock" class="text-red-500">Tidak Aktif</span>
- 
-                  </td>
+                  </tr>
+                </tbody>
+                <tbody v-if="!listLoading">
+                  <tr v-for="menu in items.items" :key="menu.id" class="hover:bg-gray-200 border-b">
+                    <td class="text-left text-text p-2">{{menu.name}}</td>
+                    <td class="text-center text-text p-2">{{$toIDR(menu.price)}}</td>
+                    <td class="text-center text-text p-2">{{$toIDR(menu.selling_price)}}</td>
+                    <td class="text-center text-text p-2">
 
-                </tr>
-              </tbody>
-            </table>
-             <div class="mt-4 flex items-center float-right">
-                  <div class="float-right p-2">
+                      <span v-if="menu.in_stock" class="text-green-500">Aktif</span>
+                      <span v-if="!menu.in_stock" class="text-red-500">Tidak Aktif</span>
+
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-4 flex items-center float-right">
+              <div class="float-right p-2">
                 <form>
-                <input @change="changePageItem()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none" type="text"
-                  inputmode="numeric" pattern="[0-9]*" v-model="itemPage">
-                of {{items.total_page}}
+                  <input @change="changePageItem()" class="w-20 h-10 text-center border-2 rounded-md focus:outline-none"
+                    type="text" inputmode="numeric" pattern="[0-9]*" v-model="itemPage">
+                  of {{items.total_page}}
                 </form>
               </div>
-            
-            <!-- left -->
+
+              <!-- left -->
               <div v-if="itemPage==1" class="cursor-not-allowed float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -331,7 +363,8 @@
                 </svg>
               </div>
 
-              <div @click.prevent="changeItemPage(-1)" v-if="itemPage!=1" class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
+              <div @click.prevent="changeItemPage(-1)" v-if="itemPage!=1"
+                class="cursor-pointer float-right mr-2 p-3 rounded-md border-2">
                 <svg class="" width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M4.43508 1.06496L0.550078 4.94996C-0.0349219 5.53496 -0.0349219 6.47996 0.550078 7.06496L4.43508 10.95C5.38008 11.895 7.00008 11.22 7.00008 9.88496V2.11495C7.00008 0.779955 5.38008 0.119955 4.43508 1.06496Z"
@@ -342,14 +375,16 @@
               <!-- end left -->
 
               <!-- right -->
-                <div @click.prevent="changeItemPage(1)" v-if="items.total_page>1&&page<items.total_page" class="cursor-pointer float-right p-3 rounded-md border-2">
+              <div @click.prevent="changeItemPage(1)" v-if="items.total_page>1&&page<items.total_page"
+                class="cursor-pointer float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
                     fill="#424242" />
                 </svg>
               </div>
-              <div  v-if="page==items.total_page||items.total_page<=1" class="cursor-not-allowed float-right p-3 rounded-md border-2">
+              <div v-if="page==items.total_page||items.total_page<=1"
+                class="cursor-not-allowed float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M2.565 10.935L6.45 7.04996C7.035 6.46496 7.035 5.51996 6.45 4.93496L2.565 1.04996C1.62 0.119957 0 0.779957 0 2.11496V9.86996C0 11.22 1.62 11.88 2.565 10.935Z"
@@ -359,23 +394,24 @@
               <!-- end right -->
 
             </div>
-        </div>
-       
+          </div>
+
         </div>
       </div>
       <div v-if="isShowItems" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
       <!-- end modal items -->
 
       <!-- modal seamless -->
-      <div v-if="isShowSeamless" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
-        <div class="w-1/2 bg-white rounded-fds z-40 mx-auto">
+      <div v-if="isShowSeamless" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen py-1 px-2">
+        <div class="w-full max-w-xl bg-white rounded-fds z-40 mx-auto max-h-full" style="height:auto;overflow-y:auto;">
           <div class="p-4">
             <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
-             <div class="absolute top-0 right-0">
-               <button @click.prevent="isShowSeamless=false" class="text-white text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
-                 <i class="fas fa-times-circle"></i> Close
-               </button>
-             </div>
+              <div class="absolute top-0 right-0">
+                <button @click.prevent="isShowSeamless=false"
+                  class="text-white text-xs sm:text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
+                  <i class="fas fa-times-circle"></i> Close
+                </button>
+              </div>
               <div>
                 <div>
                   <span class="text-white font-bold text-sm">{{selectedOutlet.channel}}</span>
@@ -394,24 +430,36 @@
                 </label>
               </div>
               <div class="md:w-2/3">
-                <input v-model="connectData.phoneNumber" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="gobiz_phone_number" type="text" placeholder="6282133110099" @keydown="showSendOtpButton = true; showTokenOtp = false">
+                <input v-model="connectData.phoneNumber"
+                  class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                  id="gobiz_phone_number" type="text" placeholder="6282133110099"
+                  @keydown="showSendOtpButton = true; showTokenOtp = false">
               </div>
             </div>
             <div v-show="showSendOtpButton" class="md:flex md:items-center mb-6">
               <div class="md:w-1/3"></div>
-              <div class="md:w-2/3"><b>Dengan menekan tombol Kirim OTP, anda menyetujui bahwa BotFood tidak menyimpan data OTP serta data lain yang bersifat privasi ataupun rahasia</b></div>
+              <div class="md:w-2/3"><b>Dengan menekan tombol Kirim OTP, anda menyetujui bahwa BotFood tidak menyimpan
+                  data OTP serta data lain yang bersifat privasi ataupun rahasia</b></div>
             </div>
             <div v-show="showSendOtpButton" class="md:flex md:items-center mb-6">
               <div class="md:w-1/3"></div>
               <div class="md:w-2/3">
-                <button @click="sendOTP" class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                <button @click="sendOTP"
+                  class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  type="button">
                   <span v-if="showSendOtpButton">Kirim OTP</span>
                   <span v-if="!showSendOtpButton">
-                  <svg class="h-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto; animation-play-state: running; animation-delay: 0s;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                    <circle cx="50" cy="50" fill="none" stroke="#ffffff" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138" style="animation-play-state: running; animation-delay: 0s;">
-                      <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" style="animation-play-state: running; animation-delay: 0s;"></animateTransform>
-                    </circle>
-                   </svg>
+                    <svg class="h-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                      style="margin: auto; background: none; display: block; shape-rendering: auto; animation-play-state: running; animation-delay: 0s;"
+                      width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                      <circle cx="50" cy="50" fill="none" stroke="#ffffff" stroke-width="10" r="35"
+                        stroke-dasharray="164.93361431346415 56.97787143782138"
+                        style="animation-play-state: running; animation-delay: 0s;">
+                        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s"
+                          values="0 50 50;360 50 50" keyTimes="0;1"
+                          style="animation-play-state: running; animation-delay: 0s;"></animateTransform>
+                      </circle>
+                    </svg>
                   </span>
                 </button>
               </div>
@@ -423,22 +471,27 @@
                 </label>
               </div>
               <div class="md:w-2/3">
-                <input v-model="connectData.otp" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="gobiz_otp" type="text" placeholder="****">
+                <input v-model="connectData.otp"
+                  class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                  id="gobiz_otp" type="text" placeholder="****">
               </div>
             </div>
             <div v-show="showTokenOtp" class="md:flex md:items-center mb-6">
               <div class="md:w-1/3"></div>
-              <div class="md:w-2/3"><b>Dengan menekan tombol Submit OTP, anda menyetujui bahwa BotFood tidak menyimpan data OTP serta data lain yang bersifat privasi ataupun rahasia</b></div>
+              <div class="md:w-2/3"><b>Dengan menekan tombol Submit OTP, anda menyetujui bahwa BotFood tidak menyimpan
+                  data OTP serta data lain yang bersifat privasi ataupun rahasia</b></div>
             </div>
             <div v-show="showTokenOtp" class="md:flex md:items-center mb-6">
               <div class="md:w-1/3"></div>
               <div class="md:w-2/3">
-                <button @click="seamlessConnect" class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                <button @click="seamlessConnect"
+                  class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  type="button">
                   Submit OTP
                 </button>
               </div>
             </div>
-            <div v-show="errorMessageSeamless.length > 0"class="md:flex md:items-center mb-6">
+            <div v-show="errorMessageSeamless.length > 0" class="md:flex md:items-center mb-6">
               <div class="md:w-1/3"></div>
               <div class="md:w-2/3">
                 <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
@@ -446,7 +499,7 @@
                 </div>
               </div>
             </div>
-            <div v-show="successMessageSeamless.length > 0"class="md:flex md:items-center mb-6">
+            <div v-show="successMessageSeamless.length > 0" class="md:flex md:items-center mb-6">
               <div class="md:w-1/3"></div>
               <div class="md:w-2/3">
                 <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
@@ -455,21 +508,22 @@
               </div>
             </div>
           </div>
-       
+
         </div>
       </div>
       <div v-if="isShowSeamless" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
 
       <!-- modal open status -->
-      <div v-if="isShowOpenStatus" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen">
-        <div class="w-1/3 bg-white rounded-fds z-40 mx-auto">
+      <div v-if="isShowOpenStatus" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen py-1 px-2">
+        <div class="w-full max-w-2xl bg-white rounded-fds z-40 mx-auto max-h-full" style="height:auto;overflow-y:auto;">
           <div class="p-4">
             <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
-             <div class="absolute top-0 right-0">
-               <button @click.prevent="isShowOpenStatus=false" class="text-white text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
-                 <i class="fas fa-times-circle"></i> Close
-               </button>
-             </div>
+              <div class="absolute top-0 right-0">
+                <button @click.prevent="isShowOpenStatus=false"
+                  class="text-white text-xs sm:text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
+                  <i class="fas fa-times-circle"></i> Close
+                </button>
+              </div>
               <div>
                 <div>
                   <span class="text-white font-bold text-sm">{{selectedOutlet.channel}} • </span>
@@ -489,21 +543,23 @@
               <div class="md:flex md:items-center mb-6">
                 <div class="md:w-1/1 mx-auto">
                   <button v-if="openStatusData.confirm"
-                    class="cursor-not-allowed shadow bg-gray-400 hover:bg-gray-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+                    class="cursor-not-allowed shadow bg-gray-400 hover:bg-gray-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded mb-2">
                     <span class="animate-spin">Mengubah . . .</span>
 
                   </button>
                   <button v-if="!openStatusData.confirm"
-                    class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                    class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded mr-6 mb-2"
                     @click.prevent="handleOpenStatus(selectedOutlet, true)">
                     <span v-if="!isDownload">Lanjutkan</span>
                   </button>
-                  <button v-if="!openStatusData.confirm" @click="isShowOpenStatus = false" class="shadow bg-gray-100 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded ml-6" type="button">Kembali</button>
+                  <button v-if="!openStatusData.confirm" @click="isShowOpenStatus = false"
+                    class="shadow bg-gray-100 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded mb-2"
+                    type="button">Kembali</button>
                 </div>
               </div>
             </div>
 
-          </div> 
+          </div>
         </div>
       </div>
       <div v-if="isShowOpenStatus" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
@@ -514,7 +570,7 @@
 </template>
 <script>
   export default {
-    
+
     data() {
       return {
         data: {},
@@ -565,13 +621,13 @@
       page: {
         handler(r) {
           this.listLoading = true
-          if(r>this.data.total_page) {
+          if (r > this.data.total_page) {
             this.page = this.data.total_page
           }
         }
       }
     },
-  
+
     methods: {
       getData(refresh = false) {
         if (refresh) {
@@ -581,7 +637,9 @@
         let name_param = 'name=' + this.search
         let status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
         let channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
-        this.$axios.get(`me/branch_channels?${name_param}&${status_param}&${channel_param}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}`)
+        this.$axios.get(
+            `me/branch_channels?${name_param}&${status_param}&${channel_param}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}`
+          )
           .then(r => {
             this.data = r.data.data
             this.listLoading = false
@@ -589,31 +647,33 @@
           })
       },
       showItem(branchId, index) {
-        if(index) {
+        if (index) {
           this.selectedOutlet = this.data.branch_channels[index]
         }
         this.selectedOutlet = this.data.branch_channels[index]
-        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
-        .then(r=> {
-          this.isShowItems = true
-          this.items = r.data.data
-        })
+        this.$axios.get(
+            `me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
+          .then(r => {
+            this.isShowItems = true
+            this.items = r.data.data
+          })
       },
 
-    changePage(v) {
-      this.page = parseFloat(this.page)+parseFloat(v)
-      this.getData()
-    },
-    changeItemPage(v) {
-      this.itemPage = parseFloat(this.itemPage)+parseFloat(v)
-      this.getItem(this.selectedOutlet.id)
-    },
-     getItem(branchId) {
-        this.$axios.get(`me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
-        .then(r=> {
-          this.isShowItems = true
-          this.items = r.data.data
-        })
+      changePage(v) {
+        this.page = parseFloat(this.page) + parseFloat(v)
+        this.getData()
+      },
+      changeItemPage(v) {
+        this.itemPage = parseFloat(this.itemPage) + parseFloat(v)
+        this.getItem(this.selectedOutlet.id)
+      },
+      getItem(branchId) {
+        this.$axios.get(
+            `me/branch_channel/${branchId}/items?sort_key=in_stock&sort_value=${this.itemsSort}&page=${this.itemPage}`)
+          .then(r => {
+            this.isShowItems = true
+            this.items = r.data.data
+          })
       },
       checkSeamless(branchChannel) {
         this.connectData = {
@@ -626,18 +686,22 @@
         this.showSendOtpButton = true
         this.showTokenOtp = false
       },
-      handleOpenStatus (branchChannel, confirm) {
+      handleOpenStatus(branchChannel, confirm) {
         if (confirm) {
           this.openStatusData.confirm = true
           this.$axios.post(`me/seamless/open_status/${branchChannel.id}`, {
             confirm: this.openStatusData.confirm
-          }).then(r=> {
-              branchChannel.is_open = r.data.data.is_open
-              this.isShowOpenStatus = false
-              this.$toast.success('Sukses ubah status outlet', {duration: 2500})
+          }).then(r => {
+            branchChannel.is_open = r.data.data.is_open
+            this.isShowOpenStatus = false
+            this.$toast.success('Sukses ubah status outlet', {
+              duration: 2500
+            })
           }).catch(error => {
-              this.isShowOpenStatus = false
-              this.$toast.error('Gagal. Hubungi kami untuk informasi lebih lanjut.', {duration: 2500})
+            this.isShowOpenStatus = false
+            this.$toast.error('Gagal. Hubungi kami untuk informasi lebih lanjut.', {
+              duration: 2500
+            })
           })
         } else {
           this.openStatusData = {
@@ -647,16 +711,18 @@
           this.selectedOutlet = branchChannel
           this.$axios.post(`me/seamless/open_status/${branchChannel.id}`, {
             confirm: this.openStatusData.confirm
-          }).then(r=> {
-              this.openStatusData.text = r.data.data.message
-              this.isShowOpenStatus = true
+          }).then(r => {
+            this.openStatusData.text = r.data.data.message
+            this.isShowOpenStatus = true
           }).catch(error => {
-              this.isShowOpenStatus = false
-              this.$toast.error('Gagal. Hubungi kami untuk informasi lebih lanjut.', {duration: 2500})
-          }) 
+            this.isShowOpenStatus = false
+            this.$toast.error('Gagal. Hubungi kami untuk informasi lebih lanjut.', {
+              duration: 2500
+            })
+          })
         }
       },
-      sendOTP () {
+      sendOTP() {
         this.showSendOtpButton = false
         this.$axios.post(`me/seamless/connect/check/${this.selectedOutlet.id}`, {
           phone_number: this.connectData.phoneNumber
@@ -674,7 +740,7 @@
           }
         })
       },
-      seamlessConnect () {
+      seamlessConnect() {
         this.showTokenOtp = false
         this.$axios.post(`me/seamless/connect/${this.selectedOutlet.id}`, {
           phone_number: this.connectData.phoneNumber,
@@ -683,12 +749,13 @@
         }).then(r => {
           var data = r.data.data
           this.showTokenOtp = false
-          this.successMessageSeamless = `Selamat outlet anda telah terhubung dengan ${data.user.outlet_name}. Data pesanan dalam outlet ini akan disinkronisasi setiap 6 jam. Silahkan tutup pop-up ini dengan menekan tombol Close di bagian atas kanan.`
+          this.successMessageSeamless =
+            `Selamat outlet anda telah terhubung dengan ${data.user.outlet_name}. Data pesanan dalam outlet ini akan disinkronisasi setiap 6 jam. Silahkan tutup pop-up ini dengan menekan tombol Close di bagian atas kanan.`
           for (var key in this.data.branch_channels) {
             if (this.selectedOutlet.id == this.data.branch_channels[key].id) {
               this.data.branch_channels[key].gobiz_is_connected = 1
             }
-          }  
+          }
         }).catch(e => {
           this.showTokenOtp = true
           var errors = e.response.data.errors
@@ -700,4 +767,5 @@
       }
     },
   }
+
 </script>
