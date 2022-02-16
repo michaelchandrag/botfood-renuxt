@@ -82,3 +82,10 @@
     margin-top: unset !important;
   }
 }
+
+
+.mx-datepicker .mx-input{
+ height: 45px !important;
+ font-size: 12px;
+ border-radius: 5px;
+}

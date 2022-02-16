@@ -24,6 +24,7 @@
     "sass-loader": "^10.1.1",
     "tailwindcss": "^2.2.7",
     "vue-functional-calendar": "^2.9.3",
+    "vue2-datepicker": "^3.10.4",
     "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {

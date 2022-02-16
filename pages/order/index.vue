@@ -32,7 +32,7 @@
         <!-- table start -->
         <div v-if="!isLoading" class="bg-white rounded-fd p-8 text-text">
           <div class="flex flex-wrap -mx-3">
-            <div class="w-full sm:w-6/12 p-3">
+            <div class="w-full md:w-12/12 lg:w-6/12 p-3">
               <div class="relative">
                 <form @submit.prevent="getData">
                   <input @change.prevent="getData" type="text"
@@ -48,7 +48,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-full sm:w-3/12 cursor-pointer items-center relative p-3">
+            <div class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3">
               <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
@@ -77,7 +77,14 @@
                 </ul>
               </div>
             </div>
-
+            <div class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3">
+              <vue-datepicker-2 v-model="daterange" placeholder="Periode Tanggal Pesanan"
+                style="width:100%;height:50px;" :type="'date'" @input="changePeriod()" :range="true"
+                :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'">
+                <template #icon-calendar><img src="~/assets/png/icon-calendar.png" width="20px"
+                    height="20px"></template>
+              </vue-datepicker-2>
+            </div>
           </div>
           <div class="mt-6">
             <div class="table-responsive">
@@ -235,10 +242,15 @@
   </div>
 </template>
 <script>
+  import 'vue2-datepicker/index.css';
+  import VueDatePicker2 from 'vue2-datepicker';
   export default {
-
+    components: {
+      'vue-datepicker-2': VueDatePicker2,
+    },
     data() {
       return {
+        daterange: [],
         data: {},
         sorted: {},
         stat: {},
@@ -249,7 +261,9 @@
           sort_value: 'desc',
           state: '',
           status: '',
-          page: 1
+          page: 1,
+          from_ordered_at: '',
+          until_ordered_at: '',
         },
         isLoading: true,
         isLoadingStats: true,
@@ -315,6 +329,19 @@
         this.filters.page = parseFloat(this.filters.page) + parseFloat(v)
         this.getData()
       },
+      changePeriod() {
+        console.log(this.daterange);
+        if (this.daterange.length > 0) {
+          this.filters.from_ordered_at = this.daterange[0] ? this.$moment(this.daterange[0]).format('YYYY-MM-DD 00:00:00') : '';
+          this.filters.until_ordered_at = this.daterange[1] ?  this.$moment(this.daterange[1]).format('YYYY-MM-DD 23:59:59') : '';
+        } else {
+          this.filters.from_ordered_at = '';
+          this.filters.until_ordered_at = '';
+        }
+        this.getData(true);
+
+
+      }
     },
   }
 

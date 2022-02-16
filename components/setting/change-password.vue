@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:24px 32px;margin-bottom:16px;" class="flex mr-6 bg-white rounded-fd items-center">
+  <div style="padding:24px 32px;margin-bottom:16px;" class="flex bg-white rounded-fd items-center">
    <form class="w-full max-w-m">
       <div class="md:flex md:items-center mb-6">
         <div class="md:w-full">
@@ -62,7 +62,7 @@
           </button>
         </div>
       </div>
-    </form>   
+    </form>
   </div>
 </template>
 
