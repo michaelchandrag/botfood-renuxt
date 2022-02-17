@@ -136,7 +136,7 @@
         <!-- end menu inactive -->
       </ul>
 
-      <div class="cursor-pointer btn-height flex items-center px-4 mb-2 text-gray-900 flex" @click.prevent="keluar">
+      <div class="cursor-pointer btn-height flex items-center px-4 mb-2 text-gray-900 flex logout-sidebar" @click.prevent="keluar">
         <svg class="float-left" width="24" height="24" viewBox="0 0 24 24" fill="none"
           xmlns="http://www.w3.org/2000/svg">
           <path

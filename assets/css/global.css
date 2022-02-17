@@ -89,3 +89,14 @@
  font-size: 12px;
  border-radius: 5px;
 }
+
+
+@media(min-width:1400px) {
+    .right-sidebar-calendar{
+      width: 28%;
+    }
+    .wrapper-content.have-right-sidebar{
+      padding-right: calc(28% + 30px);
+      padding-left: 290px;
+    }
+}
