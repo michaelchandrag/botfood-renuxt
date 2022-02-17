@@ -96,7 +96,7 @@
       width: 28%;
     }
     .wrapper-content.have-right-sidebar{
-      padding-right: calc(28% + 30px);
+      padding-right: calc(28% + 40px);
       padding-left: 290px;
     }
 }
