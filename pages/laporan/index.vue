@@ -298,7 +298,7 @@
         disabledDates: {
           from: new Date()
         },
-        date: this.$moment().format('YYYY-MM-DD'),
+        date: this.$moment().subtract(1, "days").format('YYYY-MM-DD'),
         sortValue: 'desc',
         sortKey: 'outlet_item_not_active_time',
         isDownload: false,
@@ -324,7 +324,7 @@
       },
       date: {
         handler(r) {
-          this.date = this.$moment(r).format('YYYY-MM-DD')
+          this.date = this.$moment(r).subtract(1, "days").format('YYYY-MM-DD')
           this.statusDropdown = false
           this.getData()
         }
