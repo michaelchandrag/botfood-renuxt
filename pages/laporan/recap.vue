@@ -11,6 +11,7 @@
         <performa-outlet />
         <order />
         <price />
+        <global />
       </div>
     </div>
   </div>
@@ -20,11 +21,13 @@
   import performaOutlet from '~/components/laporan/performa-outlet.vue'
   import order from '~/components/laporan/order.vue'
   import price from '~/components/laporan/price.vue'
+  import global from '~/components/laporan/global.vue'
   export default {
     components: {
       performaOutlet,
       order,
-      price
+      price,
+      global
     },
     data() {
       return {}
