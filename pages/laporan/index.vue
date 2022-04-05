@@ -324,9 +324,11 @@
       },
       date: {
         handler(r) {
-          this.date = this.$moment(r).subtract(1, "days").format('YYYY-MM-DD')
+          if (this.$moment(this.date)._f == 'YYYY-MM-DD') {
+            this.getData()
+          }
+          this.date = this.$moment(r).format('YYYY-MM-DD')
           this.statusDropdown = false
-          this.getData()
         }
       }
     },
