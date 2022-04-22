@@ -114,6 +114,20 @@
           </nuxt-link>
         </li>
 
+        <li v-if="$route.name=='review'"
+          class="btn-height flex items-center px-4 mb-2 bg-green-food text-white rounded-lg">
+          <nuxt-link to="/review">
+            <i class="fas fa-comments"></i>
+            <span class="ml-4">Ulasan</span>
+          </nuxt-link>
+        </li>
+        <li v-if="$route.name!='review'" class="btn-height flex items-center px-4 mb-2 text-gray-900 rounded-lg">
+          <nuxt-link to="/review">
+            <i class="fas fa-comments"></i>
+            <span class="ml-4">Ulasan</span>
+          </nuxt-link>
+        </li>
+
         <li v-if="$route.name=='setting'"
           class="btn-height flex items-center px-4 mb-2 bg-green-food text-white rounded-lg">
           <nuxt-link to="/setting">
