@@ -25,6 +25,13 @@
             </button>
           </div>
         </div>
+        <div class="md:w-3/12">
+          <div class="">
+            <button class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm" @click.prevent="goToGlobal()">
+              <span>Tampilkan</span>
+            </button>
+          </div>
+        </div>
       </div>
       <!-- <div class="md:flex md:items-center">
         <div class="md:w-1/3"></div>
@@ -68,6 +75,9 @@
           document.body.appendChild(fileLink);
           fileLink.click();
         })
+      },
+      goToGlobal () {
+        window.open("/laporan/global", "_blank")
       }
     }
   }
