@@ -128,6 +128,9 @@
           <table class="table-auto w-full">
             <thead>
               <tr class="border-b">
+                <th class="py-4 text-text text-center cursor-pointer">
+                  Gambar Item
+                </th>
                 <th class="py-4 text-text text-center cursor-pointer" :class="sortKey==='name'?'filter':''"
                   @click.prevent="sortKey='name', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">
                   Nama Item
@@ -205,10 +208,15 @@
                 <td>
                   <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                 </td>
+                <td>
+                  <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                </td>
               </tr>
             </tbody>
             <tbody v-if="!listLoading">
               <tr v-for="item in data.items" :key="item.id" class="hover:bg-gray-200 border-b">
+                <td class="text-center"><img :src="item.image_url" style="width:50px;height:50px;"
+                    @click="imgDetail = item.image_url;isShowIImage = true;" class="rounded-md cursor-pointer">
                 <td class="text-center text-text p-4 rounded-l-fds" style="max-width:200px">{{item.name}}</td>
                 <td class="text-center text-text p-4">
                   <span v-if="item.in_stock" class="text-green-500">Aktif</span>
@@ -279,6 +287,21 @@
         </div>
         <div class="h-20 bg-white"></div>
       </div>
+      <div v-if="isShowIImage" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen py-1 px-2">
+        <div class="w-full max-w-2xl bg-white rounded-fds z-40 mx-auto max-h-full" style="height:auto;overflow-y:auto;">
+          <div class="p-4">
+            <div class="w-full flex justify-end">
+              <button @click.prevent="isShowIImage=false"
+                class="text-white text-xs sm:text-sm px-3 py-1 text-red-500 mb-4 mr-4 bg-white rounded-full rounded shadow-lg">
+                <i class="fas fa-times-circle"></i> Close
+              </button>
+            </div>
+            <img :src="imgDetail" class="w-full rounded-md">
+          </div>
+
+        </div>
+      </div>
+      <div v-if="isShowIImage" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
     </div>
   </div>
 </template>
@@ -289,6 +312,8 @@
       return {
         data: '',
         itemName: '',
+        isShowIImage: false,
+        imgDetail: '',
         listLoading: true,
         isLoading: true,
         outletName: '',

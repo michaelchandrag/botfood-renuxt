@@ -4,8 +4,9 @@
       <nuxt-link to="/">
         <img src="~/assets/svg/logo.svg" class="h-6" alt="">
       </nuxt-link>
-      <div  class="w-1/2 flex flex-row-reverse cursor-pointer nav-toggle-mobile">
-        <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg" @click.prevent="showNav = !showNav">
+      <div class="w-1/2 flex flex-row-reverse cursor-pointer nav-toggle-mobile">
+        <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+          @click.prevent="showNav = !showNav">
           <rect width="24" height="4" transform="matrix(-1 0 0 1 24 0)" fill="#d2d2d2" />
           <rect width="24" height="4" transform="matrix(-1 0 0 1 24 14)" fill="#d2d2d2" />
           <rect width="18" height="4" transform="matrix(-1 0 0 1 24 7)" fill="#d2d2d2" />
@@ -51,7 +52,8 @@
 
             </div>
 
-            <div v-show="subMenuLaporan||$route.name==='laporan'||$route.name==='laporan-recap'">
+            <div
+              v-show="subMenuLaporan||$route.name==='laporan'||$route.name==='laporan-recap' || $route.name==='laporan-ulasan'">
               <ul class="ml-14">
                 <li :class="$route.name==='laporan'?'bg-green-food text-white pl-4':''"
                   class="btn-height flex items-center w-full rounded-lg">
@@ -61,6 +63,11 @@
                 <li :class="$route.name==='laporan-recap'?'bg-green-food text-white pl-4':''"
                   class="btn-height flex items-center w-full rounded-lg">
                   <nuxt-link class="block" to="/laporan/recap">Rekap
+                  </nuxt-link>
+                </li>
+                <li :class="$route.name==='laporan-ulasan'?'bg-green-food text-white pl-4':''"
+                  class="btn-height flex items-center w-full rounded-lg">
+                  <nuxt-link class="block" to="/laporan/ulasan">Ulasan
                   </nuxt-link>
                 </li>
               </ul>
@@ -150,7 +157,8 @@
         <!-- end menu inactive -->
       </ul>
 
-      <div class="cursor-pointer btn-height flex items-center px-4 mb-2 text-gray-900 flex logout-sidebar" @click.prevent="keluar">
+      <div class="cursor-pointer btn-height flex items-center px-4 mb-2 text-gray-900 flex logout-sidebar"
+        @click.prevent="keluar">
         <svg class="float-left" width="24" height="24" viewBox="0 0 24 24" fill="none"
           xmlns="http://www.w3.org/2000/svg">
           <path

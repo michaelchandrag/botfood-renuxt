@@ -49,15 +49,57 @@
               </div>
             </div>
             <div class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3">
-              <vue-datepicker-2 v-model="daterange" placeholder="Periode Ulasan"
-                style="width:100%;height:50px;" :type="'date'" @input="changePeriod()" :range="true"
-                :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'">
+              <vue-datepicker-2 v-model="daterange" placeholder="Periode Ulasan" style="width:100%;height:50px;"
+                :type="'date'" @input="changePeriod()" :range="true" :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'">
                 <template #icon-calendar><img src="~/assets/png/icon-calendar.png" width="20px"
                     height="20px"></template>
               </vue-datepicker-2>
             </div>
-            <div class="w-full md:w-3/12 lg:w-3/12 cursor-pointer items-center relative p-3">
-              
+          </div>
+          <div class="flex flex-wrap -mx-3">
+            <div class="w-full xl:w-3/12 lg:w-4/12 sm:w-12/12 p-2 cursor-pointer items-center relative">
+              <div @click.prevent="filters.n_comment === 0 ?filters.n_comment= '':filters.n_comment=0;getData()"
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="filters.n_comment === 0 ? 'color:#029835 !important;border:1px #029835 solid;' : ''">
+                Dengan Komentar <i class="fa fa-check ml-2 pt-1" v-if="filters.n_comment === 0"></i>
+              </div>
+            </div>
+            <div class="w-full xl:w-9/12 lg:w-8/12 sm:w-12/12 flex items-center relative flex-wrap">
+              <div @click.prevent="filters.rating = 5;getData()"
+                class="border flex py-3 px-4 border-gray-300 rounded-lg focus:outline-none flex justify-center m-1"
+                :style="filters.rating == 5 ? 'color:#029835 !important;border:1px #029835 solid;' : ''">
+                <img v-for="n in 5" :key="n"
+                  :src="n <= 5 ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                  style="width: 12px; height: 12px; display: unset; margin-left: 1px; margin-right: 1px;" />
+              </div>
+              <div @click.prevent="filters.rating = 4;getData()"
+                class="border flex py-3 px-4 border-gray-300 rounded-lg focus:outline-none flex justify-center m-1"
+                :style="filters.rating == 4 ? 'color:#029835 !important;border:1px #029835 solid;' : ''">
+                <img v-for="n in 5" :key="n"
+                  :src="n <= 4 ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                  style="width: 12px; height: 12px; display: unset; margin-left: 1px; margin-right: 1px;" />
+              </div>
+              <div @click.prevent="filters.rating = 3;getData()"
+                class="border flex py-3 px-4 border-gray-300 rounded-lg focus:outline-none flex justify-center m-1"
+                :style="filters.rating == 3 ? 'color:#029835 !important;border:1px #029835 solid;' : ''">
+                <img v-for="n in 5" :key="n"
+                  :src="n <= 3 ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                  style="width: 12px; height: 12px; display: unset; margin-left: 1px; margin-right: 1px;" />
+              </div>
+              <div @click.prevent="filters.rating  = 2;getData()"
+                class="border flex py-3 px-4 border-gray-300 rounded-lg focus:outline-none flex justify-center m-1"
+                :style="filters.rating == 2 ? 'color:#029835 !important;border:1px #029835 solid;' : ''">
+                <img v-for="n in 5" :key="n"
+                  :src="n <= 2 ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                  style="width: 12px; height: 12px; display: unset; margin-left: 1px; margin-right: 1px;" />
+              </div>
+              <div @click.prevent="filters.rating = 1;getData()"
+                class="border flex py-3 px-4 border-gray-300 rounded-lg focus:outline-none flex justify-center m-1"
+                :style="filters.rating == 1 ? 'color:#029835 !important;border:1px #029835 solid;' : ''">
+                <img v-for="n in 5" :key="n"
+                  :src="n <= 1 ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                  style="width: 12px; height: 12px; display: unset; margin-left: 1px; margin-right: 1px;" />
+              </div>
             </div>
           </div>
           <div class="mt-6">
@@ -65,22 +107,23 @@
               <table class="table-auto w-full">
                 <thead class="border-b">
                   <tr>
-                    <th class="py-4 text-text cursor-pointer"
+                    <th class="py-4 text-text cursor-pointer" width="30%"
                       :class="filters.sort_key==='branch_channel_name'?'filter':''"
                       @click.prevent="sortPage('branch_channel_name')">Nama Outlet<i
                         :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
                         class="fas ml-2"></i>
                     </th>
-                    <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='reviews.rating'?'filter':''"
+                    <th class="py-4 text-text cursor-pointer" width="13%"
+                      :class="filters.sort_key==='reviews.rating'?'filter':''"
                       @click.prevent="sortPage('reviews.rating')">Rating<i
                         :class="filters.sort_value==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"
                         class="fas ml-2"></i>
                     </th>
+                    <th class="py-4 text-text" width="10%">Tanggal diulas
+                    </th>
+                    <th class="py-4 text-text" width="20%">Nama Item
+                    </th>
                     <th class="py-4 text-text">Komentar<i class="fas ml-2"></i>
-                    </th>
-                    <th class="py-4 text-text" >Nama Item
-                    </th>
-                    <th class="py-4 text-text" >Tanggal diulas
                     </th>
                     <!-- <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='state'?'filter':''" @click.prevent="sortKey='state', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Kondisi<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
                     <!-- <th class="py-4 text-text">Aksi</th><th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='net_price'?'filter':''" @click.prevent="sortKey='net_price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Diskon<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
@@ -116,16 +159,19 @@
                 <tbody v-if="!listLoading">
                   <tr v-for="(review, index) in data.reviews" :key="index" class="hover:bg-gray-200 border-b">
                     <td class="text-center text-text p-4">
-                      {{review.branch_channel_name}} - {{review.branch_channel_channel}} 
+                      {{review.branch_channel_name}} - {{review.branch_channel_channel}}
                     </td>
                     <td class="text-center p-4">
                       <div class="w-full">
-                        <img v-for="n in 5" :src="n <= review.rating ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)" style="width: 12px; height: 12px; display: unset; margin-left: 1px; margin-right: 1px;"/>
+                        <img v-for="n in 5" :key="n"
+                          :src="n <= review.rating ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                          style="width: 12px; height: 12px; display: unset; margin-left: 1px; margin-right: 1px;" />
                       </div>
                     </td>
-                    <td class="text-center text-left p-4">{{review.comment}}</td>
-                    <td class="text-center text-left p-4">{{review.item_name}}</td>
                     <td class="text-center text-text p-4">{{$moment(review.created_at).format('DD-MMM-YYYY H:s')}}</td>
+                    <td class="text-center text-left p-4">{{review.item_name ? review.item_name : '-'}}</td>
+                    <td class="text-center text-left p-4">{{review.comment ? review.comment : '-'}}</td>
+
                   </tr>
                 </tbody>
               </table>
@@ -208,6 +254,8 @@
         sorted: {},
         stat: {},
         search: '',
+        withCommentar: false,
+        selectedStar: '',
         filters: {
           q: '',
           sort_key: 'reviews.created_at',
@@ -216,6 +264,7 @@
           from_created_at: '',
           until_created_at: '',
           n_comment: '',
+          rating: '',
         },
         isLoading: true,
         isLoadingStats: true,
@@ -283,8 +332,10 @@
       },
       changePeriod() {
         if (this.daterange.length > 0) {
-          this.filters.from_created_at = this.daterange[0] ? this.$moment(this.daterange[0]).format('YYYY-MM-DD 00:00:00') : '';
-          this.filters.until_created_at = this.daterange[1] ?  this.$moment(this.daterange[1]).format('YYYY-MM-DD 23:59:59') : '';
+          this.filters.from_created_at = this.daterange[0] ? this.$moment(this.daterange[0]).format(
+            'YYYY-MM-DD 00:00:00') : '';
+          this.filters.until_created_at = this.daterange[1] ? this.$moment(this.daterange[1]).format(
+            'YYYY-MM-DD 23:59:59') : '';
         } else {
           this.filters.from_created_at = '';
           this.filters.until_created_at = '';
