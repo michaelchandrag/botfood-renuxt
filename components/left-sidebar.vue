@@ -65,11 +65,6 @@
                   <nuxt-link class="block" to="/laporan/recap">Rekap
                   </nuxt-link>
                 </li>
-                <li :class="$route.name==='laporan-ulasan'?'bg-green-food text-white pl-4':''"
-                  class="btn-height flex items-center w-full rounded-lg">
-                  <nuxt-link class="block" to="/laporan/ulasan">Ulasan
-                  </nuxt-link>
-                </li>
               </ul>
             </div>
           </div>
