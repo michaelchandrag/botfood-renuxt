@@ -215,7 +215,7 @@
             </tbody>
             <tbody v-if="!listLoading">
               <tr v-for="item in data.items" :key="item.id" class="hover:bg-gray-200 border-b">
-                <td class="text-center"><img :src="item.image_url" style="width:50px;height:50px;"
+                <td style="vertical-align:middle;" class="text-center py-2"><img :src="item.image_url" style="width:50px;height:50px;display:block;margin:auto;"
                     @click="imgDetail = item.image_url;isShowIImage = true;" class="rounded-md cursor-pointer">
                 <td class="text-center text-text p-4 rounded-l-fds" style="max-width:200px">{{item.name}}</td>
                 <td class="text-center text-text p-4">

@@ -7,25 +7,45 @@
         <span class="text-title">Ulasan</span>
       </div>
       <div class="flex flex-col ">
-        <div class="flex flex-wrap -m-3" v-if="isLoadingStats">
+        <div class="flex flex-wrap -m-3" v-if="isLoadingRecap">
           <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3" v-for="a in 4" :key="a">
             <div class="bg-gray-300 h-48 rounded-fd animate-pulse"></div>
           </div>
         </div>
-        <!-- <div class="flex flex-wrap -mx-3">
-          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
-            <order-summary v-if="!isLoadingStats" :stats="stats.this_month" title="Bulan ini" />
+        <div class="flex flex-wrap -mx-3" v-else>
+          <div class="w-full sm:w-6/12 p-2">
+            <!-- go -->
+            <div class="bg-white gap-4 px-5 rounded-fd mb-5">
+              <div class="text-lg font-bold pt-3 pb-2">Bulan Lalu</div>
+              <div class="flex justify-between w-full items-center py-2" v-for="(context, index) in last_month"
+                :key="index">
+                <div>
+                  <img v-for="n in 5" :key="n"
+                    :src="n <= context.rating ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                    style="width: 15px; height: 15px; display: unset; margin-left: 1px; margin-right: 1px;" />
+                </div>
+                <div class="text-md font-bold text-green-600">{{context.total_rating}}</div>
+              </div>
+            </div>
+            <!-- end go -->
           </div>
-          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
-            <order-summary v-if="!isLoadingStats" :stats="stats.this_week" title="Minggu ini" />
+          <div class="w-full sm:w-6/12 p-2">
+            <!-- go -->
+            <div class="bg-white gap-4 px-5 rounded-fd mb-5">
+              <div class="text-lg font-bold pt-3 pb-2">Bulan Sekarang</div>
+              <div class="flex justify-between w-full items-center py-2" v-for="(context, index) in current_month"
+                :key="index">
+                <div>
+                  <img v-for="n in 5" :key="n"
+                    :src="n <= context.rating ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
+                    style="width: 15px; height: 15px; display: unset; margin-left: 1px; margin-right: 1px;" />
+                </div>
+                <div class="text-md font-bold text-green-600">{{context.total_rating}}</div>
+              </div>
+            </div>
+            <!-- end go -->
           </div>
-          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
-            <order-summary v-if="!isLoadingStats" :stats="stats.yesterday" title="Kemarin" />
-          </div>
-          <div class="w-full xl:w-3/12 lg:w-6/12 md:w-6/12 sm:w-6/12 p-3">
-            <order-summary v-if="!isLoadingStats" :stats="stats.today" title="Hari ini" />
-          </div>
-        </div> -->
+        </div>
 
         <div class="h-6"></div>
         <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse" style="margin-top:0 !important;"></div>
@@ -249,6 +269,10 @@
     },
     data() {
       return {
+        isLoadingRecap: true,
+        last_month: [],
+        current_month: [],
+
         daterange: [],
         data: {},
         sorted: {},
@@ -267,7 +291,6 @@
           rating: '',
         },
         isLoading: true,
-        isLoadingStats: true,
         statusDropdown: false,
         channelDropdown: false,
         isOutletOpen: null,
@@ -281,8 +304,8 @@
     },
     middleware: ['auth-ssr'],
     mounted() {
-      this.getData(true)
-      this.getOrderStats()
+      this.getData(true);
+      this.getDataRecap();
     },
     watch: {
       search: {
@@ -301,13 +324,17 @@
     },
 
     methods: {
-      getOrderStats() {
-        this.$axios.get(`me/order/stats`)
+      getDataRecap() {
+        this.$axios.get(
+            `me/review/stats`
+          )
           .then(r => {
-            this.stats = r.data.data
-            this.isLoadingStats = false
+            this.isLoadingRecap = false;
+            this.last_month = r.data.data.last_month;
+            this.current_month = r.data.data.this_month;
           })
       },
+
       getData(refresh = false) {
         if (refresh) {
           this.filters.page = 1
