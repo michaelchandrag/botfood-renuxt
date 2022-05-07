@@ -23,6 +23,7 @@
                   <img v-for="n in 5" :key="n"
                     :src="n <= context.rating ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
                     style="width: 15px; height: 15px; display: unset; margin-left: 1px; margin-right: 1px;" />
+                  <span class="ml-3 text-xs">({{context.most_branch_channel_name}} - {{context.most_count}})</span>
                 </div>
                 <div class="text-md font-bold text-green-600">{{context.total_rating}}</div>
               </div>
@@ -32,13 +33,14 @@
           <div class="w-full sm:w-6/12 p-2">
             <!-- go -->
             <div class="bg-white gap-4 px-5 rounded-fd mb-5">
-              <div class="text-lg font-bold pt-3 pb-2">Bulan Sekarang</div>
+              <div class="text-lg font-bold pt-3 pb-2">Bulan Ini</div>
               <div class="flex justify-between w-full items-center py-2" v-for="(context, index) in current_month"
                 :key="index">
                 <div>
                   <img v-for="n in 5" :key="n"
                     :src="n <= context.rating ? require(`~/assets/png/star.png`) : require(`~/assets/png/star_empty.png`)"
                     style="width: 15px; height: 15px; display: unset; margin-left: 1px; margin-right: 1px;" />
+                  <span class="ml-3 text-xs">({{context.most_branch_channel_name}} - {{context.most_count}})</span>
                 </div>
                 <div class="text-md font-bold text-green-600">{{context.total_rating}}</div>
               </div>
