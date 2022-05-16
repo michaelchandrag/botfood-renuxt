@@ -12,58 +12,13 @@
           </label>
         </div>
       </div>
-      <div class="md:flex md:items-center mb-6 -m-1">
-        <div class="md:w-2/12 p-1">
-          <label class="block md:text-right mb-1 md:mb-0 pr-4 text-sm" for="inline-old-password">
-            Dari Tanggal
-          </label>
-        </div>
-        <div class="md:w-2/12 p-1 relative" @click.prevent="statusDropdownFrom = !statusDropdownFrom">
-          <div class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none cursor-pointer">
-            <div class="flex-auto">
-              <span>{{$moment(filters.fromDate).format('DD MMM YYYY')}}</span>
-            </div>
-            <div>
-              <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
-                  fill="#9E9E9E" />
-              </svg>
-            </div>
-          </div>
-          <div v-if="statusDropdownFrom" class="absolute -ml-24 right-0 shadow-sm rounded-b-fds z-10">
-            <client-only>
-              <date-picker class="w-64 z-10" format="YYYY-MM-DD" v-model="filters.fromDate" :inline="true"
-                autoclose="true" />
-            </client-only>
-          </div>
-        </div>
-        <div class="md:w-2/12 p-1">
-          <label class="block md:text-right mb-1 md:mb-0 pr-4 text-sm" for="inline-old-password">
-            Sampai Tanggal
-          </label>
-        </div>
-        <div class="md:w-2/12 p-1 relative" @click.prevent="statusDropdownUntil = !statusDropdownUntil">
-          <div class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none cursor-pointer">
-            <div class="flex-auto">
-              <span>{{$moment(filters.untilDate).format('DD MMM YYYY')}}</span>
-            </div>
-            <div>
-              <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
-                  fill="#9E9E9E" />
-              </svg>
-            </div>
-          </div>
-          <div v-if="statusDropdownUntil" class="absolute -ml-24 right-0 shadow-sm rounded-b-fds z-10">
-            <client-only>
-              <date-picker class="w-64 z-10" format="YYYY-MM-DD" v-model="filters.untilDate" :inline="true"
-                autoclose="true" />
-            </client-only>
-          </div>
+      <div class="md:flex md:items-center mb-3 -m-1">
+        <div class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3">
+          <vue-datepicker-2 v-model="daterange" placeholder="Periode Laporan" style="width:100%;height:50px;"
+            :type="'date'" @input="changePeriod()" :range="true" :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'">
+            <template #icon-calendar><img src="~/assets/png/icon-calendar.png" width="20px"
+                height="20px"></template>
+          </vue-datepicker-2>
         </div>
         <div class="md:w-1/12 p-1">
         </div>
@@ -86,12 +41,18 @@
 </template>
 
 <script>
+  import 'vue2-datepicker/index.css';
+  import VueDatePicker2 from 'vue2-datepicker';
   export default {
+    components: {
+      'vue-datepicker-2': VueDatePicker2,
+    },
     data() {
       return {
         isDownload: false,
         statusDropdownFrom: false,
         statusDropdownUntil: false,
+        daterange: [],
         filters: {
           fromDate: this.$moment().subtract(7, "days").format('YYYY-MM-DD'),
           untilDate: this.$moment().subtract(1, "days").format('YYYY-MM-DD')
@@ -99,6 +60,14 @@
       }
     },
     methods: {
+      changePeriod() {
+        if (this.daterange.length > 0) {
+          this.filters.fromDate = this.daterange[0] ? this.$moment(this.daterange[0]).format(
+            'YYYY-MM-DD 00:00:00') : '';
+          this.filters.untilDate = this.daterange[1] ? this.$moment(this.daterange[1]).format(
+            'YYYY-MM-DD 23:59:59') : '';
+        }
+      },
       download() {
         this.isDownload = true
         var queryParams = {
