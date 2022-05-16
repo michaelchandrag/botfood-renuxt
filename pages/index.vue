@@ -23,7 +23,7 @@
                 <path
                   d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.351 6.493c-.08-.801.55-1.493 1.351-1.493s1.431.692 1.351 1.493l-.801 8.01c-.029.282-.266.497-.55.497s-.521-.215-.55-.498l-.801-8.009zm1.351 12.757c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" />
               </svg>
-              <span class="ml-2">Item Tidak Aktif Terlama</span>
+              <span class="ml-2">{{dataItemNotUniform.total_data}} Item Tidak Seragam!</span>
 
             </span>
             <div class="h-6">
@@ -32,14 +32,12 @@
               <table class="table-auto w-full">
                 <thead>
                   <tr class="border-b">
-                    <th class="py-4 text-text text-center" style="max-width:20px">Nama Item</th>
                     <th class="py-4 text-text text-center">Nama Outlet</th>
-                    <th class="py-4 text-text text-center">Channel</th>
-                    <th class="py-4 text-text text-center">Terakhir Aktif</th>
+                    <th class="py-4 text-text text-center">List Item</th>
                   </tr>
                 </thead>
-                <tbody v-if="!isLoading&&!listLoading">
-                  <tr v-if="!isLoading&&!listLoading&&data.idle_items.items.length<=0">
+                <tbody v-if="isLoading">
+                  <tr v-if="isLoading">
                     <td colspan="4" class="p-20 text-center">
                       <span class="block mx-auto w-full">
                         <svg width="20" height="20" class="mx-auto mb-4" viewBox="0 0 20 20" fill="none"
@@ -57,30 +55,31 @@
                   </tr>
 
                 </tbody>
-                <tbody v-if="listLoading">
-                  <tr class="h-12" v-for="n in 5" :key="n">
-                    <td>
-                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                    </td>
-                    <td>
-                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                    </td>
-                    <td>
-                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                    </td>
-                    <td>
-                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody v-if="!listLoading">
-                  <tr v-for="item in data.idle_items.items" :key="item.id"
+                <tbody v-if="!isLoading">
+                  <tr v-for="li in dataItemNotUniform.list" :key="li.branch_id"
                     class="hover:bg-gray-200 text-center border-b rounded-fds hover:border-white">
-                    <td class="p-4 text-text rounded-l-fds" style="max-width:200px">{{item.name}}</td>
-                    <td class="p-4 text-text">{{item.branch_channel_name}}</td>
-                    <td class="p-4 text-text">{{item.branch_channel_channel}}</td>
-                    <td class="p-4 text-text rounded-r-fds">
-                      {{$moment(item.last_not_active_at).format('D MMM YYYY HH:mm')}}</td>
+                    <td class="p-4 text-text">{{li.branch_name}}</td>
+                    <td class="p-4 text-text">
+                      <div class="flex flex-wrap -mx-3">
+                        
+                        <div v-for="item in li.items" :key="item.item_name" class="flex gap-4 p-6 rounded-fd">
+                          <div>
+                            <span>{{item.item_name}}</span>
+                            <div>
+                              <div v-for="detail in item.details" :key="detail.item_id" class="box my-1" style="width:20px;height:20px;">
+                                <img v-if="detail.branch_channel_channel=='GrabFood'" src="~/assets/svg/grabfood.svg" alt="">
+                                <img v-if="detail.branch_channel_channel=='GoFood'" src="~/assets/svg/gofood.svg" alt="">
+                                <img v-if="detail.branch_channel_channel=='ShopeeFood'" src="~/assets/svg/shopeefood.svg" alt="">
+                                <img v-if="detail.branch_channel_channel=='TravelokaEats'" src="~/assets/svg/travelokaeats.svg" alt="">
+                                <span class="mx-2 text-green-500" v-if="detail.item_in_stock == 1">AKTIF</span>
+                                <span class="mx-2 text-red-500" v-else>MATI</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -109,6 +108,7 @@
     data() {
       return {
         data: {},
+        dataItemNotUniform: {},
         GoFood: '',
         GrabFood: '',
         ShopeeFood: '',
@@ -125,6 +125,7 @@
     middleware: ['auth-ssr'],
     mounted() {
       this.changePageNumber()
+      this.getItemNotUniform()
     },
     watch: {
       page: {
@@ -143,17 +144,28 @@
         this.page = this.page + parseFloat(v)
         this.changePageNumber()
       },
+      getItemNotUniform () {
+        this.$axios.get('me/item/not_uniform').then(r => {
+          this.dataItemNotUniform = r.data.data
+          console.log(this.dataItemNotUniform)
+          this.isLoading = false
+        })
+      },
       changePageNumber() {
-        this.listLoading = true
         this.$axios.get('me/dashboard?data=5&page=' + this.page).then(r => {
           this.data = r.data.data
           // this.page = r.data.data.idle_items.current_page
           this.total_page = r.data.data.idle_items.total_page
-          this.listLoading = false
-          this.isLoading = false
         })
       }
     }
   }
 
 </script>
+
+<style scoped>
+  .box {
+    display: flex;
+    align-items:center;
+  }
+</style>
