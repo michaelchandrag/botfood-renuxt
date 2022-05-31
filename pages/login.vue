@@ -90,6 +90,10 @@
             path: '/',
             maxAge: 60 * 60 * 24 * 7
           })
+          this.$cookies.set('_brandSlug', this.login.slug, {
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7
+          })
           this.$router.push('/')
         }).catch(e => {
           this.isLoading = false
