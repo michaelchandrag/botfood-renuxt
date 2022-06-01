@@ -21,6 +21,7 @@
     "lightpick": "^1.6.2",
     "nuxt": "^2.14.12",
     "postcss": "^8.3.6",
+    "pusher-js": "^7.1.0-beta",
     "sass-loader": "^10.1.1",
     "tailwindcss": "^2.2.7",
     "vue-functional-calendar": "^2.9.3",
