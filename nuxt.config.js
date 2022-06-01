@@ -38,7 +38,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/assets/css/global.css'
+    '@/assets/css/global.css',
+    '@/assets/css/app.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -57,10 +58,11 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
+    // '@nuxtjs/tailwindcss',
     '@nuxtjs/moment',
     '@nuxtjs/device',
     '@nuxtjs/pwa',
+    '@nuxt/postcss8',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -81,7 +83,14 @@ export default {
   //   '/api/': { target: 'http://api.botfood.xyz/api/v1/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
   // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+      postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+      },
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: '3000' // default: localhost
@@ -91,41 +100,41 @@ export default {
     locales: ['id']
   },
 
-  tailwindcss: {
-    config: {
-      theme: {
-        extend: {
-          colors: {
-            'green-food': '#029835'
-          },
-          borderRadius: {
-            'fd': '16px',
-            'fds': '8px'
-          },
-          fontSize: {
-            'title': '19px',
-            'summary-title': '33px',
-            'summary-text': '15px',
-            'text': '13px'
+  // tailwindcss: {
+  //   config: {
+  //     theme: {
+  //       extend: {
+  //         colors: {
+  //           'green-food': '#029835'
+  //         },
+  //         borderRadius: {
+  //           'fd': '16px',
+  //           'fds': '8px'
+  //         },
+  //         fontSize: {
+  //           'title': '19px',
+  //           'summary-title': '33px',
+  //           'summary-text': '15px',
+  //           'text': '13px'
 
-          },
-          screens: {
-            'xs' : '480px',
-            'lg': '1024px',
-            // => @media (min-width: 1024px) { ... }
+  //         },
+  //         screens: {
+  //           'xs' : '480px',
+  //           'lg': '1024px',
+  //           // => @media (min-width: 1024px) { ... }
 
-            'xl': '1280px',
-            // => @media (min-width: 1280px) { ... }
-          },
-        },
-        fontFamily: {
-          'sans': ['Poppins', 'ui-sans-serif', 'system-ui']
-        }
+  //           'xl': '1280px',
+  //           // => @media (min-width: 1280px) { ... }
+  //         },
+  //       },
+  //       fontFamily: {
+  //         'sans': ['Poppins', 'ui-sans-serif', 'system-ui']
+  //       }
 
-      },
+  //     },
 
-    }
+  //   }
 
-  }
+  // }
 
 }
