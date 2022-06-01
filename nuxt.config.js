@@ -68,7 +68,6 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
-    '@nuxtjs/proxy',
     'cookie-universal-nuxt',
     '@nuxtjs/toast'
   ],
