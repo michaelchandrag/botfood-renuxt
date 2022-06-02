@@ -6,8 +6,6 @@
       <div>
         <span class="text-title">Live Report</span>
       </div>
-      <div class="h-8"></div>
-      <div class="flex flex-wrap -m-2" v-if="!isLoading"></div>
 
       <div
         v-if="data.branch_channels && data.items"
