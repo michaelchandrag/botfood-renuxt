@@ -93,7 +93,7 @@
           "
         >
           <nuxt-link to="/live-report">
-            <img class="float-left" src="~/assets/svg/home-active.svg" />
+            <img class="float-left" src="~/assets/svg/live-active.svg" />
             <span class="ml-4">Live Report</span>
           </nuxt-link>
         </li>
@@ -110,7 +110,7 @@
           "
         >
           <nuxt-link to="/live-report">
-            <img class="float-left" src="~/assets/svg/home.svg" />
+            <img class="float-left" src="~/assets/svg/live.svg" />
             <span class="ml-4">Live Report</span>
           </nuxt-link>
         </li>

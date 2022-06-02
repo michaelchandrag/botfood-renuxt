@@ -142,7 +142,6 @@ export default {
     this.interval = setInterval(() => {
       // this.data = this.data;
       this.$forceUpdate();
-      console.log("listen");
     }, 1000);
   },
 
