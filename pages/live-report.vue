@@ -36,41 +36,53 @@
             <li
               v-for="(outlet, index) in data.branch_channels"
               :key="index"
-              :class="animateOutlet.includes(index) ? 'bounce animated' : ''"
-              class="flex w-full justify-between"
+              :class="
+                animateOutlet.includes(index)
+                  ? 'animate-fade-in-up animated'
+                  : ''
+              "
             >
-              <div class="flex items-start gap-x-3">
-                <div class="relative">
-                  <div
-                    class="h-3 w-3 rounded-full relative"
-                    :class="outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                  />
-                  <div class="bg-gray-200 w-[2px] my-2 h-14 mx-auto"></div>
-                </div>
+              <div
+                class="flex justify-between transition ease-in-out delay-150"
+                :class="isNewOutlet ? ' opacity-30' : ''"
+              >
+                <div class="flex items-start gap-x-3">
+                  <div class="relative">
+                    <div
+                      class="h-3 w-3 rounded-full relative"
+                      :class="outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'"
+                    />
+                    <div class="bg-gray-200 w-[2px] my-2 h-14 mx-auto"></div>
+                  </div>
 
-                <div>
-                  <p class="-mt-1 font-bold text-sm">
-                    {{ outlet.branch_channel_name }}
-                  </p>
                   <div>
-                    <span
-                      :class="outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                      class="text-xs text-white py-1 px-2 rounded-md mr-2"
-                    >
-                      {{ outlet.branch_channel_channel }}
-                    </span>
-                    <span
-                      class="text-xs text-white py-1 px-2 rounded-md"
-                      :class="outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                      >{{ outlet.is_open ? "Buka" : "Tutup" }}</span
-                    >
+                    <p class="-mt-1 font-bold text-sm">
+                      {{ outlet.branch_channel_name }}
+                    </p>
+                    <div>
+                      <span
+                        :class="
+                          outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'
+                        "
+                        class="text-xs text-white py-1 px-2 rounded-md mr-2"
+                      >
+                        {{ outlet.branch_channel_channel }}
+                      </span>
+                      <span
+                        class="text-xs text-white py-1 px-2 rounded-md"
+                        :class="
+                          outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'
+                        "
+                        >{{ outlet.is_open ? "Buka" : "Tutup" }}</span
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="pr-4">
-                <span class="text-xs text-gray-500">
-                  {{ $moment(outlet.created_at).fromNow() }}
-                </span>
+                <div class="pr-4">
+                  <span class="text-xs text-gray-500">
+                    {{ $moment(outlet.created_at).fromNow() }}
+                  </span>
+                </div>
               </div>
             </li>
           </ul>
@@ -108,43 +120,51 @@
             <li
               v-for="(items, index) in data.items"
               :key="index"
-              class="flex w-full justify-between"
               :class="animateItem.includes(index) ? 'bounce animated' : ''"
             >
-              <div class="flex items-start gap-x-3">
-                <div class="relative">
-                  <div
-                    class="h-3 w-3 rounded-full relative"
-                    :class="items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                  />
-                  <div class="bg-gray-200 w-[2px] my-2 h-20 mx-auto"></div>
-                </div>
-                <div>
-                  <p class="-mt-1 font-bold text-sm">
-                    {{ items.item_name }}
-                  </p>
-                  <span class="text-xs -mt-2 text-gray-500">{{
-                    items.branch_channel_name
-                  }}</span>
-                  <div class="mt-2">
-                    <span
+              <div
+                class="flex justify-between transition ease-in-out delay-150"
+                :class="isNewItem ? ' opacity-30' : ''"
+              >
+                <div class="flex items-start gap-x-3">
+                  <div class="relative">
+                    <div
+                      class="h-3 w-3 rounded-full relative"
                       :class="items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                      class="text-xs text-white py-1 px-2 rounded-md mr-1"
-                    >
-                      {{ items.branch_channel_channel }}
-                    </span>
-                    <span
-                      class="text-xs text-white py-1 px-2 rounded-md"
-                      :class="items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                      >{{ items.in_stock ? "Aktif" : "Mati" }}</span
-                    >
+                    />
+                    <div class="bg-gray-200 w-[2px] my-2 h-20 mx-auto"></div>
+                  </div>
+                  <div>
+                    <p class="-mt-1 font-bold text-sm">
+                      {{ items.item_name }}
+                    </p>
+                    <span class="text-xs -mt-2 text-gray-500">{{
+                      items.branch_channel_name
+                    }}</span>
+                    <div class="mt-2">
+                      <span
+                        :class="
+                          items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'
+                        "
+                        class="text-xs text-white py-1 px-2 rounded-md mr-1"
+                      >
+                        {{ items.branch_channel_channel }}
+                      </span>
+                      <span
+                        class="text-xs text-white py-1 px-2 rounded-md"
+                        :class="
+                          items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'
+                        "
+                        >{{ items.in_stock ? "Aktif" : "Mati" }}</span
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="pr-4">
-                <span class="text-xs text-gray-500">
-                  {{ $moment(items.created_at).fromNow() }}
-                </span>
+                <div class="pr-4">
+                  <span class="text-xs text-gray-500">
+                    {{ $moment(items.created_at).fromNow() }}
+                  </span>
+                </div>
               </div>
             </li>
           </ul>
@@ -174,6 +194,8 @@ export default {
       interval: null,
       animateOutlet: [],
       animateItem: [],
+      isNewOutlet: false,
+      isNewItem: false,
     };
   },
   destroyed() {
@@ -187,6 +209,11 @@ export default {
   },
 
   mounted() {
+    // interval test
+    // setInterval(() => {
+    //   this.isNewItem ? (this.isNewItem = false) : (this.isNewItem = true);
+    //   this.isNewOutlet ? (this.isNewOutlet = false) : (this.isNewOutlet = true);
+    // }, 1000);
     const session_brand = this.$cookies.get("_brandSlug");
     // Pusher.logToConsole = true;
 
@@ -197,9 +224,9 @@ export default {
     const channel = pusher.subscribe(session_brand);
     const self = this;
     channel.bind("live-activity", function (data) {
-      // console.log("ini data", data);
       if (data.message) {
         if (data.message.branch_channels) {
+          self.isNewOutlet = true;
           data.message.branch_channels.forEach((branch, index, arr) => {
             self.animateOutlet.push(index);
             self.data.branch_channels.unshift(branch);
@@ -207,11 +234,17 @@ export default {
         }
 
         if (data.message.items) {
+          self.isNewItem = true;
           data.message.items.forEach((item, index, arr) => {
             self.animateItem.push(index);
             self.data.items.unshift(item);
           });
         }
+
+        setTimeout(() => {
+          self.isNewItem = false;
+          self.isNewOutlet = false;
+        }, 500);
 
         setTimeout(() => {
           self.animateOutlet = [];
@@ -232,7 +265,9 @@ export default {
         if (res.data.success) {
           this.data = res.data.data;
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
