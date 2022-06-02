@@ -139,7 +139,7 @@ export default {
 
   mounted() {
     const session_brand = this.$cookies.get("_brandSlug");
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
 
     const pusher = new Pusher("390e658e7dedc3292cf8", {
       cluster: "ap1",
@@ -148,7 +148,7 @@ export default {
     const channel = pusher.subscribe(session_brand);
     const self = this;
     channel.bind("live-activity", function (data) {
-      console.log("ini data", data);
+      // console.log("ini data", data);
       if (data.message) {
         if (data.message.branch_channels) {
           data.message.branch_channels.forEach((branch) => {
