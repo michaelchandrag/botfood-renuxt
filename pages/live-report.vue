@@ -12,7 +12,26 @@
         class="grid grid-cols-2 gap-x-4 mt-4"
       >
         <div class="rounded-fd bg-white border p-4">
-          <h1 class="text-lg font-bold">Aktivitas Outlet</h1>
+          <div class="flex items-center gap-x-1">
+            <div
+              v-if="animateOutlet.length"
+              class="
+                h-5
+                w-5
+                flex
+                items-center
+                justify-center
+                text-xs
+                rounded-full
+                text-white
+                bg-[#ED2836]
+              "
+            >
+              {{ animateOutlet.length }}
+            </div>
+
+            <h1 class="text-lg font-bold">Aktivitas Outlet</h1>
+          </div>
           <ul v-if="!isLoading" class="mt-6 overflow-auto h-[70vh]">
             <li
               v-for="(outlet, index) in data.branch_channels"
@@ -65,7 +84,26 @@
         </div>
 
         <div class="rounded-fd bg-white border p-4">
-          <h1 class="text-lg font-bold">Aktivitas Item</h1>
+          <div class="flex items-center gap-x-1">
+            <div
+              v-if="animateItem.length"
+              class="
+                h-5
+                w-5
+                flex
+                items-center
+                justify-center
+                text-xs
+                rounded-full
+                text-white
+                bg-[#ED2836]
+              "
+            >
+              {{ animateItem.length }}
+            </div>
+
+            <h1 class="text-lg font-bold">Aktivitas Item</h1>
+          </div>
           <ul v-if="!isLoading" class="mt-6 overflow-auto h-[70vh]">
             <li
               v-for="(items, index) in data.items"
@@ -178,7 +216,7 @@ export default {
         setTimeout(() => {
           self.animateOutlet = [];
           self.animateItem = [];
-        }, 5000);
+        }, 20000);
       }
     });
     this.getData();
