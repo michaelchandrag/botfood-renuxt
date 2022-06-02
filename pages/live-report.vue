@@ -132,7 +132,18 @@ export default {
         branch_channels: [],
       },
       isLoading: false,
+      interval: null,
     };
+  },
+  destroyed() {
+    clearInterval(this.interval);
+  },
+  created() {
+    this.interval = setInterval(() => {
+      // this.data = this.data;
+      this.$forceUpdate();
+      console.log("listen");
+    }, 1000);
   },
 
   mounted() {
