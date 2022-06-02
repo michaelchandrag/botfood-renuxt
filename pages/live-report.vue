@@ -149,7 +149,7 @@ export default {
         }
       }
     });
-    // this.getData();
+    this.getData();
   },
 
   methods: {
