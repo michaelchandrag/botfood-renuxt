@@ -17,7 +17,7 @@
             <li
               v-for="(outlet, index) in data.branch_channels"
               :key="index"
-              :id="index === '0' ? 'first' : ''"
+              :class="animateOutlet.includes(index) ? 'bounce animated' : ''"
               class="flex w-full justify-between"
             >
               <div class="flex items-start gap-x-3">
@@ -71,6 +71,7 @@
               v-for="(items, index) in data.items"
               :key="index"
               class="flex w-full justify-between"
+              :class="animateItem.includes(index) ? 'bounce animated' : ''"
             >
               <div class="flex items-start gap-x-3">
                 <div class="relative">
@@ -133,6 +134,8 @@ export default {
       },
       isLoading: false,
       interval: null,
+      animateOutlet: [],
+      animateItem: [],
     };
   },
   destroyed() {
@@ -159,16 +162,23 @@ export default {
       // console.log("ini data", data);
       if (data.message) {
         if (data.message.branch_channels) {
-          data.message.branch_channels.forEach((branch) => {
+          data.message.branch_channels.forEach((branch, index, arr) => {
+            self.animateOutlet.push(index);
             self.data.branch_channels.unshift(branch);
           });
         }
 
         if (data.message.items) {
-          data.message.items.forEach((branch) => {
-            self.data.items.unshift(branch);
+          data.message.items.forEach((item, index, arr) => {
+            self.animateItem.push(index);
+            self.data.items.unshift(item);
           });
         }
+
+        setTimeout(() => {
+          self.animateOutlet = [];
+          self.animateItem = [];
+        }, 5000);
       }
     });
     this.getData();

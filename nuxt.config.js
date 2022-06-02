@@ -28,6 +28,11 @@ export default {
         type: 'text/css',
         href: 'https://fonts.googleapis.com/css2?family=Poppins'
       },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://unpkg.com/animate.css@3.5.2/animate.min.css'
+      }
 
     ],
     script: [{
