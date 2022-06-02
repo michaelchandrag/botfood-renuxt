@@ -15,7 +15,7 @@
       >
         <div class="rounded-fd bg-white border p-4">
           <h1 class="text-lg font-bold">Aktivitas Outlet</h1>
-          <ul class="mt-6 overflow-auto h-[70vh]">
+          <ul v-if="!isLoading" class="mt-6 overflow-auto h-[70vh]">
             <li
               v-for="(outlet, index) in data.branch_channels"
               :key="index"
@@ -57,11 +57,18 @@
               </div>
             </li>
           </ul>
+          <div v-else class="mt-6">
+            <div
+              v-for="i in 6"
+              :key="i"
+              class="h-24 bg-gray-300 w-full rounded-md animate-pulse mr-6 mb-2"
+            ></div>
+          </div>
         </div>
 
         <div class="rounded-fd bg-white border p-4">
           <h1 class="text-lg font-bold">Aktivitas Item</h1>
-          <ul class="mt-6 overflow-auto h-[70vh]">
+          <ul v-if="!isLoading" class="mt-6 overflow-auto h-[70vh]">
             <li
               v-for="(items, index) in data.items"
               :key="index"
@@ -104,6 +111,13 @@
               </div>
             </li>
           </ul>
+          <div v-else class="mt-6">
+            <div
+              v-for="i in 6"
+              :key="i"
+              class="h-24 bg-gray-300 w-full rounded-md animate-pulse mr-6 mb-2"
+            ></div>
+          </div>
         </div>
       </div>
     </div>
