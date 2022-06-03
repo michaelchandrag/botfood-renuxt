@@ -238,8 +238,9 @@ export default {
       const pusher = new Pusher("390e658e7dedc3292cf8", {
         cluster: "ap1",
       });
-
+      console.log(session_brand)
       const channel = pusher.subscribe(session_brand);
+      console.log('a')
       const self = this;
       channel.bind("live-activity", function (data) {
         if (data.message) {
