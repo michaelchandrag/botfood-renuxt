@@ -182,6 +182,7 @@
 </template>
 
 <script>
+const isBrowser = typeof window !== "undefined";
 import Pusher from "pusher-js";
 export default {
   data() {
@@ -202,57 +203,18 @@ export default {
     clearInterval(this.interval);
   },
   created() {
+    if (isBrowser) {
+      this.setPusher();
+    }
+
     this.interval = setInterval(() => {
       // this.data = this.data;
       this.$forceUpdate();
     }, 1000);
   },
 
-  mounted() {
-    // interval test
-    // setInterval(() => {
-    //   this.isNewItem ? (this.isNewItem = false) : (this.isNewItem = true);
-    //   this.isNewOutlet ? (this.isNewOutlet = false) : (this.isNewOutlet = true);
-    // }, 1000);
-    const session_brand = this.$cookies.get("_brandSlug");
-    // Pusher.logToConsole = true;
-
-    const pusher = new Pusher("390e658e7dedc3292cf8", {
-      cluster: "ap1",
-    });
-
-    const channel = pusher.subscribe(session_brand);
-    const self = this;
-    channel.bind("live-activity", function (data) {
-      if (data.message) {
-        if (data.message.branch_channels) {
-          self.isNewOutlet = true;
-          data.message.branch_channels.forEach((branch, index, arr) => {
-            self.animateOutlet.push(index);
-            self.data.branch_channels.unshift(branch);
-          });
-        }
-
-        if (data.message.items) {
-          self.isNewItem = true;
-          data.message.items.forEach((item, index, arr) => {
-            self.animateItem.push(index);
-            self.data.items.unshift(item);
-          });
-        }
-
-        setTimeout(() => {
-          self.isNewItem = false;
-          self.isNewOutlet = false;
-        }, 500);
-
-        setTimeout(() => {
-          self.animateOutlet = [];
-          self.animateItem = [];
-        }, 20000);
-      }
-    });
-    this.getData();
+  async mounted() {
+    await this.getData();
   },
 
   methods: {
@@ -268,6 +230,46 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    setPusher() {
+      const session_brand = this.$cookies.get("_brandSlug");
+      // Pusher.logToConsole = true;
+
+      const pusher = new Pusher("390e658e7dedc3292cf8", {
+        cluster: "ap1",
+      });
+
+      const channel = pusher.subscribe(session_brand);
+      const self = this;
+      channel.bind("live-activity", function (data) {
+        if (data.message) {
+          if (data.message.branch_channels) {
+            self.isNewOutlet = true;
+            data.message.branch_channels.forEach((branch, index, arr) => {
+              self.animateOutlet.push(index);
+              self.data.branch_channels.unshift(branch);
+            });
+          }
+
+          if (data.message.items) {
+            self.isNewItem = true;
+            data.message.items.forEach((item, index, arr) => {
+              self.animateItem.push(index);
+              self.data.items.unshift(item);
+            });
+          }
+
+          setTimeout(() => {
+            self.isNewItem = false;
+            self.isNewOutlet = false;
+          }, 500);
+
+          setTimeout(() => {
+            self.animateOutlet = [];
+            self.animateItem = [];
+          }, 20000);
+        }
+      });
     },
   },
 };
