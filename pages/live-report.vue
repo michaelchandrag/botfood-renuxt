@@ -239,7 +239,7 @@ export default {
         cluster: "ap1",
       });
       console.log(session_brand)
-      const channel = pusher.subscribe(session_brand);
+      const channel = pusher.subscribe(this.$cookies.get("_brandSlug"));
       console.log('a')
       const self = this;
       channel.bind("live-activity", function (data) {
