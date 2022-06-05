@@ -208,7 +208,7 @@ export default {
       animateItem: [],
       isNewOutlet: false,
       isNewItem: false,
-      isMute: false,
+      isMute: true,
     };
   },
   watch: {
@@ -265,14 +265,13 @@ export default {
       const pusher = new Pusher("390e658e7dedc3292cf8", {
         cluster: "ap1",
       });
-
       const channel = pusher.subscribe(this.$cookies.get("_brandSlug"));
       const self = this;
       const music = new Audio("/sound.mp3");
       channel.bind("live-activity", function (data) {
         if (data.message) {
-          music.play();
           if (data.message.branch_channels) {
+            music.play();
             self.isNewOutlet = true;
             data.message.branch_channels.forEach((branch, index, arr) => {
               self.animateOutlet.push(index);
@@ -281,6 +280,7 @@ export default {
           }
 
           if (data.message.items) {
+            music.play();
             self.isNewItem = true;
             data.message.items.forEach((item, index, arr) => {
               self.animateItem.push(index);
@@ -290,11 +290,11 @@ export default {
 
           const outletText =
             data.message.branch_channels.length > 0
-              ? data.message.branch_channels + "update outlet "
+              ? data.message.branch_channels.length + " update outlet "
               : "";
           const itemText =
             data.message.items.length > 0
-              ? data.message.items + "update item "
+              ? data.message.items.length + " update item "
               : "";
 
           const text = outletText + itemText;
