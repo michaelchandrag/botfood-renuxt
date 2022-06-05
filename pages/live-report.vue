@@ -259,15 +259,14 @@ export default {
       }
     },
     setPusher() {
-      const session_brand = this.$cookies.get("_brandSlug");
+      // const session_brand = this.$cookies.get("_brandSlug");
       // Pusher.logToConsole = true;
 
       const pusher = new Pusher("390e658e7dedc3292cf8", {
         cluster: "ap1",
       });
-      console.log(session_brand)
+
       const channel = pusher.subscribe(this.$cookies.get("_brandSlug"));
-      console.log('a')
       const self = this;
       const music = new Audio("/sound.mp3");
       channel.bind("live-activity", function (data) {
