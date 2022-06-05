@@ -265,8 +265,9 @@ export default {
       const pusher = new Pusher("390e658e7dedc3292cf8", {
         cluster: "ap1",
       });
-
-      const channel = pusher.subscribe(session_brand);
+      console.log(session_brand)
+      const channel = pusher.subscribe(this.$cookies.get("_brandSlug"));
+      console.log('a')
       const self = this;
       const music = new Audio("/sound.mp3");
       channel.bind("live-activity", function (data) {
