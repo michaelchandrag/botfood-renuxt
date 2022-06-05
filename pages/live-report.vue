@@ -3,8 +3,19 @@
     <left-sidebar class="px-6 pt-8" />
 
     <div class="bg-gray-200 wrapper-content">
-      <div>
-        <span class="text-title">Live Report</span>
+      <div class="flex justify-between items-center">
+        <div>
+          <span class="text-title">Live Report</span>
+        </div>
+        <div>
+          <button
+            class="text-sm alert px-4 focus:outline-none"
+            @click.prevent="isMute ? (isMute = false) : (isMute = true)"
+          >
+            <i class="fas fa-volume-up" v-if="!isMute"></i>
+            <i v-else class="fas fa-volume-mute"></i>
+          </button>
+        </div>
       </div>
 
       <div
@@ -197,7 +208,23 @@ export default {
       animateItem: [],
       isNewOutlet: false,
       isNewItem: false,
+      isMute: false,
     };
+  },
+  watch: {
+    isMute: {
+      handler(r) {
+        if (r) {
+          const audio = new Audio("/sound.mp3");
+          audio.pause();
+          audio.currentTime = 0;
+          audio.muted = true;
+        } else {
+          const audio = new Audio("/sound.mp3");
+          audio.play();
+        }
+      },
+    },
   },
   destroyed() {
     clearInterval(this.interval);
@@ -213,8 +240,8 @@ export default {
     }, 1000);
   },
 
-  async mounted() {
-    await this.getData();
+  mounted() {
+    this.getData();
   },
 
   methods: {
@@ -241,8 +268,10 @@ export default {
 
       const channel = pusher.subscribe(session_brand);
       const self = this;
+      const music = new Audio("/sound.mp3");
       channel.bind("live-activity", function (data) {
         if (data.message) {
+          music.play();
           if (data.message.branch_channels) {
             self.isNewOutlet = true;
             data.message.branch_channels.forEach((branch, index, arr) => {
@@ -258,6 +287,24 @@ export default {
               self.data.items.unshift(item);
             });
           }
+
+          const outletText =
+            data.message.branch_channels.length > 0
+              ? data.message.branch_channels + "update outlet "
+              : "";
+          const itemText =
+            data.message.items.length > 0
+              ? data.message.items + "update item "
+              : "";
+
+          const text = outletText + itemText;
+
+          self.$toast.success(text, {
+            position: "top-center",
+            duration: 2000,
+            fitToScreen: true,
+            fullWidth: true,
+          });
 
           setTimeout(() => {
             self.isNewItem = false;
