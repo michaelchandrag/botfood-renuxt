@@ -90,7 +90,7 @@
             path: '/',
             maxAge: 60 * 60 * 24 * 7
           })
-          this.$cookies.set('_brandSlug', this.login.slug, {
+          this.$cookies.set('_brandSlug', this.login.slug.toLowerCase(), {
             path: '/',
             maxAge: 60 * 60 * 24 * 7
           })

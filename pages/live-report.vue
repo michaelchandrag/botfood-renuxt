@@ -309,7 +309,8 @@ export default {
       const pusher = new Pusher("390e658e7dedc3292cf8", {
         cluster: "ap1",
       });
-      const channel = pusher.subscribe(this.$cookies.get("_brandSlug"));
+      var brandSlug = this.$cookies.get("_brandSlug")
+      const channel = pusher.subscribe(brandSlug.toLowerCase());
       const self = this;
       const audio = document.getElementById("sound");
 
