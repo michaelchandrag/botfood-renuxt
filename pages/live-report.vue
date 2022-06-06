@@ -10,36 +10,57 @@
         <div>
           <button
             class="text-sm alert px-4 focus:outline-none"
-            @click.prevent="isMute ? (isMute = false) : (isMute = true)"
+            @click.prevent="isMuted ? (isMuted = false) : (isMuted = true)"
           >
-            <i class="fas fa-volume-up" v-if="!isMute"></i>
+            <i class="fas fa-volume-up" v-if="!isMuted"></i>
             <i v-else class="fas fa-volume-mute"></i>
           </button>
+          <audio controls id="sound" :muted="isMuted" class="hidden">
+            <source src="/sound.mp3" type="audio/mpeg" />
+          </audio>
         </div>
       </div>
 
-      <div class="bg-white rounded-fd p-8 text-text">
-          <div class="flex flex-wrap -mx-3">
-            <div class="w-full md:w-12/12 lg:w-6/12 p-3">
-              <div class="relative">
-                <input type="text"
-                  class="pl-10 pr-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none"
-                  v-model="filters.query" placeholder="Nama Outlet, Nama Item, Channel"/>
-                <div class="absolute top-0 pt-3 pl-2">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M20.71 19.29L17.31 15.9C18.407 14.5025 19.0022 12.7767 19 11C19 9.41775 18.5308 7.87103 17.6518 6.55544C16.7727 5.23985 15.5233 4.21447 14.0615 3.60897C12.5997 3.00347 10.9911 2.84504 9.43928 3.15372C7.88743 3.4624 6.46197 4.22433 5.34315 5.34315C4.22433 6.46197 3.4624 7.88743 3.15372 9.43928C2.84504 10.9911 3.00347 12.5997 3.60897 14.0615C4.21447 15.5233 5.23985 16.7727 6.55544 17.6518C7.87103 18.5308 9.41775 19 11 19C12.7767 19.0022 14.5025 18.407 15.9 17.31L19.29 20.71C19.383 20.8037 19.4936 20.8781 19.6154 20.9289C19.7373 20.9797 19.868 21.0058 20 21.0058C20.132 21.0058 20.2627 20.9797 20.3846 20.9289C20.5064 20.8781 20.617 20.8037 20.71 20.71C20.8037 20.617 20.8781 20.5064 20.9289 20.3846C20.9797 20.2627 21.0058 20.132 21.0058 20C21.0058 19.868 20.9797 19.7373 20.9289 19.6154C20.8781 19.4936 20.8037 19.383 20.71 19.29ZM5 11C5 9.81332 5.3519 8.65328 6.01119 7.66658C6.67047 6.67989 7.60755 5.91085 8.7039 5.45673C9.80026 5.0026 11.0067 4.88378 12.1705 5.11529C13.3344 5.3468 14.4035 5.91825 15.2426 6.75736C16.0818 7.59648 16.6532 8.66558 16.8847 9.82946C17.1162 10.9933 16.9974 12.1997 16.5433 13.2961C16.0892 14.3925 15.3201 15.3295 14.3334 15.9888C13.3467 16.6481 12.1867 17 11 17C9.4087 17 7.88258 16.3679 6.75736 15.2426C5.63214 14.1174 5 12.5913 5 11Z"
-                      fill="#9E9E9E" />
-                  </svg>
-                </div>
+      <div class="mt-4 text-text">
+        <div class="flex flex-wrap -mx-3">
+          <div class="w-full md:w-12/12 lg:w-6/12 p-3">
+            <div class="relative">
+              <input
+                type="text"
+                class="
+                  pl-10
+                  pr-4
+                  py-3
+                  border border-gray-300
+                  rounded-lg
+                  w-full
+                  focus:outline-none
+                "
+                v-model="filters.query"
+                placeholder="Nama Outlet, Nama Item, Channel"
+              />
+              <div class="absolute top-0 pt-3 pl-2">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20.71 19.29L17.31 15.9C18.407 14.5025 19.0022 12.7767 19 11C19 9.41775 18.5308 7.87103 17.6518 6.55544C16.7727 5.23985 15.5233 4.21447 14.0615 3.60897C12.5997 3.00347 10.9911 2.84504 9.43928 3.15372C7.88743 3.4624 6.46197 4.22433 5.34315 5.34315C4.22433 6.46197 3.4624 7.88743 3.15372 9.43928C2.84504 10.9911 3.00347 12.5997 3.60897 14.0615C4.21447 15.5233 5.23985 16.7727 6.55544 17.6518C7.87103 18.5308 9.41775 19 11 19C12.7767 19.0022 14.5025 18.407 15.9 17.31L19.29 20.71C19.383 20.8037 19.4936 20.8781 19.6154 20.9289C19.7373 20.9797 19.868 21.0058 20 21.0058C20.132 21.0058 20.2627 20.9797 20.3846 20.9289C20.5064 20.8781 20.617 20.8037 20.71 20.71C20.8037 20.617 20.8781 20.5064 20.9289 20.3846C20.9797 20.2627 21.0058 20.132 21.0058 20C21.0058 19.868 20.9797 19.7373 20.9289 19.6154C20.8781 19.4936 20.8037 19.383 20.71 19.29ZM5 11C5 9.81332 5.3519 8.65328 6.01119 7.66658C6.67047 6.67989 7.60755 5.91085 8.7039 5.45673C9.80026 5.0026 11.0067 4.88378 12.1705 5.11529C13.3344 5.3468 14.4035 5.91825 15.2426 6.75736C16.0818 7.59648 16.6532 8.66558 16.8847 9.82946C17.1162 10.9933 16.9974 12.1997 16.5433 13.2961C16.0892 14.3925 15.3201 15.3295 14.3334 15.9888C13.3467 16.6481 12.1867 17 11 17C9.4087 17 7.88258 16.3679 6.75736 15.2426C5.63214 14.1174 5 12.5913 5 11Z"
+                    fill="#9E9E9E"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
       <div
         v-if="data.branch_channels && data.items"
-        class="grid grid-cols-2 gap-x-4 mt-4"
+        class="grid grid-cols-2 gap-x-4 mt-2"
       >
         <div class="rounded-fd bg-white border p-4">
           <div class="flex items-center gap-x-1">
@@ -109,9 +130,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="pr-4">
+                <div class="pr-4 text-right">
                   <span class="text-xs text-gray-500">
                     {{ $moment(outlet.created_at).fromNow() }}
+                  </span>
+                  <span class="text-xs block text-gray-400">
+                    {{ $moment(outlet.created_at).format("HH:mm") }}
                   </span>
                 </div>
               </div>
@@ -192,9 +216,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="pr-4">
+                <div class="pr-4 text-right">
                   <span class="text-xs text-gray-500">
                     {{ $moment(items.created_at).fromNow() }}
+                  </span>
+                  <span class="text-xs block text-gray-400">
+                    {{ $moment(items.created_at).format("HH:mm") }}
                   </span>
                 </div>
               </div>
@@ -216,6 +243,7 @@
 <script>
 const isBrowser = typeof window !== "undefined";
 import Pusher from "pusher-js";
+
 export default {
   data() {
     return {
@@ -224,7 +252,7 @@ export default {
         branch_channels: [],
       },
       filters: {
-        query: null
+        query: null,
       },
       isLoading: false,
       interval: null,
@@ -232,24 +260,10 @@ export default {
       animateItem: [],
       isNewOutlet: false,
       isNewItem: false,
-      isMute: true,
+      isMuted: true,
     };
   },
-  watch: {
-    isMute: {
-      handler(r) {
-        if (r) {
-          const audio = new Audio("/sound.mp3");
-          audio.pause();
-          audio.currentTime = 0;
-          audio.muted = true;
-        } else {
-          const audio = new Audio("/sound.mp3");
-          audio.play();
-        }
-      },
-    },
-  },
+
   destroyed() {
     clearInterval(this.interval);
   },
@@ -265,7 +279,13 @@ export default {
   },
 
   mounted() {
+    this.$cookies.set("isMuted", this.isMuted, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
     this.getData();
+
+    // console.log(publisher);
   },
 
   methods: {
@@ -291,49 +311,53 @@ export default {
       });
       const channel = pusher.subscribe(this.$cookies.get("_brandSlug"));
       const self = this;
-      const music = new Audio("/sound.mp3");
+      const audio = document.getElementById("sound");
+
       channel.bind("live-activity", function (data) {
         if (data.message) {
           if (data.message.branch_channels) {
-            music.play();
+            audio.play();
+            const outletText =
+              data.message.branch_channels.length > 0
+                ? data.message.branch_channels.length + " update outlet "
+                : "";
+            self.$toast.success(outletText, {
+              position: "top-center",
+              duration: 2000,
+              fitToScreen: true,
+              fullWidth: true,
+            });
             self.isNewOutlet = true;
             data.message.branch_channels.forEach((branch, index, arr) => {
               self.animateOutlet.push(index);
               self.data.branch_channels.unshift(branch);
             });
+            setTimeout(() => {
+              self.isNewOutlet = false;
+            }, 1000);
           }
 
           if (data.message.items) {
-            music.play();
+            audio.play();
             self.isNewItem = true;
             data.message.items.forEach((item, index, arr) => {
               self.animateItem.push(index);
               self.data.items.unshift(item);
             });
+            const itemText =
+              data.message.items.length > 0
+                ? data.message.items.length + " update item "
+                : "";
+            self.$toast.success(itemText, {
+              position: "top-center",
+              duration: 2000,
+              fitToScreen: true,
+              fullWidth: true,
+            });
+            setTimeout(() => {
+              self.isNewItem = false;
+            }, 1000);
           }
-
-          const outletText =
-            data.message.branch_channels.length > 0
-              ? data.message.branch_channels.length + " update outlet "
-              : "";
-          const itemText =
-            data.message.items.length > 0
-              ? data.message.items.length + " update item "
-              : "";
-
-          const text = outletText + itemText;
-
-          self.$toast.success(text, {
-            position: "top-center",
-            duration: 2000,
-            fitToScreen: true,
-            fullWidth: true,
-          });
-
-          setTimeout(() => {
-            self.isNewItem = false;
-            self.isNewOutlet = false;
-          }, 500);
 
           setTimeout(() => {
             self.animateOutlet = [];
@@ -342,33 +366,52 @@ export default {
         }
       });
     },
-    filterBranchChannel (branchChannel) {
-      if (this.filters.query !== null && this.filters.query.length > 0 ) {
-        var query = this.filters.query.toLowerCase()
-        var branchChannelName = branchChannel.branch_channel_name.toLowerCase()
-        var branchChannelChannel = branchChannel.branch_channel_channel.toLowerCase()
-        if (branchChannelName.indexOf(query) >= 0 || branchChannelChannel.indexOf(query) >= 0) {
-          return true
-        } else {
-          return false
-        }
-      }
-      return true
+    muteAct() {
+      return this.isMuted
+        ? this.$cookies.set("isMuted", false, {
+            path: "/",
+            maxAge: 60 * 60 * 24 * 7,
+          })
+        : this.$cookies.set("isMuted", true, {
+            path: "/",
+            maxAge: 60 * 60 * 24 * 7,
+          });
     },
-    filterItem (item) {
-      if (this.filters.query !== null && this.filters.query.length > 0 ) {
-        var query = this.filters.query.toLowerCase()
-        var branchChannelName = item.branch_channel_name.toLowerCase()
-        var branchChannelChannel = item.branch_channel_channel.toLowerCase()
-        var itemName = item.item_name.toLowerCase()
-        if (itemName.indexOf(query) >= 0 || branchChannelName.indexOf(query) >= 0 || branchChannelChannel.indexOf(query) >= 0) {
-          return true
+    filterBranchChannel(branchChannel) {
+      if (this.filters.query !== null && this.filters.query.length > 0) {
+        var query = this.filters.query.toLowerCase();
+        var branchChannelName = branchChannel.branch_channel_name.toLowerCase();
+        var branchChannelChannel =
+          branchChannel.branch_channel_channel.toLowerCase();
+        if (
+          branchChannelName.indexOf(query) >= 0 ||
+          branchChannelChannel.indexOf(query) >= 0
+        ) {
+          return true;
         } else {
-          return false
+          return false;
         }
       }
-      return true
-    }
+      return true;
+    },
+    filterItem(item) {
+      if (this.filters.query !== null && this.filters.query.length > 0) {
+        var query = this.filters.query.toLowerCase();
+        var branchChannelName = item.branch_channel_name.toLowerCase();
+        var branchChannelChannel = item.branch_channel_channel.toLowerCase();
+        var itemName = item.item_name.toLowerCase();
+        if (
+          itemName.indexOf(query) >= 0 ||
+          branchChannelName.indexOf(query) >= 0 ||
+          branchChannelChannel.indexOf(query) >= 0
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return true;
+    },
   },
 };
 </script>
@@ -376,8 +419,8 @@ export default {
 <style>
 ul::-webkit-scrollbar,
 .scroll__::-webkit-scrollbar {
-  width: 1px;
-  height: 1px;
+  width: 3px;
+  height: 3px;
 }
 ul::-webkit-scrollbar-track,
 .scroll__::-webkit-scrollbar-track {
