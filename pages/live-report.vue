@@ -66,14 +66,7 @@
 
                   <div class="flex gap-x-2">
                     <span> {{ parseInt(channel.items_percentage) }}% </span>
-                    <div
-                      v-if="
-                        parseInt(
-                          liveOutlet[indexOutlet].branch_channels[indexChannel]
-                            .items_percentage
-                        ) !== parseInt(channel.items_percentage)
-                      "
-                    >
+                    <div>
                       <span v-if="channel.state == 'up'">
                         <i class="fas fa-chevron-up text-[#029835]"></i>
                       </span>
