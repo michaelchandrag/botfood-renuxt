@@ -22,6 +22,7 @@
       </div>
 
       <div
+        v-if="!isLoadingLiveOutlet"
         class="
           mt-4
           flex
@@ -33,6 +34,7 @@
           overflow-hidden
           pb-4
         "
+        :class="isNewItem || isNewOutlet ? ' opacity-30' : ''"
       >
         <section
           v-for="(data, indexOutlet) in liveOutletNew"
@@ -78,6 +80,36 @@
             </li>
           </ul>
         </section>
+      </div>
+      <div
+        v-else
+        class="
+          mt-4
+          flex
+          overflow-x-auto
+          space-x-2
+          w-screen
+          relative
+          slider
+          overflow-hidden
+          pb-4
+        "
+      >
+        <section
+          v-for="i in 8"
+          :key="i"
+          class="
+            flex-shrink-0
+            rounded-fd
+            bg-gray-300
+            animate animate-pulse
+            text-sm
+            border
+            p-6
+            h-56
+            w-72
+          "
+        ></section>
       </div>
 
       <div class="text-text">
@@ -347,6 +379,7 @@ export default {
         query_item: null,
       },
       isLoading: false,
+      isLoadingLiveOutlet: false,
       interval: null,
       animateOutlet: [],
       animateItem: [],
@@ -399,9 +432,9 @@ export default {
     },
     async getLiveBranch(mounted) {
       try {
-        this.isLoading = true;
+        this.isLoadingLiveOutlet = true;
         const res = await this.$axios.get("me/live/branchs");
-        this.isLoading = false;
+        this.isLoadingLiveOutlet = false;
         if (res.data.success) {
           if (mounted) {
             this.liveOutlet = res.data.data;
