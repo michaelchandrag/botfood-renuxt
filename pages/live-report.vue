@@ -41,7 +41,7 @@
                 <li
                   v-for="(channel, indexChannel) in data.branch_channels"
                   :key="indexChannel"
-                  class="flex justify-between text-xs border-b py-2"
+                  class="flex justify-between text-xs border-b py-2 relative"
                 >
                   <div class="flex gap-x-1 items-center">
                     <div>
@@ -63,10 +63,7 @@
                       {{ channel.channel }}
                     </span>
                   </div>
-                  <div v-if="channel.is_open == 1">BUKA</div>
-                  <div v-if="channel.is_open == 0">TUTUP</div>
-                  <div v-if="channel.state == 'up'">UP</div>
-                  <div v-if="channel.state == 'down'">DOWN</div>
+
                   <div class="flex gap-x-2">
                     <span> {{ parseInt(channel.items_percentage) }}% </span>
                     <div
@@ -77,20 +74,38 @@
                         ) !== parseInt(channel.items_percentage)
                       "
                     >
-                      <span
-                        v-if="
-                          parseInt(
-                            liveOutlet[indexOutlet].branch_channels[
-                              indexChannel
-                            ].items_percentage
-                          ) < parseInt(channel.items_percentage)
-                        "
-                      >
+                      <span v-if="channel.state == 'up'">
                         <i class="fas fa-chevron-up text-[#029835]"></i>
                       </span>
-                      <span v-else>
+                      <span v-if="channel.state == 'down'">
                         <i class="fas fa-chevron-down text-[#ED2836]"></i>
                       </span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="
+                      absolute
+                      left-4
+                      top-0
+                      h-full
+                      w-full
+                      flex
+                      items-center
+                      justify-center
+                    "
+                  >
+                    <div
+                      class="text-xs px-1 rounded bg-[#029835] text-white"
+                      v-if="channel.is_open == 1"
+                    >
+                      BUKA
+                    </div>
+                    <div
+                      class="text-xs px-1 rounded bg-[#ED2836] text-white"
+                      v-if="channel.is_open == 0"
+                    >
+                      TUTUP
                     </div>
                   </div>
                 </li>
