@@ -33,7 +33,7 @@
               :key="indexOutlet"
               class="rounded-fd bg-white text-sm border p-6 w-72"
             >
-              <h1 class="font-bold text-xs w-full text-center">
+              <h1 class="font-bold text-s w-full text-center">
                 {{ data.branch_name }}
               </h1>
 
@@ -45,19 +45,10 @@
                 >
                   <div class="flex gap-x-1 items-center">
                     <div>
-                      <img
-                        :src="
-                          channel.channel === 'TravelokaEats'
-                            ? ' /img/traveloka.png'
-                            : channel.channel === 'ShopeeFood'
-                            ? ' /img/shopee-food.png'
-                            : channel.channel === 'GrabFood'
-                            ? ' /img/grab-food.png'
-                            : '/img/go-food.png'
-                        "
-                        class="h-4"
-                        alt=""
-                      />
+                      <img class="h-4" v-if="channel.channel=='GoFood'" src="~/assets/svg/gofood.svg" alt="">
+                          <img class="h-4" v-if="channel.channel=='GrabFood'" src="~/assets/svg/grabfood.svg" alt="">
+                          <img class="h-4" v-if="channel.channel=='ShopeeFood'" src="~/assets/svg/shopeefood.svg" alt="">
+                          <img class="h-4" v-if="channel.channel=='TravelokaEats'" src="~/assets/svg/travelokaeats.svg" alt="">
                     </div>
                     <span>
                       {{ channel.channel }}
