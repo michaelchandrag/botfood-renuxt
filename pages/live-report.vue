@@ -37,7 +37,7 @@
         :class="isNewItem || isNewOutlet ? ' opacity-30' : ''"
       >
         <section
-          v-for="(data, indexOutlet) in liveOutletNew"
+          v-for="(data, indexOutlet) in liveOutlet"
           :key="indexOutlet"
           class="flex-shrink-0 rounded-fd bg-white text-sm border p-6 w-72"
         >
@@ -52,6 +52,10 @@
               class="flex justify-between text-xs border-b py-2"
             >
               <div>{{ channel.channel }}</div>
+              <div v-if="channel.is_open == 1">BUKA</div>
+              <div v-if="channel.is_open == 0">TUTUP</div>
+              <div v-if="channel.state == 'up'">UP</div>
+              <div v-if="channel.state == 'down'">DOWN</div>
               <div class="flex gap-x-2">
                 <span> {{ parseInt(channel.items_percentage) }}% </span>
                 <div
@@ -380,6 +384,7 @@ export default {
       },
       isLoading: false,
       isLoadingLiveOutlet: false,
+      isRequestLiveOutlet: false,
       interval: null,
       animateOutlet: [],
       animateItem: [],
@@ -432,18 +437,50 @@ export default {
     },
     async getLiveBranch(mounted) {
       try {
-        this.isLoadingLiveOutlet = true;
+        if (this.isRequestLiveOutlet) {
+          return false
+        }
+        this.isRequestLiveOutlet = true
+        if (mounted) {
+          this.isLoadingLiveOutlet = true;
+        }
         const res = await this.$axios.get("me/live/branchs");
-        this.isLoadingLiveOutlet = false;
         if (res.data.success) {
           if (mounted) {
             this.liveOutlet = res.data.data;
-            this.liveOutletNew = res.data.data;
           } else {
-            this.liveOutlet = this.liveOutletNew;
-            this.liveOutletNew = res.data.data;
+            var branchs = res.data.data
+            for (var key in branchs) {
+              var branch = branchs[key]
+              var existsBranchKey = this.liveOutlet.findIndex(x => x.branch_id === branch.branch_id)
+              if (existsBranchKey !== undefined) {
+                var currentBranch = this.liveOutlet[existsBranchKey]
+                var currentBranchChannels = currentBranch.branch_channels
+                var resultBranchChannels = branch.branch_channels
+
+                for (var keyBc in resultBranchChannels) {
+                  var branchChannel = resultBranchChannels[keyBc]
+                  var existsBranchChannelKey = currentBranchChannels.findIndex(x => x.id === branchChannel.id)
+                  if (existsBranchChannelKey !== undefined) {
+                    var currentBranchChannel = this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey]
+                    this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].is_open = branchChannel.is_open
+
+                    if (parseInt(currentBranchChannel.items_percentage) > parseInt(branchChannel.items_percentage)) {
+                      this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].state = 'down'
+                      console.log(currentBranchChannel.name + ' ' + currentBranchChannel.channel)
+                    } else if (parseInt(currentBranchChannel.items_percentage) < parseInt(branchChannel.items_percentage)) {
+                      this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].state = 'up'
+                      console.log(currentBranchChannel.name + ' ' + currentBranchChannel.channel)
+                    }
+                    this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].items_percentage = branchChannel.items_percentage
+                  }
+                }
+              }
+            }
           }
         }
+        this.isLoadingLiveOutlet = false
+        this.isRequestLiveOutlet = false
       } catch (error) {
         console.error(error);
       }
