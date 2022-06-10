@@ -45,6 +45,7 @@ export default {
   css: [
     '@/assets/css/global.css',
     '@/assets/css/app.css',
+    '@/assets/css/vue-slick.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -54,6 +55,10 @@ export default {
     },
     {
       src: '~/plugins/formatter'
+    },
+     {
+      src: '~/plugins/vue-slick-carousel.js',
+      mode: "client"
     },
   ],
 

@@ -23,67 +23,81 @@
 
       <div
         v-if="!isLoadingLiveOutlet"
-        class="
-          mt-4
-          flex
-          overflow-x-auto
-          space-x-2
-          w-screen
-          relative
-          slider
-          overflow-hidden
-          pb-4
-        "
+        class="mt-4 -ml-[8px]"
         :class="isNewItem || isNewOutlet ? ' opacity-30' : ''"
       >
-        <section
-          v-for="(data, indexOutlet) in liveOutlet"
-          :key="indexOutlet"
-          class="flex-shrink-0 rounded-fd bg-white text-sm border p-6 w-72"
-        >
-          <h1 class="font-bold text-xs w-full text-center">
-            {{ data.branch_name }}
-          </h1>
-
-          <ul class="mt-3">
-            <li
-              v-for="(channel, indexChannel) in data.branch_channels"
-              :key="indexChannel"
-              class="flex justify-between text-xs border-b py-2"
+        <client-only>
+          <VueSlickCarousel v-bind="slickOptions">
+            <div
+              v-for="(data, indexOutlet) in liveOutlet"
+              :key="indexOutlet"
+              class="rounded-fd bg-white text-sm border p-6 w-72"
             >
-              <div>{{ channel.channel }}</div>
-              <div v-if="channel.is_open == 1">BUKA</div>
-              <div v-if="channel.is_open == 0">TUTUP</div>
-              <div v-if="channel.state == 'up'">UP</div>
-              <div v-if="channel.state == 'down'">DOWN</div>
-              <div class="flex gap-x-2">
-                <span> {{ parseInt(channel.items_percentage) }}% </span>
-                <div
-                  v-if="
-                    parseInt(
-                      liveOutlet[indexOutlet].branch_channels[indexChannel]
-                        .items_percentage
-                    ) !== parseInt(channel.items_percentage)
-                  "
+              <h1 class="font-bold text-xs w-full text-center">
+                {{ data.branch_name }}
+              </h1>
+
+              <ul class="mt-3">
+                <li
+                  v-for="(channel, indexChannel) in data.branch_channels"
+                  :key="indexChannel"
+                  class="flex justify-between text-xs border-b py-2"
                 >
-                  <span
-                    v-if="
-                      parseInt(
-                        liveOutlet[indexOutlet].branch_channels[indexChannel]
-                          .items_percentage
-                      ) < parseInt(channel.items_percentage)
-                    "
-                  >
-                    <i class="fas fa-chevron-up text-[#029835]"></i>
-                  </span>
-                  <span v-else>
-                    <i class="fas fa-chevron-down text-[#ED2836]"></i>
-                  </span>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </section>
+                  <div class="flex gap-x-1 items-center">
+                    <div>
+                      <img
+                        :src="
+                          channel.channel === 'TravelokaEats'
+                            ? ' /img/traveloka.png'
+                            : channel.channel === 'ShopeeFood'
+                            ? ' /img/shopee-food.png'
+                            : channel.channel === 'GrabFood'
+                            ? ' /img/grab-food.png'
+                            : '/img/go-food.png'
+                        "
+                        class="h-4"
+                        alt=""
+                      />
+                    </div>
+                    <span>
+                      {{ channel.channel }}
+                    </span>
+                  </div>
+                  <div v-if="channel.is_open == 1">BUKA</div>
+                  <div v-if="channel.is_open == 0">TUTUP</div>
+                  <div v-if="channel.state == 'up'">UP</div>
+                  <div v-if="channel.state == 'down'">DOWN</div>
+                  <div class="flex gap-x-2">
+                    <span> {{ parseInt(channel.items_percentage) }}% </span>
+                    <div
+                      v-if="
+                        parseInt(
+                          liveOutlet[indexOutlet].branch_channels[indexChannel]
+                            .items_percentage
+                        ) !== parseInt(channel.items_percentage)
+                      "
+                    >
+                      <span
+                        v-if="
+                          parseInt(
+                            liveOutlet[indexOutlet].branch_channels[
+                              indexChannel
+                            ].items_percentage
+                          ) < parseInt(channel.items_percentage)
+                        "
+                      >
+                        <i class="fas fa-chevron-up text-[#029835]"></i>
+                      </span>
+                      <span v-else>
+                        <i class="fas fa-chevron-down text-[#ED2836]"></i>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </VueSlickCarousel>
+        </client-only>
       </div>
       <div
         v-else
@@ -393,6 +407,14 @@ export default {
       isMuted: true,
       liveOutlet: [],
       liveOutletNew: [],
+      slickOptions: {
+        slidesToShow: 4,
+        arrows: false,
+        autoplay: true,
+        infinite: true,
+        autoplaySpeed: 3000,
+        pauseOnHover: true,
+      },
     };
   },
 
@@ -438,9 +460,9 @@ export default {
     async getLiveBranch(mounted) {
       try {
         if (this.isRequestLiveOutlet) {
-          return false
+          return false;
         }
-        this.isRequestLiveOutlet = true
+        this.isRequestLiveOutlet = true;
         if (mounted) {
           this.isLoadingLiveOutlet = true;
         }
@@ -449,38 +471,67 @@ export default {
           if (mounted) {
             this.liveOutlet = res.data.data;
           } else {
-            var branchs = res.data.data
+            var branchs = res.data.data;
             for (var key in branchs) {
-              var branch = branchs[key]
-              var existsBranchKey = this.liveOutlet.findIndex(x => x.branch_id === branch.branch_id)
+              var branch = branchs[key];
+              var existsBranchKey = this.liveOutlet.findIndex(
+                (x) => x.branch_id === branch.branch_id
+              );
               if (existsBranchKey !== undefined) {
-                var currentBranch = this.liveOutlet[existsBranchKey]
-                var currentBranchChannels = currentBranch.branch_channels
-                var resultBranchChannels = branch.branch_channels
+                var currentBranch = this.liveOutlet[existsBranchKey];
+                var currentBranchChannels = currentBranch.branch_channels;
+                var resultBranchChannels = branch.branch_channels;
 
                 for (var keyBc in resultBranchChannels) {
-                  var branchChannel = resultBranchChannels[keyBc]
-                  var existsBranchChannelKey = currentBranchChannels.findIndex(x => x.id === branchChannel.id)
+                  var branchChannel = resultBranchChannels[keyBc];
+                  var existsBranchChannelKey = currentBranchChannels.findIndex(
+                    (x) => x.id === branchChannel.id
+                  );
                   if (existsBranchChannelKey !== undefined) {
-                    var currentBranchChannel = this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey]
-                    this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].is_open = branchChannel.is_open
+                    var currentBranchChannel =
+                      this.liveOutlet[existsBranchKey].branch_channels[
+                        existsBranchChannelKey
+                      ];
+                    this.liveOutlet[existsBranchKey].branch_channels[
+                      existsBranchChannelKey
+                    ].is_open = branchChannel.is_open;
 
-                    if (parseInt(currentBranchChannel.items_percentage) > parseInt(branchChannel.items_percentage)) {
-                      this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].state = 'down'
-                      console.log(currentBranchChannel.name + ' ' + currentBranchChannel.channel)
-                    } else if (parseInt(currentBranchChannel.items_percentage) < parseInt(branchChannel.items_percentage)) {
-                      this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].state = 'up'
-                      console.log(currentBranchChannel.name + ' ' + currentBranchChannel.channel)
+                    if (
+                      parseInt(currentBranchChannel.items_percentage) >
+                      parseInt(branchChannel.items_percentage)
+                    ) {
+                      this.liveOutlet[existsBranchKey].branch_channels[
+                        existsBranchChannelKey
+                      ].state = "down";
+                      console.log(
+                        currentBranchChannel.name +
+                          " " +
+                          currentBranchChannel.channel
+                      );
+                    } else if (
+                      parseInt(currentBranchChannel.items_percentage) <
+                      parseInt(branchChannel.items_percentage)
+                    ) {
+                      this.liveOutlet[existsBranchKey].branch_channels[
+                        existsBranchChannelKey
+                      ].state = "up";
+                      console.log(
+                        currentBranchChannel.name +
+                          " " +
+                          currentBranchChannel.channel
+                      );
                     }
-                    this.liveOutlet[existsBranchKey].branch_channels[existsBranchChannelKey].items_percentage = branchChannel.items_percentage
+                    this.liveOutlet[existsBranchKey].branch_channels[
+                      existsBranchChannelKey
+                    ].items_percentage = branchChannel.items_percentage;
                   }
                 }
               }
             }
           }
         }
-        this.isLoadingLiveOutlet = false
-        this.isRequestLiveOutlet = false
+        this.isLoadingLiveOutlet = false;
+        this.isRequestLiveOutlet = false;
       } catch (error) {
         console.error(error);
       }
@@ -624,19 +675,7 @@ ul::-webkit-scrollbar-thumb,
   border: 3px solid #64767f;
 }
 
-.slider::-webkit-scrollbar,
-.scroll__::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-.slider::-webkit-scrollbar-track,
-.scroll__::-webkit-scrollbar-track {
-  background: #c8d0d4;
-}
-.slider::-webkit-scrollbar-thumb,
-.scroll__::-webkit-scrollbar-thumb {
-  background-color: #64767f;
-  border-radius: 20px;
-  border: 3px solid #64767f;
+.slick-slide {
+  padding: 8px !important;
 }
 </style>
