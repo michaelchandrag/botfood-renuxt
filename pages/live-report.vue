@@ -21,7 +21,66 @@
         </div>
       </div>
 
-      <div class="mt-4 text-text">
+      <div
+        class="
+          mt-4
+          flex
+          overflow-x-auto
+          space-x-2
+          w-screen
+          relative
+          slider
+          overflow-hidden
+          pb-4
+        "
+      >
+        <section
+          v-for="(data, indexOutlet) in liveOutletNew"
+          :key="indexOutlet"
+          class="flex-shrink-0 rounded-fd bg-white text-sm border p-6 w-72"
+        >
+          <h1 class="font-bold text-xs w-full text-center">
+            {{ data.branch_name }}
+          </h1>
+
+          <ul class="mt-3">
+            <li
+              v-for="(channel, indexChannel) in data.branch_channels"
+              :key="indexChannel"
+              class="flex justify-between text-xs border-b py-2"
+            >
+              <div>{{ channel.channel }}</div>
+              <div class="flex gap-x-2">
+                <span> {{ parseInt(channel.items_percentage) }}% </span>
+                <div
+                  v-if="
+                    parseInt(
+                      liveOutlet[indexOutlet].branch_channels[indexChannel]
+                        .items_percentage
+                    ) !== parseInt(channel.items_percentage)
+                  "
+                >
+                  <span
+                    v-if="
+                      parseInt(
+                        liveOutlet[indexOutlet].branch_channels[indexChannel]
+                          .items_percentage
+                      ) < parseInt(channel.items_percentage)
+                    "
+                  >
+                    <i class="fas fa-chevron-up text-[#029835]"></i>
+                  </span>
+                  <span v-else>
+                    <i class="fas fa-chevron-down text-[#ED2836]"></i>
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="text-text">
         <div class="flex flex-wrap -mx-3">
           <div class="w-full md:w-12/12 lg:w-6/12 p-3">
             <div class="relative">
@@ -285,7 +344,7 @@ export default {
       },
       filters: {
         query_branch_channel: null,
-        query_item: null
+        query_item: null,
       },
       isLoading: false,
       interval: null,
@@ -294,6 +353,8 @@ export default {
       isNewOutlet: false,
       isNewItem: false,
       isMuted: true,
+      liveOutlet: [],
+      liveOutletNew: [],
     };
   },
 
@@ -317,6 +378,7 @@ export default {
       maxAge: 60 * 60 * 24 * 7,
     });
     this.getData();
+    this.getLiveBranch(true);
 
     // console.log(publisher);
   },
@@ -335,6 +397,24 @@ export default {
         console.error(error);
       }
     },
+    async getLiveBranch(mounted) {
+      try {
+        this.isLoading = true;
+        const res = await this.$axios.get("me/live/branchs");
+        this.isLoading = false;
+        if (res.data.success) {
+          if (mounted) {
+            this.liveOutlet = res.data.data;
+            this.liveOutletNew = res.data.data;
+          } else {
+            this.liveOutlet = this.liveOutletNew;
+            this.liveOutletNew = res.data.data;
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     setPusher() {
       // const session_brand = this.$cookies.get("_brandSlug");
       // Pusher.logToConsole = true;
@@ -342,7 +422,7 @@ export default {
       const pusher = new Pusher("390e658e7dedc3292cf8", {
         cluster: "ap1",
       });
-      var brandSlug = this.$cookies.get("_brandSlug")
+      var brandSlug = this.$cookies.get("_brandSlug");
       const channel = pusher.subscribe(brandSlug.toLowerCase());
       const self = this;
       const audio = document.getElementById("sound");
@@ -398,6 +478,7 @@ export default {
             self.animateItem = [];
           }, 20000);
         }
+        self.getLiveBranch(false);
       });
     },
     muteAct() {
@@ -412,7 +493,10 @@ export default {
           });
     },
     filterBranchChannel(branchChannel) {
-      if (this.filters.query_branch_channel !== null && this.filters.query_branch_channel.length > 0) {
+      if (
+        this.filters.query_branch_channel !== null &&
+        this.filters.query_branch_channel.length > 0
+      ) {
         var query = this.filters.query_branch_channel.toLowerCase();
         var branchChannelName = branchChannel.branch_channel_name.toLowerCase();
         var branchChannelChannel =
@@ -429,7 +513,10 @@ export default {
       return true;
     },
     filterItem(item) {
-      if (this.filters.query_item !== null && this.filters.query_item.length > 0) {
+      if (
+        this.filters.query_item !== null &&
+        this.filters.query_item.length > 0
+      ) {
         var query = this.filters.query_item.toLowerCase();
         var branchChannelName = item.branch_channel_name.toLowerCase();
         var branchChannelChannel = item.branch_channel_channel.toLowerCase();
@@ -461,6 +548,22 @@ ul::-webkit-scrollbar-track,
   background: #c8d0d4;
 }
 ul::-webkit-scrollbar-thumb,
+.scroll__::-webkit-scrollbar-thumb {
+  background-color: #64767f;
+  border-radius: 20px;
+  border: 3px solid #64767f;
+}
+
+.slider::-webkit-scrollbar,
+.scroll__::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.slider::-webkit-scrollbar-track,
+.scroll__::-webkit-scrollbar-track {
+  background: #c8d0d4;
+}
+.slider::-webkit-scrollbar-thumb,
 .scroll__::-webkit-scrollbar-thumb {
   background-color: #64767f;
   border-radius: 20px;
