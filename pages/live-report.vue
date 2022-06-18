@@ -549,8 +549,9 @@ export default {
 
       channel.bind("live-activity", function (data) {
         if (data.message) {
+          console.log(data.message)
           if (data.message.branch_channels) {
-            audio.play();
+            // audio.play();
             const outletText =
               data.message.branch_channels.length > 0
                 ? data.message.branch_channels.length + " update outlet "
@@ -572,7 +573,7 @@ export default {
           }
 
           if (data.message.items) {
-            audio.play();
+            // audio.play();
             self.isNewItem = true;
             data.message.items.forEach((item, index, arr) => {
               self.animateItem.push(index);
