@@ -77,6 +77,20 @@
                     height="20px"></template>
               </vue-datepicker-2>
             </div>
+            <div class="w-full xl:w-3/12 cursor-pointer items-center relative p-2">
+              <div class="">
+                <button v-if="isDownload"
+                  class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
+                  <span class="animate-spin">Downloading . . .</span>
+
+                </button>
+                <button v-if="!isDownload"
+                  class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
+                  @click.prevent="download()">
+                  <span v-if="!isDownload">Download</span>
+                </button>
+              </div>
+            </div>
           </div>
           <div class="flex flex-wrap -mx-3">
             <div class="w-full xl:w-3/12 lg:w-4/12 sm:w-12/12 p-2 cursor-pointer items-center relative">
@@ -274,7 +288,7 @@
         isLoadingRecap: true,
         last_month: [],
         current_month: [],
-
+        isDownload: false,
         daterange: [],
         data: {},
         sorted: {},
@@ -326,6 +340,32 @@
     },
 
     methods: {
+      download () {
+        console.log(this.filters)
+        this.isDownload = true
+        var queryParams = {
+          n_comment: '',
+          from_created_at: this.filters.from_created_at,
+          until_created_at: this.filters.until_created_at,
+          rating: ''
+        }
+        var queryParams = new URLSearchParams(queryParams).toString()
+        this.$axios({
+          method: 'GET',
+          url: `me/reviews/export?${queryParams}`,
+          responseType: 'blob',
+        }).then(r => {
+          this.isDownload = false
+          const url = window.URL.createObjectURL(new Blob([r.data], {
+            'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }));
+          var fileLink = document.createElement('a');
+          fileLink.href = url;
+          fileLink.setAttribute('download', 'laporan-ulasan.xlsx');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+      },
       getDataRecap() {
         this.$axios.get(
             `me/review/stats`
