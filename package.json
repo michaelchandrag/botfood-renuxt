@@ -18,6 +18,7 @@
     "autoprefixer": "^10.4.7",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.8.3",
+    "feather-icons-vue": "^1.0.4",
     "lightpick": "^1.6.2",
     "nuxt": "^2.14.12",
     "postcss": "^8.4.14",
