@@ -13,10 +13,25 @@ export default {
     this.$axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.$cookies.get("_tk");
   },
+  computed: {
+    user() {
+      return this.$store.state.user.user;
+    },
+  },
   mounted() {
-    // if(this.$device.isMobile) {
-    //   this.$router.push('m')
-    // }
+    if (!this.user.is_master) {
+      this.setUserData();
+    }
+  },
+  methods: {
+    async setUserData() {
+      try {
+        const res = await this.$axios.get("/me");
+        if (res.data.success) {
+          this.$store.commit("user/setUser", r.data.data);
+        }
+      } catch (error) {}
+    },
   },
 };
 </script>
