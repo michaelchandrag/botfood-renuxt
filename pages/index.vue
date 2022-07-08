@@ -180,7 +180,7 @@ export default {
   mounted() {
     this.changePageNumber();
     this.getItemNotUniform();
-    this.getMe();
+    // this.getMe();
   },
   watch: {
     page: {
@@ -194,12 +194,12 @@ export default {
     },
   },
   methods: {
-    async getMe() {
-      try {
-        const res = await this.$axios.get("/me");
-        console.log(res);
-      } catch (error) {}
-    },
+    // async getMe() {
+    //   try {
+    //     const res = await this.$axios.get("/me");
+    //     console.log(res);
+    //   } catch (error) {}
+    // },
     changePage(v) {
       this.listLoading = true;
       this.page = this.page + parseFloat(v);
@@ -208,7 +208,7 @@ export default {
     getItemNotUniform() {
       this.$axios.get("me/item/not_uniform").then((r) => {
         this.dataItemNotUniform = r.data.data;
-        console.log(this.dataItemNotUniform);
+        // console.log(this.dataItemNotUniform);
         this.isLoading = false;
       });
     },
