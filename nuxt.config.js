@@ -56,11 +56,11 @@ export default {
     {
       src: '~/plugins/formatter'
     },
-     {
+    {
       src: '~/plugins/vue-slick-carousel.js',
       mode: "client"
     },
-     {
+    {
       src: '~/plugins/feather.js',
       mode: "client"
     },
@@ -85,7 +85,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
     'cookie-universal-nuxt',
-    '@nuxtjs/toast'
+    '@nuxtjs/toast',
+    'nuxt-vue-select'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -98,7 +99,7 @@ export default {
   // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-      postcss: {
+    postcss: {
       plugins: {
         tailwindcss: {},
         autoprefixer: {},

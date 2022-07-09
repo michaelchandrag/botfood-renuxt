@@ -28,7 +28,7 @@ export default {
       try {
         const res = await this.$axios.get("/me");
         if (res.data.success) {
-          this.$store.commit("user/setUser", r.data.data);
+          this.$store.commit("user/setUser", res.data.data);
         }
       } catch (error) {}
     },

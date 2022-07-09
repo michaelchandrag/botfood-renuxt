@@ -43,7 +43,12 @@
       :class="showNav ? 'show-sidebar-mobile' : 'hide-sidebar-mobile'"
     >
       <ul>
-        <li v-for="(menu, i) in menu" :key="i" class="">
+        <li
+          v-for="(menu, i) in menu"
+          :key="i"
+          class=""
+          v-show="menu.level.includes(userLevel)"
+        >
           <div
             :class="
               $route.name === menu.route
@@ -107,6 +112,14 @@ export default {
       showNav: false,
       selectedMenu: "",
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.user;
+    },
+    userLevel() {
+      return this.user.is_master ? 1 : 2;
+    },
   },
   methods: {
     keluar() {

@@ -11,7 +11,6 @@
         <change-password />
       </div>
       <div class="h-8"></div>
-      <right-sidebar-calendar />
     </div>
   </div>
 </template>
