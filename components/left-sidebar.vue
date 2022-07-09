@@ -43,25 +43,54 @@
       :class="showNav ? 'show-sidebar-mobile' : 'hide-sidebar-mobile'"
     >
       <ul>
-        <li
-          v-for="(menu, i) in menu"
-          :key="i"
-          :class="
-            $route.name === menu.route
-              ? 'bg-green-food text-white'
-              : 'text-gray-900'
-          "
-          class="flex items-center px-4 py-3 mb-4 rounded-lg"
-        >
-          <nuxt-link :to="menu.link">
-            <!-- <img
-              class="float-left"
-              :src="$route.name === menu.route ? menu.icon_active : menu.icon"
-            /> -->
+        <li v-for="(menu, i) in menu" :key="i" class="">
+          <div
+            :class="
+              $route.name === menu.route
+                ? 'bg-green-food text-white'
+                : 'text-gray-900'
+            "
+            @click.prevent="
+              !menu.child.length ? $router.push(menu.link) : openMenu(i)
+            "
+            class="flex justify-between items-center p-3 rounded-lg mb-2"
+          >
+            <button>
+              <icon-base id="menu" :name="menu.icon" />
+              <span class="ml-2">{{ menu.label }}</span>
+            </button>
 
-            <icon-base id="menu" :name="menu.icon" />
-            <span class="ml-2">{{ menu.label }}</span>
-          </nuxt-link>
+            <div v-if="menu.child.length">
+              <icon-base id="menu" name="chevron-down" />
+            </div>
+          </div>
+
+          <div v-if="selectedMenu === i" class="my-3">
+            <ul>
+              <li v-for="(child, ix) in menu.child" :key="ix" class="">
+                <div
+                  :class="
+                    $route.name === child.route
+                      ? 'bg-green-food text-white'
+                      : 'text-gray-900'
+                  "
+                  class="
+                    flex
+                    pl-10
+                    justify-between
+                    items-center
+                    p-3
+                    rounded-lg
+                    mb-3
+                  "
+                >
+                  <button @click.prevent="$router.push(child.link)">
+                    <span class="ml-2">{{ child.label }}</span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
         </li>
       </ul>
     </div>
@@ -76,11 +105,19 @@ export default {
       menu,
       subMenuLaporan: false,
       showNav: false,
+      selectedMenu: "",
     };
   },
   methods: {
     keluar() {
       this.$router.push("/login");
+    },
+    openMenu(index) {
+      this.selectedMenu === index
+        ? (this.selectedMenu = "")
+        : (this.selectedMenu = index);
+      // this.selectedMenu = index;
+      console.log("tes");
     },
   },
 };

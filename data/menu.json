@@ -4,55 +4,103 @@
     "route": "index",
     "link": "/",
     "icon": "home",
-    "level": [1,2]
+    "level": [1,2],
+    "child": []
   },
     {
     "label": "Live Report",
     "route": "live-report",
     "link": "/live-report",
     "icon": "activity",
-    "level": [1,2]
+    "level": [1],
+    "child": []
+
+  },
+   {
+    "label": "Laporan",
+    "route": "",
+    "link": "",
+    "icon": "book",
+    "level": [1,2],
+    "child": [
+      {
+        "label": "Performa Outlet",
+        "route": "laporan",
+        "link": "/laporan",
+        "level": [1,2]
+      },
+       {
+        "label": "Rekap",
+        "route": "laporan-recap",
+        "link": "/laporan/recap",
+        "level": [1,2]
+      }
+    ]
   },
    {
     "label": "Pesanan",
     "route": "order",
     "link": "/order",
     "icon": "shopping-cart",
-    "level": [1,2]
+    "level": [1,2],
+    "child": []
+
   },
    {
     "label": "Outlet",
     "route": "outlet",
     "link": "/outlet",
     "icon": "map-pin",
-    "level": [1,2]
+    "level": [1,2],
+    "child": []
+
   },
    {
     "label": "Item",
     "route": "item",
     "link": "/item",
     "icon": "box",
-    "level": [1,2]
+    "level": [1,2],
+    "child": []
+
   },
    {
     "label": "Ulasan",
     "route": "review",
     "link": "/review",
     "icon": "star",
-    "level": [1,2]
+    "level": [1,2],
+    "child": []
+
   },
   {
     "label": "Pengaturan",
-    "route": "setting",
-    "link": "/setting",
+    "route": "",
+    "link": "",
     "icon": "settings",
-    "level": [1,2]
+    "level": [1],
+    "child": [
+        {
+        "label": "Manajemen Akun",
+        "route": "account",
+        "link": "/account",
+        "level": [1,2]
+      },
+      {
+        "label": "Ubah Password",
+        "route": "setting",
+        "link": "/setting",
+        "level": [1,2]
+      }
+    ]
+
   },
   {
     "label": "Keluar",
     "route": "logout",
     "link": "/logout",
     "icon": "log-out",
-    "level": [1,2]
+    "level": [1,2],
+    "child": []
   }
 ]
