@@ -130,7 +130,7 @@ export default {
         ? (this.selectedMenu = "")
         : (this.selectedMenu = index);
       // this.selectedMenu = index;
-      console.log("tes");
+      // console.log("tes");
     },
   },
 };

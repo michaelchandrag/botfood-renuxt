@@ -1,103 +1,139 @@
 <template>
-  <div style="padding:24px 32px;margin-bottom:16px;" class="flex bg-white rounded-fd items-center">
-   <form class="w-full max-w-m">
-      <div class="md:flex md:items-center mb-6">
-        <div class="md:w-full">
-          <label class="block font-bold mb-1 md:mb-0 pr-4">
-            Ubah Password
-          </label>
-        </div>
+  <div
+    style="padding: 32px; margin-bottom: 16px"
+    class="bg-white rounded-fd items-center"
+  >
+    <div class="flex w-full gap-x-4">
+      <div class="w-8/12">
+        <v-select
+          v-model="selectedUser"
+          :get-option-label="(us) => us.name"
+          :options="users"
+          style="width: 100%"
+          placeholder="Select User"
+        ></v-select>
       </div>
-      <div class="md:flex md:items-center mb-6">
-        <div class="md:w-1/3">
-          <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-old-password">
-            Password Lama
-          </label>
-        </div>
-        <div class="md:w-2/3">
-          <input v-model="changePasswordData.oldPassword" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-old-password" type="password" placeholder="******************">
-        </div>
+
+      <div class="w-4/12">
+        <button class="w-full h-9 rounded-lg text-white bg-green-food">
+          Buat Akun
+        </button>
       </div>
-      <div class="md:flex md:items-center mb-6">
-        <div class="md:w-1/3">
-          <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-new-password">
-            Password Baru
-          </label>
-        </div>
-        <div class="md:w-2/3">
-          <input v-model="changePasswordData.newPassword" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-new-password" type="password" placeholder="******************">
-        </div>
-      </div>
-      <div class="md:flex md:items-center mb-6">
-        <div class="md:w-1/3">
-          <label class="block md:text-right mb-1 md:mb-0 pr-4" for="inline-confirm-new-password">
-            Konfirmasi Password Baru
-          </label>
-        </div>
-        <div class="md:w-2/3">
-          <input v-model="changePasswordData.confirmNewPassword" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-confirm-new-password" type="password" placeholder="******************">
-        </div>
-      </div>
-      <div v-if="isSuccess" class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
-        <div class="flex">
-          <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
-          <div>
-            <p class="font-bold">Password berhasil diubah</p>
-          </div>
-        </div>
-      </div>
-      <div v-if="isError" role="alert">
-        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-          Kesalahan
-        </div>
-        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-          <p>{{errorMessage}}</p>
-        </div>
-      </div>
-      <div class="md:flex md:items-center">
-        <div class="md:w-1/3"></div>
-        <div class="md:w-2/3">
-          <button @click="changePassword" class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-            Ubah Password
-          </button>
-        </div>
-      </div>
-    </form>
+    </div>
+
+    <div class="mt-4" v-if="selectedUser.name">
+      <table class="table-auto w-full">
+        <thead>
+          <tr class="border-b">
+            <th class="py-4 text-text text-left cursor-pointer">Nama Outlet</th>
+            <th class="py-4 text-text text-left cursor-pointer">Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            v-for="(branch, index) in branchs"
+            :key="branch.branch_id"
+            class="hover:bg-gray-200 border-b"
+          >
+            <td class="text-left text-text p-4 rounded-l-fds">
+              {{ branch.branch_name }}
+            </td>
+            <td class="text-left text-text p-4 rounded-r-fds">
+              <div
+                class="
+                  cursor-pointer
+                  h-6
+                  w-6
+                  flex
+                  items-center
+                  justify-center
+                  rounded-md
+                  border-2 border-gray-500
+                "
+                @click.prevent="
+                  branchs[index].user_branch_is_active
+                    ? (branchs[index].user_branch_is_active = 0)
+                    : (branchs[index].user_branch_is_active = 1)
+                "
+              >
+                <i
+                  v-if="branch.user_branch_is_active"
+                  class="fas text-green-food fa-check"
+                ></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button
+        @click.prevent="saveBranchsUser(selectedUser.user_id)"
+        class="w-full h-10 mt-4 rounded-lg text-white bg-green-food"
+      >
+        Simpan
+      </button>
+    </div>
+
+    <!-- {{ branchs }} -->
   </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-          changePasswordData: {
-            oldPassword: '',
-            newPassword: '',
-            confirmNewPassword: ''
-          },
-          isError: false,
-          isSuccess: false
-        }
+  data() {
+    return {
+      users: [],
+      selectedUser: {},
+      branchs: [],
+    };
+  },
+  watch: {
+    selectedUser: {
+      handler(r) {
+        this.getUserBranchs(r.user_id);
+      },
+      deep: true,
     },
-    methods: {
-      changePassword () {
-        this.$axios.post('me/change_password', {
-          old_password: this.changePasswordData.oldPassword,
-          new_password: this.changePasswordData.newPassword,
-          confirm_new_password: this.changePasswordData.confirmNewPassword
-        }).then(r => {
-          this.isSuccess = true
-          this.isError = false
-        }).catch(e => {
-          this.isSuccess = false
-          this.isError = true
-          var errors = e.response.data.errors
-          for (var key in errors) {
-            this.errorMessage = errors[key].detail
-            return false
-          }
-        })
-      }
-    }
-}
+    branchs: {
+      handler(r) {
+        this.$forceUpdate();
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    this.getUser();
+  },
+  methods: {
+    async getUser() {
+      try {
+        const res = await this.$axios.get("me/user_brands?q=");
+
+        if (res.data.success) {
+          this.users = res.data.data.user_brands;
+        }
+      } catch (error) {}
+    },
+    async getUserBranchs(id) {
+      try {
+        const res = await this.$axios.get("me/user_branchs?user_id=" + id);
+        if (res.data.success) {
+          this.branchs = res.data.data;
+        }
+      } catch (error) {}
+    },
+
+    async saveBranchsUser(id) {
+      try {
+        const payload = this.branchs;
+        const res = await this.$axios.post("me/user_branchs/" + id, payload);
+
+        if (res.data.success) {
+          this.branchs = res.data.data.update;
+        }
+      } catch (error) {}
+    },
+  },
+};
 </script>

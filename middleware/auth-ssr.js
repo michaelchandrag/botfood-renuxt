@@ -22,17 +22,17 @@ export default function ({
   }
   // console.log(route.name);
 
-  const userLevel = app.store.state.user.user.is_master ? 1 : 2
-  const nowPage = _.filter(menu, [
-    'route', route.name
-  ])
-  if (!nowPage[0]) {
-    redirect('/error/404')
-  } else {
-    if (!nowPage[0].level.includes(userLevel)) {
-      redirect('/error/403')
-    }
-  }
+  // const userLevel = app.store.state.user.user.is_master ? 1 : 2
+  // const nowPage = _.filter(menu, [
+  //   'route', route.name
+  // ])
+  // if (!nowPage[0]) {
+  //   redirect('/error/404')
+  // } else {
+  //   if (!nowPage[0].level.includes(userLevel)) {
+  //     redirect('/error/403')
+  //   }
+  // }
 
   if (_ac == "RwOlwvXC9hcGkuYm90Zm9vZC54eXoiLCJkYXRhIjp7ImJyYW5kIjp7Im") {
     // app.$axios.defaults.headers.common['Authorization'] = 'Bearer '+_tk
