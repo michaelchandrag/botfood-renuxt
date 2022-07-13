@@ -15,7 +15,10 @@
       </div>
 
       <div class="w-4/12">
-        <button class="w-full h-9 rounded-lg text-white bg-green-food">
+        <button
+          @click.prevent="$router.push('/account/new')"
+          class="w-full h-9 rounded-lg text-white bg-green-food"
+        >
           Buat Akun
         </button>
       </div>
@@ -130,7 +133,10 @@ export default {
         const res = await this.$axios.post("me/user_branchs/" + id, payload);
 
         if (res.data.success) {
+          this.$toast.success("Berhasil menyimpan data", { duration: 2000 });
           this.branchs = res.data.data.update;
+        } else {
+          this.$toast.error("Gagal menyimpan data", { duration: 2000 });
         }
       } catch (error) {}
     },
