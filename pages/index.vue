@@ -205,18 +205,18 @@ export default {
       this.page = this.page + parseFloat(v);
       this.changePageNumber();
     },
-    getItemNotUniform() {
-      this.$axios.get("me/item/not_uniform").then((r) => {
+    async getItemNotUniform() {
+      await this.$axios.get("me/item/not_uniform").then((r) => {
         this.dataItemNotUniform = r.data.data;
         // console.log(this.dataItemNotUniform);
         this.isLoading = false;
       });
     },
-    changePageNumber() {
-      this.$axios.get("me/dashboard?data=5&page=" + this.page).then((r) => {
+    async changePageNumber() {
+      await this.$axios.get("me/dashboard?data=5&page=" + this.page).then((r) => {
         this.data = r.data.data;
         // this.page = r.data.data.idle_items.current_page
-        this.total_page = r.data.data.idle_items.total_page;
+        // this.total_page = r.data.data.idle_items.total_page;
       });
     },
   },

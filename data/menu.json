@@ -38,15 +38,6 @@
     ]
   },
    {
-    "label": "Pesanan",
-    "route": "order",
-    "link": "/order",
-    "icon": "shopping-cart",
-    "level": [1,2],
-    "child": []
-
-  },
-   {
     "label": "Outlet",
     "route": "outlet",
     "link": "/outlet",

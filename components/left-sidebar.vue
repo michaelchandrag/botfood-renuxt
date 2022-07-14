@@ -61,12 +61,16 @@
             class="flex justify-between items-center p-3 rounded-lg mb-2"
           >
             <button>
-              <icon-base id="menu" :name="menu.icon" />
+              <client-only>
+                <icon-base id="menu" :name="menu.icon" />
+              </client-only>
               <span class="ml-2">{{ menu.label }}</span>
             </button>
 
             <div v-if="menu.child.length">
-              <icon-base id="menu" name="chevron-down" />
+              <client-only>
+                <icon-base id="menu" name="chevron-down" />
+              </client-only>
             </div>
           </div>
 
