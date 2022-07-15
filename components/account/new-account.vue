@@ -5,12 +5,12 @@
   >
     <form @submit.prevent="saveBranchsUser()">
       <div class="w-full gap-x-4">
-        <div class="flex w-full">
-          <div class="w-full">
+        <div class="grid mt-4 grid-cols-2 w-full gap-4">
+          <div>
             <label class="text-sm text-gray-500" for="">Nama</label>
             <input
-              required
               type="text"
+              required
               class="
                 py-2
                 mt-1
@@ -22,26 +22,6 @@
               "
               v-model="user.name"
               placeholder="Masukkan Nama"
-            />
-          </div>
-        </div>
-        <div class="grid mt-4 grid-cols-2 w-full gap-4">
-          <div>
-            <label class="text-sm text-gray-500" for="">Username</label>
-            <input
-              type="text"
-              required
-              class="
-                py-2
-                mt-1
-                px-3
-                border border-gray-300
-                rounded-lg
-                w-full
-                focus:outline-none
-              "
-              v-model="user.username"
-              placeholder="Masukkan Username"
             />
           </div>
           <div>
@@ -149,6 +129,11 @@
                     rounded-md
                     border-2 border-gray-500
                   "
+                  :class="
+                    branch.user_branch_is_active
+                      ? 'border-green-food bg-green-200'
+                      : 'border-gray-500'
+                  "
                   @click.prevent="
                     branchs[index].user_branch_is_active
                       ? (branchs[index].user_branch_is_active = 0)
@@ -186,7 +171,6 @@ export default {
       user: {
         username: "",
         name: "",
-        phone_number: "",
         password: "",
         confirm_password: "",
       },
@@ -225,7 +209,7 @@ export default {
     async saveBranchsUser() {
       try {
         const payload = {
-          user: this.user,
+          user: { ...this.user, username: this.user.phone_number },
           user_branchs: this.branchs,
         };
         const res = await this.$axios.post("me/create_user", payload);

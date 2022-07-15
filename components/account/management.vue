@@ -17,7 +17,7 @@
       <div class="w-4/12">
         <button
           @click.prevent="$router.push('/account/new')"
-          class="w-full h-9 rounded-lg text-white bg-green-food"
+          class="w-full h-9 rounded-lg text-white bg-blue-500"
         >
           Buat Akun
         </button>
@@ -33,7 +33,7 @@
           </tr>
         </thead>
 
-        <tbody>
+        <tbody v-if="!isLoadingBranch && branchs.length > 1">
           <tr
             v-for="(branch, index) in branchs"
             :key="branch.branch_id"
@@ -52,7 +52,12 @@
                   items-center
                   justify-center
                   rounded-md
-                  border-2 border-gray-500
+                  border-2
+                "
+                :class="
+                  branch.user_branch_is_active
+                    ? 'border-green-food bg-green-200'
+                    : 'border-gray-500'
                 "
                 @click.prevent="
                   branchs[index].user_branch_is_active
@@ -62,9 +67,19 @@
               >
                 <i
                   v-if="branch.user_branch_is_active"
-                  class="fas text-green-food fa-check"
+                  class="fas text-green-food fa-check text-xs"
                 ></i>
               </div>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody v-if="isLoadingBranch">
+          <tr v-for="i in 10" :key="i" class="mb-3">
+            <td colspan="8" class="py-1">
+              <div
+                class="bg-gray-300 rounded-lg w-full h-8 animate animate-pulse"
+              ></div>
             </td>
           </tr>
         </tbody>
@@ -72,9 +87,57 @@
 
       <button
         @click.prevent="saveBranchsUser(selectedUser.user_id)"
-        class="w-full h-10 mt-4 rounded-lg text-white bg-green-food"
+        class="
+          mt-2
+          text-white text-text
+          py-3
+          rounded-lg
+          w-full
+          focus:outline-none
+        "
+        :class="isLoading ? 'bg-gray-400' : 'bg-green-food'"
       >
-        Simpan
+        <span v-if="!isLoading">Simpan</span>
+        <span v-if="isLoading">
+          <svg
+            class="h-5"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            style="
+              margin: auto;
+              background: none;
+              display: block;
+              shape-rendering: auto;
+              animation-play-state: running;
+              animation-delay: 0s;
+            "
+            width="200px"
+            height="200px"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="10"
+              r="35"
+              stroke-dasharray="164.93361431346415 56.97787143782138"
+              style="animation-play-state: running; animation-delay: 0s"
+            >
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                repeatCount="indefinite"
+                dur="1s"
+                values="0 50 50;360 50 50"
+                keyTimes="0;1"
+                style="animation-play-state: running; animation-delay: 0s"
+              ></animateTransform>
+            </circle>
+          </svg>
+        </span>
       </button>
     </div>
 
@@ -89,6 +152,8 @@ export default {
       users: [],
       selectedUser: {},
       branchs: [],
+      isLoading: false,
+      isLoadingBranch: false,
     };
   },
   watch: {
@@ -120,7 +185,10 @@ export default {
     },
     async getUserBranchs(id) {
       try {
+        this.isLoadingBranch = true;
         const res = await this.$axios.get("me/user_branchs?user_id=" + id);
+        this.isLoadingBranch = false;
+
         if (res.data.success) {
           this.branchs = res.data.data;
         }
@@ -129,9 +197,10 @@ export default {
 
     async saveBranchsUser(id) {
       try {
+        this.isLoading = true;
         const payload = this.branchs;
         const res = await this.$axios.post("me/user_branchs/" + id, payload);
-
+        this.isLoading = false;
         if (res.data.success) {
           this.$toast.success("Berhasil menyimpan data", { duration: 2000 });
           this.branchs = res.data.data.update;
