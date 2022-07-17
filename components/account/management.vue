@@ -23,7 +23,7 @@
         </button>
       </div>
     </div>
-
+    {{ filteredBranchs }}
     <div class="mt-4" v-if="selectedUser.name">
       <table class="table-auto w-full">
         <thead>
@@ -34,6 +34,56 @@
         </thead>
 
         <tbody v-if="!isLoadingBranch && branchs.length > 1">
+          <tr class="border-b">
+            <td class="text-left text-text px-4 py-2 rounded-l-fds">
+              <div class="w-1/2">
+                <input
+                  type="text"
+                  required
+                  class="
+                    py-2
+                    mt-1
+                    px-3
+                    text-sm
+                    border border-gray-300
+                    rounded-lg
+                    w-full
+                    focus:outline-none
+                  "
+                  v-model="search"
+                  placeholder="Cari . . . "
+                />
+              </div>
+            </td>
+            <td class="text-left text-text px-4 rounded-r-fds">
+              <div class="flex items-center gap-x-3">
+                <div
+                  @click.prevent="selectAllAction()"
+                  class="
+                    cursor-pointer
+                    h-6
+                    w-6
+                    flex
+                    items-center
+                    justify-center
+                    rounded-md
+                    border-2
+                  "
+                  :class="
+                    selectAll
+                      ? 'border-green-food bg-green-200'
+                      : 'border-gray-500'
+                  "
+                >
+                  <i
+                    v-if="selectAll"
+                    class="fas text-green-food fa-check text-xs"
+                  ></i>
+                </div>
+                <span> Pilih Semua </span>
+              </div>
+            </td>
+          </tr>
           <tr
             v-for="(branch, index) in branchs"
             :key="branch.branch_id"
@@ -154,7 +204,16 @@ export default {
       branchs: [],
       isLoading: false,
       isLoadingBranch: false,
+      selectAll: false,
+      search: "",
     };
+  },
+  computed: {
+    filteredBranchs() {
+      const filtered = this.$_.filter(this.branchs, { name: this.search });
+
+      return filtered;
+    },
   },
   watch: {
     selectedUser: {
@@ -174,6 +233,19 @@ export default {
     this.getUser();
   },
   methods: {
+    selectAllAction() {
+      if (!this.selectAll) {
+        this.selectAll = true;
+        this.branchs.forEach((b, index) => {
+          this.branchs[index].user_branch_is_active = 1;
+        });
+      } else {
+        this.selectAll = false;
+        this.branchs.forEach((b, index) => {
+          this.branchs[index].user_branch_is_active = 0;
+        });
+      }
+    },
     async getUser() {
       try {
         const res = await this.$axios.get("me/user_brands?q=");

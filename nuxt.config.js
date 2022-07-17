@@ -57,6 +57,9 @@ export default {
       src: '~/plugins/formatter'
     },
     {
+      src: '~/plugins/lodash'
+    },
+    {
       src: '~/plugins/vue-slick-carousel.js',
       mode: "client"
     },
