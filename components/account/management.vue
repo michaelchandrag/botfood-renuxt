@@ -23,7 +23,7 @@
         </button>
       </div>
     </div>
-    {{ filteredBranchs }}
+
     <div class="mt-4" v-if="selectedUser.name">
       <table class="table-auto w-full">
         <thead>
@@ -32,8 +32,7 @@
             <th class="py-4 text-text text-left cursor-pointer">Status</th>
           </tr>
         </thead>
-
-        <tbody v-if="!isLoadingBranch && branchs.length > 1">
+        <tbody>
           <tr class="border-b">
             <td class="text-left text-text px-4 py-2 rounded-l-fds">
               <div class="w-1/2">
@@ -84,8 +83,11 @@
               </div>
             </td>
           </tr>
+        </tbody>
+
+        <tbody v-if="!isLoadingBranch && branchs.length > 1">
           <tr
-            v-for="(branch, index) in branchs"
+            v-for="(branch, index) in filtered"
             :key="branch.branch_id"
             class="hover:bg-gray-200 border-b"
           >
@@ -131,6 +133,12 @@
                 class="bg-gray-300 rounded-lg w-full h-8 animate animate-pulse"
               ></div>
             </td>
+          </tr>
+        </tbody>
+
+        <tbody v-if="!isLoadingBranch && !filtered.length">
+          <tr class="mb-3">
+            <td colspan="8" class="py-3 text-center">Data tidak ditemukan</td>
           </tr>
         </tbody>
       </table>
@@ -202,20 +210,20 @@ export default {
       users: [],
       selectedUser: {},
       branchs: [],
+      filtered: [],
       isLoading: false,
       isLoadingBranch: false,
       selectAll: false,
       search: "",
     };
   },
-  computed: {
-    filteredBranchs() {
-      const filtered = this.$_.filter(this.branchs, { name: this.search });
-
-      return filtered;
-    },
-  },
+  computed: {},
   watch: {
+    search: {
+      handler(r) {
+        this.filteredBranchs(r);
+      },
+    },
     selectedUser: {
       handler(r) {
         this.getUserBranchs(r.user_id);
@@ -233,6 +241,17 @@ export default {
     this.getUser();
   },
   methods: {
+    filteredBranchs(keyword) {
+      const filtered = [];
+      this.branchs.forEach((data) => {
+        if (data.branch_name) {
+          if (data.branch_name.toLowerCase().includes(keyword.toLowerCase())) {
+            filtered.push(data);
+          }
+        }
+      });
+      return (this.filtered = filtered);
+    },
     selectAllAction() {
       if (!this.selectAll) {
         this.selectAll = true;
@@ -263,6 +282,7 @@ export default {
 
         if (res.data.success) {
           this.branchs = res.data.data;
+          this.filtered = this.branchs;
         }
       } catch (error) {}
     },
