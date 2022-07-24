@@ -6,17 +6,17 @@
     <div class="flex w-full gap-x-4">
       <div class="w-8/12">
         <v-select
-          v-model="selectedUser"
           :options="users"
           style="width: 100%"
-          placeholder="Select User"
           label="name"
-          @input="searchSome"
+          v-model="selectedUser"
+          placeholder="Cari User "
+          @search="searchSome"
         >
           <template #option="{ name, phone_number }">
             <h3 style="margin: 0">{{ name }}</h3>
             <span class="text-sm">
-              <i class="fas fa-phone"></i>
+              <i class="fas fa-phone mr-1"></i>
               {{ phone_number }}
             </span>
           </template>
@@ -222,6 +222,7 @@ export default {
   data() {
     return {
       users: [],
+      searchUser: "",
       selectedUser: {},
       branchs: [],
       filtered: [],
@@ -233,6 +234,11 @@ export default {
   },
   computed: {},
   watch: {
+    searchUser: {
+      handler(r) {
+        console.log(r);
+      },
+    },
     search: {
       handler(r) {
         this.filteredBranchs(r);
@@ -251,9 +257,7 @@ export default {
       deep: true,
     },
   },
-  mounted() {
-    this.getUser();
-  },
+
   methods: {
     filteredBranchs(keyword) {
       const filtered = [];
@@ -279,9 +283,9 @@ export default {
         });
       }
     },
-    async getUser() {
+    async getUser(keyword) {
       try {
-        const res = await this.$axios.get("me/user_brands?q=");
+        const res = await this.$axios.get("me/user_brands?q=" + keyword);
 
         if (res.data.success) {
           this.users = res.data.data.user_brands;
@@ -315,8 +319,9 @@ export default {
         }
       } catch (error) {}
     },
+
     searchSome(v) {
-      console.log(v);
+      this.getUser(v);
     },
   },
 };

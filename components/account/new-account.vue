@@ -248,6 +248,7 @@ export default {
         password: "",
         confirm_password: "",
       },
+      isLoadingBranch: false,
       passwordError: false,
       branchs: [],
       filtered: [],
