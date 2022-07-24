@@ -11,7 +11,7 @@
           v-model="selectedUser"
           placeholder="Cari User "
           @search="searchSome"
-          :getOptionLabel="user => user.phone_number"
+          :getOptionLabel="user => user.name"
         >
           <template #option="{ name, phone_number }">
             <h3 style="margin: 0">{{ name }}</h3>
