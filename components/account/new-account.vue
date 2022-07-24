@@ -107,10 +107,62 @@
               <th class="py-4 text-text text-left cursor-pointer">Status</th>
             </tr>
           </thead>
-
           <tbody>
+            <tr class="border-b">
+              <td class="text-left text-text px-4 py-2 rounded-l-fds">
+                <div class="w-1/2">
+                  <input
+                    type="text"
+                    required
+                    class="
+                      py-2
+                      mt-1
+                      px-3
+                      text-sm
+                      border border-gray-300
+                      rounded-lg
+                      w-full
+                      focus:outline-none
+                    "
+                    v-model="search"
+                    placeholder="Cari . . . "
+                  />
+                </div>
+              </td>
+              <td class="text-left text-text px-4 rounded-r-fds">
+                <div class="flex items-center gap-x-3">
+                  <div
+                    @click.prevent="selectAllAction()"
+                    class="
+                      cursor-pointer
+                      h-6
+                      w-6
+                      flex
+                      items-center
+                      justify-center
+                      rounded-md
+                      border-2
+                    "
+                    :class="
+                      selectAll
+                        ? 'border-green-food bg-green-200'
+                        : 'border-gray-500'
+                    "
+                  >
+                    <i
+                      v-if="selectAll"
+                      class="fas text-green-food fa-check text-xs"
+                    ></i>
+                  </div>
+                  <span> Pilih Semua </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody v-if="!isLoadingBranch">
             <tr
-              v-for="(branch, index) in branchs"
+              v-for="(branch, index) in filtered"
               :key="branch.branch_id"
               class="hover:bg-gray-200 border-b"
             >
@@ -127,7 +179,7 @@
                     items-center
                     justify-center
                     rounded-md
-                    border-2 border-gray-500
+                    border-2
                   "
                   :class="
                     branch.user_branch_is_active
@@ -142,10 +194,32 @@
                 >
                   <i
                     v-if="branch.user_branch_is_active"
-                    class="fas text-green-food fa-check"
+                    class="fas text-green-food fa-check text-xs"
                   ></i>
                 </div>
               </td>
+            </tr>
+          </tbody>
+
+          <tbody v-if="isLoadingBranch">
+            <tr v-for="i in 10" :key="i" class="mb-3">
+              <td colspan="8" class="py-1">
+                <div
+                  class="
+                    bg-gray-300
+                    rounded-lg
+                    w-full
+                    h-8
+                    animate animate-pulse
+                  "
+                ></div>
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody v-if="!isLoadingBranch && !filtered.length">
+            <tr class="mb-3">
+              <td colspan="8" class="py-3 text-center">Data tidak ditemukan</td>
             </tr>
           </tbody>
         </table>
@@ -176,12 +250,20 @@ export default {
       },
       passwordError: false,
       branchs: [],
+      filtered: [],
+      selectAll: false,
+      search: "",
     };
   },
   mounted() {
     this.getBranchs();
   },
   watch: {
+    search: {
+      handler(r) {
+        this.filteredBranchs(r);
+      },
+    },
     user: {
       handler(r) {
         const numbers = /^[0-9]+$/;
@@ -197,11 +279,23 @@ export default {
     },
   },
   methods: {
+    filteredBranchs(keyword) {
+      const filtered = [];
+      this.branchs.forEach((data) => {
+        if (data.branch_name) {
+          if (data.branch_name.toLowerCase().includes(keyword.toLowerCase())) {
+            filtered.push(data);
+          }
+        }
+      });
+      return (this.filtered = filtered);
+    },
     async getBranchs(id) {
       try {
         const res = await this.$axios.get("me/user_branchs");
         if (res.data.success) {
           this.branchs = res.data.data;
+          this.filtered = this.branchs;
         }
       } catch (error) {}
     },
