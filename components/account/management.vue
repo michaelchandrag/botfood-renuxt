@@ -5,23 +5,24 @@
   >
     <div class="flex w-full gap-x-4">
       <div class="w-8/12">
-        <v-select
-          :options="users"
-          style="width: 100%"
-          v-model="selectedUser"
-          placeholder="Cari User "
-          @search="searchSome"
-          :getOptionLabel="(user) => user.name"
-        >
-          <template #option="{ name, phone_number }">
-            <h3 style="margin: 0">{{ name }}</h3>
-            <span class="text-sm">
-              <i class="fas fa-phone mr-1"></i>
-              {{ phone_number }}
-            </span>
-          </template>
-        </v-select>
-        <!-- <search-account /> -->
+        <client-only>
+          <v-select
+            :options="users"
+            style="width: 100%"
+            v-model="selectedUser"
+            placeholder="Cari User "
+            @search="searchSome"
+            :getOptionLabel="(user) => user.name"
+          >
+            <template #option="{ name, phone_number }">
+              <h3 style="margin: 0">{{ name }}</h3>
+              <span class="text-sm">
+                <i class="fas fa-phone mr-1"></i>
+                {{ phone_number }}
+              </span>
+            </template>
+          </v-select>
+        </client-only>
       </div>
 
       <div class="w-4/12">
