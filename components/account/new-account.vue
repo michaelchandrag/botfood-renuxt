@@ -250,6 +250,7 @@ export default {
         confirm_password: "",
       },
       isLoadingBranch: false,
+      isLoading: false,
       passwordError: false,
       branchs: [],
       filtered: [],
@@ -321,8 +322,9 @@ export default {
           user: { ...this.user, username: this.user.phone_number },
           user_branchs: this.branchs,
         };
+        this.isLoading = true;
         const res = await this.$axios.post("me/create_user", payload);
-
+        this.isLoading = false;
         if (res.data.success) {
           this.$toast.success("Berhasil menyimpan data", { duration: 2000 });
           this.$router.push("/account");
@@ -330,7 +332,14 @@ export default {
         } else {
           this.$toast.error("Gagal menyimpan data", { duration: 2000 });
         }
-      } catch (error) {}
+      } catch (error) {
+        this.isLoading = false;
+        if (error.response) {
+          error.response.data.errors.forEach((err) => {
+            this.$toast.error(err.code + " " + err.detail, { duration: 2000 });
+          });
+        }
+      }
     },
   },
 };

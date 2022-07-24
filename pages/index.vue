@@ -195,6 +195,8 @@ export default {
   },
   mounted() {
     this.setUserData();
+    this.getItemNotUniform();
+    this.changePage();
   },
   methods: {
     async setUserData() {
@@ -222,7 +224,7 @@ export default {
         .get("me/dashboard?data=5&page=" + this.page)
         .then((r) => {
           this.data = r.data.data;
-          this.isLoading = false
+          this.isLoading = false;
           // this.page = r.data.data.idle_items.current_page
           // this.total_page = r.data.data.idle_items.total_page;
         });

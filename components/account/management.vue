@@ -323,7 +323,9 @@ export default {
         } else {
           this.$toast.error("Gagal menyimpan data", { duration: 2000 });
         }
-      } catch (error) {}
+      } catch (error) {
+        this.isLoading = false;
+      }
     },
 
     searchSome(v) {
