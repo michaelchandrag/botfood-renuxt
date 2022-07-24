@@ -30,8 +30,8 @@ export default {
   methods: {
     async getUser() {
       try {
-        const res = await this.$axios.get("me/user_brands?q=");
-        console.log(res);
+        // const res = await this.$axios.get("me/user_brands?q=");
+        // console.log(res);
       } catch (error) {}
     },
   },

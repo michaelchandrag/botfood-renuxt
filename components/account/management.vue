@@ -8,10 +8,10 @@
         <v-select
           :options="users"
           style="width: 100%"
-          label="name"
           v-model="selectedUser"
           placeholder="Cari User "
           @search="searchSome"
+          :getOptionLabel="user => user.phone_number"
         >
           <template #option="{ name, phone_number }">
             <h3 style="margin: 0">{{ name }}</h3>
@@ -25,12 +25,14 @@
       </div>
 
       <div class="w-4/12">
-        <button
-          @click.prevent="$router.push('/account/new')"
-          class="w-full h-9 rounded-lg text-white bg-blue-500"
-        >
-          Buat Akun
-        </button>
+        <client-only>
+          <button
+            @click.prevent="$router.push('/account/new')"
+            class="w-full h-9 rounded-lg text-white bg-blue-500"
+          >
+            Buat Akun
+          </button>
+        </client-only>
       </div>
     </div>
 
@@ -252,7 +254,9 @@ export default {
       deep: true,
     },
   },
-
+  mounted() {
+    this.getUser();
+  },
   methods: {
     filteredBranchs(keyword) {
       const filtered = [];
@@ -279,6 +283,7 @@ export default {
       }
     },
     async getUser(keyword) {
+      if (keyword == undefined || keyword == null) keyword = ''
       try {
         const res = await this.$axios.get("me/user_brands?q=" + keyword);
 

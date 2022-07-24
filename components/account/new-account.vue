@@ -39,7 +39,7 @@
                 focus:outline-none
               "
               v-model="user.phone_number"
-              placeholder="Masukkan Nomor Telepon"
+              placeholder="Masukkan Nomor Telepon (cth: 628781111111)"
             />
           </div>
 
@@ -58,10 +58,10 @@
                 focus:outline-none
               "
               v-model="user.password"
-              placeholder="**************"
+              placeholder="****** (6 digit karakter)"
             />
             <span v-if="passwordError" class="text-xs text-red-500">
-              * Password harus digit 6 karakter, contoh: 123456
+              * Password harus 6 digit karakter, contoh: 123456
             </span>
           </div>
 
@@ -82,7 +82,7 @@
                 focus:outline-none
               "
               v-model="user.confirm_password"
-              placeholder="**************"
+              placeholder="******"
             />
             <span
               v-if="
@@ -124,7 +124,7 @@
                       focus:outline-none
                     "
                     v-model="search"
-                    placeholder="Cari . . . "
+                    placeholder="Cari Outlet . . . "
                   />
                 </div>
               </td>
@@ -222,14 +222,15 @@
             </tr>
           </tbody>
         </table>
-
-        <button
-          type="submit"
-          :disabled="passwordError"
-          class="w-full h-10 mt-4 rounded-lg text-white bg-green-food"
-        >
-          Simpan
-        </button>
+        <client-only>
+          <button
+            type="submit"
+            :disabled="passwordError"
+            class="w-full h-10 mt-4 rounded-lg text-white bg-green-food"
+          >
+            Simpan
+          </button>
+        </client-only>
       </div>
     </form>
 
