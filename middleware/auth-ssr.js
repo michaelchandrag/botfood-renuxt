@@ -1,8 +1,7 @@
 import axiosSsr from "~/lib/axios-ssr"
 import menu from '~/data/menu'
-import _, {
-  now
-} from 'lodash'
+import _ from 'lodash'
+
 export default function ({
   redirect,
   app,
@@ -22,17 +21,27 @@ export default function ({
   }
   // console.log(route.name);
 
-  // const userLevel = app.store.state.user.user.is_master ? 1 : 2
-  // const nowPage = _.filter(menu, [
-  //   'route', route.name
-  // ])
-  // if (!nowPage[0]) {
-  //   redirect('/error/404')
-  // } else {
-  //   if (!nowPage[0].level.includes(userLevel)) {
-  //     redirect('/error/403')
-  //   }
-  // }
+  const userLevel = app.store.state.user.user.is_master ? 1 : 2
+
+  // create all menu to one level
+  const allMenu = []
+  menu.forEach(m => {
+    allMenu.push(m)
+    if (m.child.length) {
+      m.child.forEach(sub => {
+        allMenu.push(sub)
+      })
+    }
+  });
+
+  const nowPage = _.filter(allMenu, [
+    'route', route.name
+  ])
+
+  if (!nowPage[0].level.includes(userLevel)) {
+    redirect('/error/403')
+  }
+
 
   if (_ac == "RwOlwvXC9hcGkuYm90Zm9vZC54eXoiLCJkYXRhIjp7ImJyYW5kIjp7Im") {
     // app.$axios.defaults.headers.common['Authorization'] = 'Bearer '+_tk

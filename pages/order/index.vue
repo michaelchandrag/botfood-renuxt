@@ -330,7 +330,7 @@
         this.getData()
       },
       changePeriod() {
-        console.log(this.daterange);
+        // console.log(this.daterange);
         if (this.daterange.length > 0) {
           this.filters.from_ordered_at = this.daterange[0] ? this.$moment(this.daterange[0]).format('YYYY-MM-DD 00:00:00') : '';
           this.filters.until_ordered_at = this.daterange[1] ?  this.$moment(this.daterange[1]).format('YYYY-MM-DD 23:59:59') : '';

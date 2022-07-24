@@ -473,7 +473,7 @@ export default {
           this.data = res.data.data;
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     },
     async getLiveBranch(mounted) {
@@ -552,7 +552,7 @@ export default {
         this.isLoadingLiveOutlet = false;
         this.isRequestLiveOutlet = false;
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     },
     setPusher() {
