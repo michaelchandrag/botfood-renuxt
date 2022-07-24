@@ -113,7 +113,6 @@
                 <div class="w-1/2">
                   <input
                     type="text"
-                    required
                     class="
                       py-2
                       mt-1
