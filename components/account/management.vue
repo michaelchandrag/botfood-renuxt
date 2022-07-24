@@ -320,7 +320,7 @@ export default {
         this.isLoading = false;
         if (res.data.success) {
           this.$toast.success("Berhasil menyimpan data", { duration: 2000 });
-          this.branchs = res.data.data.update;
+          this.branchs = payload;
         } else {
           this.$toast.error("Gagal menyimpan data", { duration: 2000 });
         }
