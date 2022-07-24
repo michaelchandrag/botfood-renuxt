@@ -7,11 +7,21 @@
       <div class="w-8/12">
         <v-select
           v-model="selectedUser"
-          :get-option-label="(us) => us.name"
           :options="users"
           style="width: 100%"
           placeholder="Select User"
-        ></v-select>
+          label="name"
+          @input="searchSome"
+        >
+          <template #option="{ name, phone_number }">
+            <h3 style="margin: 0">{{ name }}</h3>
+            <span class="text-sm">
+              <i class="fas fa-phone"></i>
+              {{ phone_number }}
+            </span>
+          </template>
+        </v-select>
+        <!-- <search-account /> -->
       </div>
 
       <div class="w-4/12">
@@ -204,7 +214,11 @@
 </template>
 
 <script>
+import SearchAccount from "./search-account.vue";
 export default {
+  components: {
+    SearchAccount,
+  },
   data() {
     return {
       users: [],
@@ -300,6 +314,9 @@ export default {
           this.$toast.error("Gagal menyimpan data", { duration: 2000 });
         }
       } catch (error) {}
+    },
+    searchSome(v) {
+      console.log(v);
     },
   },
 };

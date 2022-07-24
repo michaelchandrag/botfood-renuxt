@@ -47,7 +47,7 @@
           v-for="(menu, i) in menu"
           :key="i"
           class=""
-          v-show="menu.level.includes(userLevel)"
+          v-show="menu.level.includes(userLevel) && menu.isShow"
         >
           <div
             :class="
@@ -76,7 +76,12 @@
 
           <div v-if="selectedMenu === i" class="my-3">
             <ul>
-              <li v-for="(child, ix) in menu.child" :key="ix" class="">
+              <li
+                v-for="(child, ix) in menu.child"
+                :key="ix"
+                class=""
+                v-show="child.isShow"
+              >
                 <div
                   :class="
                     $route.name === child.route
