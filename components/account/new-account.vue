@@ -294,13 +294,13 @@ export default {
     selectAllAction() {
       if (!this.selectAll) {
         this.selectAll = true;
-        this.branchs.forEach((b, index) => {
-          this.branchs[index].user_branch_is_active = 1;
+        this.filtered.forEach((b, index) => {
+          this.filtered[index].user_branch_is_active = 1;
         });
       } else {
         this.selectAll = false;
-        this.branchs.forEach((b, index) => {
-          this.branchs[index].user_branch_is_active = 0;
+        this.filtered.forEach((b, index) => {
+          this.filtered[index].user_branch_is_active = 0;
         });
       }
     },
