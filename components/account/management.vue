@@ -11,7 +11,7 @@
           v-model="selectedUser"
           placeholder="Cari User "
           @search="searchSome"
-          :getOptionLabel="user => user.name"
+          :getOptionLabel="(user) => user.name"
         >
           <template #option="{ name, phone_number }">
             <h3 style="margin: 0">{{ name }}</h3>
@@ -211,6 +211,7 @@
     </div>
 
     <!-- {{ branchs }} -->
+    <loader-full v-if="isLoading" />
   </div>
 </template>
 
@@ -244,7 +245,7 @@ export default {
     selectedUser: {
       handler(r) {
         if (r === null) {
-          this.selectedUser = {}
+          this.selectedUser = {};
         } else {
           this.getUserBranchs(r.user_id);
         }
@@ -287,7 +288,7 @@ export default {
       }
     },
     async getUser(keyword) {
-      if (keyword == undefined || keyword == null) keyword = ''
+      if (keyword == undefined || keyword == null) keyword = "";
       try {
         const res = await this.$axios.get("me/user_brands?q=" + keyword);
 
@@ -297,7 +298,7 @@ export default {
       } catch (error) {}
     },
     async getUserBranchs(id) {
-      if (id == undefined || id == null) id = ''
+      if (id == undefined || id == null) id = "";
       try {
         this.isLoadingBranch = true;
         const res = await this.$axios.get("me/user_branchs?user_id=" + id);

@@ -233,6 +233,7 @@
         </client-only>
       </div>
     </form>
+    <loader-full v-if="isLoading" />
 
     <!-- {{ branchs }} -->
   </div>
