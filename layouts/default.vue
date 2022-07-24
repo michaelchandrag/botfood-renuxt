@@ -18,21 +18,6 @@ export default {
       return this.$store.state.user.user;
     },
   },
-  mounted() {
-    if (!this.user.is_master) {
-      this.setUserData();
-    }
-  },
-  methods: {
-    async setUserData() {
-      try {
-        const res = await this.$axios.get("/me");
-        if (res.data.success) {
-          this.$store.commit("user/setUser", res.data.data);
-        }
-      } catch (error) {}
-    },
-  },
 };
 </script>
 

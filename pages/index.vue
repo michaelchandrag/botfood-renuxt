@@ -193,13 +193,18 @@ export default {
       },
     },
   },
+  mounted() {
+    this.setUserData();
+  },
   methods: {
-    // async getMe() {
-    //   try {
-    //     const res = await this.$axios.get("/me");
-    //     console.log(res);
-    //   } catch (error) {}
-    // },
+    async setUserData() {
+      try {
+        const res = await this.$axios.get("/me");
+        if (res.data.success) {
+          this.$store.commit("user/setUser", res.data.data);
+        }
+      } catch (error) {}
+    },
     changePage(v) {
       this.listLoading = true;
       this.page = this.page + parseFloat(v);
@@ -213,11 +218,13 @@ export default {
       });
     },
     async changePageNumber() {
-      await this.$axios.get("me/dashboard?data=5&page=" + this.page).then((r) => {
-        this.data = r.data.data;
-        // this.page = r.data.data.idle_items.current_page
-        // this.total_page = r.data.data.idle_items.total_page;
-      });
+      await this.$axios
+        .get("me/dashboard?data=5&page=" + this.page)
+        .then((r) => {
+          this.data = r.data.data;
+          // this.page = r.data.data.idle_items.current_page
+          // this.total_page = r.data.data.idle_items.total_page;
+        });
     },
   },
 };

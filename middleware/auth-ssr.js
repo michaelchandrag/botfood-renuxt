@@ -12,13 +12,13 @@ export default function ({
   const user = app.store.state.user.user
 
   //save data to store
-  if (!user.is_master) {
-    axiosSsr.get('/me').then(r => {
-      if (r.data.success) {
-        app.store.commit('user/setUser', r.data.data)
-      }
-    })
-  }
+  // if (!user.is_master) {
+  //   axiosSsr.get('/me').then(r => {
+  //     if (r.data.success) {
+  //       app.store.commit('user/setUser', r.data.data)
+  //     }
+  //   })
+  // }
   // console.log(route.name);
 
   const userLevel = app.store.state.user.user.is_master ? 1 : 2

@@ -57,6 +57,9 @@ export default {
       src: '~/plugins/formatter'
     },
     {
+      src: '~/plugins/vuex-persist'
+    },
+    {
       src: '~/plugins/lodash'
     },
     {
