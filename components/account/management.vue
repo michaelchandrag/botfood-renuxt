@@ -243,7 +243,11 @@ export default {
     },
     selectedUser: {
       handler(r) {
-        this.getUserBranchs(r.user_id);
+        if (r === null) {
+          this.selectedUser = {}
+        } else {
+          this.getUserBranchs(r.user_id);
+        }
       },
       deep: true,
     },
@@ -293,6 +297,7 @@ export default {
       } catch (error) {}
     },
     async getUserBranchs(id) {
+      if (id == undefined || id == null) id = ''
       try {
         this.isLoadingBranch = true;
         const res = await this.$axios.get("me/user_branchs?user_id=" + id);
