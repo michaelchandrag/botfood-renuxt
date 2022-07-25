@@ -52,6 +52,16 @@
           1,
           2
         ]
+      },
+      {
+        "label": "Laporan Global",
+        "isShow": false,
+        "route": "laporan-global",
+        "link": "/laporan/global",
+        "level": [
+          1,
+          2
+        ]
       }
     ]
   },
@@ -61,6 +71,18 @@
     "isShow": true,
     "link": "/outlet",
     "icon": "map-pin",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
+    "label": "Outlet Detail",
+    "route": "outlet-id",
+    "isShow": false,
+    "icon": "",
+    "link": "/outlet/:id",
     "level": [
       1,
       2

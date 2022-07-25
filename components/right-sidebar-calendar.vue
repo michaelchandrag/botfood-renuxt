@@ -79,6 +79,9 @@ export default {
   },
   methods: {
     download() {
+      var me = this.$store.state.user.user
+      var time = this.$moment().format('DD MMM HH.mm')
+      var filename = `Performa Outlet ${me.name} ${time}`
       this.isDownload = true
       this.$axios({
         method: 'GET',
@@ -91,7 +94,7 @@ export default {
         }));
         var fileLink = document.createElement('a');
         fileLink.href = url;
-        fileLink.setAttribute('download', 'laporan-all-in-one.xlsx');
+        fileLink.setAttribute('download', `${filename}.xlsx`);
         document.body.appendChild(fileLink);
         fileLink.click();
       })

@@ -366,7 +366,7 @@
                     fill="#424242" />
                 </svg>
               </div>
-              <div v-if="page==total_page_item||total_page_item<=1"
+              <div v-if="page_item==total_page_item||total_page_item<=1"
                 class="cursor-not-allowed float-right p-3 rounded-md border-2">
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
