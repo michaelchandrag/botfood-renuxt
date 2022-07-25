@@ -9,7 +9,7 @@
       <div style="height:24px"></div>
       <div class="flex flex-col ">
         <performa-outlet />
-        <order />
+        <!-- <order /> -->
         <price />
         <global />
       </div>

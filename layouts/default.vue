@@ -13,10 +13,10 @@ export default {
     this.$axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.$cookies.get("_tk");
   },
-  mounted() {
-    // if(this.$device.isMobile) {
-    //   this.$router.push('m')
-    // }
+  computed: {
+    user() {
+      return this.$store.state.user.user;
+    },
   },
 };
 </script>

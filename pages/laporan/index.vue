@@ -131,6 +131,9 @@
 
 
                     </th>
+                    <th class="py-4 text-text cursor-pointer">
+                      Timeline
+                    </th>
                     <th class="py-4 text-text cursor-pointer" :class="sortKey==='active_time'?'filter':''"
                       @click.prevent="sortKey='active_time', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData()">
                       Outlet Aktif
@@ -184,6 +187,9 @@
                     <td>
                       <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
                     </td>
+                    <td>
+                      <div class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"></div>
+                    </td>
                   </tr>
                 </tbody>
                 <tbody v-if="!listLoading">
@@ -191,6 +197,7 @@
                     class="hover:bg-gray-200 border-b">
                     <td class="text-center text-text p-4 rounded-l-fds">{{channel.branch_channel_name}}</td>
                     <td class="text-center text-text p-4">{{channel.branch_channel_channel}}</td>
+                    <td class="text-center text-text p-4 rounded-l-fds">{{channel.timeline}}</td>
                     <td class="text-center text-text p-4 rounded-r-fds">
                       <span
                         v-if="$moment.duration(channel.active_time, 'seconds').hours()>0">{{$moment.duration(channel.active_time, "seconds").hours()}}
@@ -354,7 +361,7 @@
             `me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}&branch_channel_name=${this.search}&branch_channel_channel=${this.outletChannel}`
           )
           .then(r => {
-            console.log(r)
+            // console.log(r)
             this.data = r.data.data
             this.listLoading = false
             this.total_page = r.data.data.total_page

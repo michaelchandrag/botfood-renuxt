@@ -45,10 +45,30 @@
                 >
                   <div class="flex gap-x-1 items-center">
                     <div>
-                      <img class="h-4" v-if="channel.channel=='GoFood'" src="~/assets/svg/gofood.svg" alt="">
-                          <img class="h-4" v-if="channel.channel=='GrabFood'" src="~/assets/svg/grabfood.svg" alt="">
-                          <img class="h-4" v-if="channel.channel=='ShopeeFood'" src="~/assets/svg/shopeefood.svg" alt="">
-                          <img class="h-4" v-if="channel.channel=='TravelokaEats'" src="~/assets/svg/travelokaeats.svg" alt="">
+                      <img
+                        class="h-4"
+                        v-if="channel.channel == 'GoFood'"
+                        src="~/assets/svg/gofood.svg"
+                        alt=""
+                      />
+                      <img
+                        class="h-4"
+                        v-if="channel.channel == 'GrabFood'"
+                        src="~/assets/svg/grabfood.svg"
+                        alt=""
+                      />
+                      <img
+                        class="h-4"
+                        v-if="channel.channel == 'ShopeeFood'"
+                        src="~/assets/svg/shopeefood.svg"
+                        alt=""
+                      />
+                      <img
+                        class="h-4"
+                        v-if="channel.channel == 'TravelokaEats'"
+                        src="~/assets/svg/travelokaeats.svg"
+                        alt=""
+                      />
                     </div>
                     <span>
                       {{ channel.channel }}
@@ -453,7 +473,7 @@ export default {
           this.data = res.data.data;
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     },
     async getLiveBranch(mounted) {
@@ -532,7 +552,7 @@ export default {
         this.isLoadingLiveOutlet = false;
         this.isRequestLiveOutlet = false;
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     },
     setPusher() {
@@ -549,7 +569,7 @@ export default {
 
       channel.bind("live-activity", function (data) {
         if (data.message) {
-          console.log(data.message)
+          // console.log(data.message)
           if (data.message.branch_channels) {
             // audio.play();
             const outletText =

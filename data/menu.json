@@ -1,0 +1,169 @@
+[
+  {
+    "label": "Beranda",
+    "route": "index",
+    "isShow": true,
+    "link": "/",
+    "icon": "home",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
+    "label": "Live Report",
+    "route": "live-report",
+    "isShow": true,
+    "link": "/live-report",
+    "icon": "activity",
+    "level": [
+      1
+    ],
+    "child": []
+  },
+  {
+    "label": "Laporan",
+    "route": "",
+    "isShow": true,
+    "link": "",
+    "icon": "book",
+    "level": [
+      1,
+      2
+    ],
+    "child": [
+      {
+        "label": "Performa Outlet",
+        "route": "laporan",
+        "isShow": true,
+        "link": "/laporan",
+        "level": [
+          1,
+          2
+        ]
+      },
+      {
+        "label": "Rekap",
+        "isShow": true,
+        "route": "laporan-recap",
+        "link": "/laporan/recap",
+        "level": [
+          1,
+          2
+        ]
+      },
+      {
+        "label": "Laporan Global",
+        "isShow": false,
+        "route": "laporan-global",
+        "link": "/laporan/global",
+        "level": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Outlet",
+    "route": "outlet",
+    "isShow": true,
+    "link": "/outlet",
+    "icon": "map-pin",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
+    "label": "Outlet Detail",
+    "route": "outlet-id",
+    "isShow": false,
+    "icon": "",
+    "link": "/outlet/:id",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
+    "label": "Item",
+    "route": "item",
+    "isShow": true,
+    "link": "/item",
+    "icon": "box",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
+    "label": "Ulasan",
+    "route": "review",
+    "isShow": true,
+    "link": "/review",
+    "icon": "star",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
+    "label": "Pengaturan",
+    "route": "",
+    "isShow": true,
+    "link": "",
+    "icon": "settings",
+    "level": [
+      1
+    ],
+    "child": [
+      {
+        "label": "Manajemen Akun",
+        "route": "account",
+        "isShow": true,
+        "link": "/account",
+        "level": [
+          1,
+          2
+        ]
+      },
+      {
+        "label": "Create Account",
+        "route": "account-new",
+        "isShow": false,
+        "link": "/account/new",
+        "level": [
+          1
+        ]
+      },
+      {
+        "label": "Ubah Password",
+        "route": "setting",
+        "isShow": true,
+        "link": "/setting",
+        "level": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Keluar",
+    "route": "logout",
+    "isShow": true,
+    "link": "/logout",
+    "icon": "log-out",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  }
+]

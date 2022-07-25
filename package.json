@@ -18,16 +18,21 @@
     "autoprefixer": "^10.4.7",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.8.3",
+    "feather-icons-vue": "^1.0.4",
     "lightpick": "^1.6.2",
+    "lodash": "^4.17.21",
     "nuxt": "^2.14.12",
+    "nuxt-vue-select": "^0.1.4",
     "postcss": "^8.4.14",
     "pusher-js": "^7.1.0-beta",
     "sass-loader": "^10.1.1",
     "tailwindcss": "^3.0.24",
     "vue-functional-calendar": "^2.9.3",
+    "vue-lodash": "^2.1.2",
     "vue-slick-carousel": "^1.0.6",
     "vue2-datepicker": "^3.10.4",
-    "vuejs-datepicker": "^1.6.2"
+    "vuejs-datepicker": "^1.6.2",
+    "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
     "@nuxt/postcss8": "^1.1.3",

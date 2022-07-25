@@ -303,7 +303,7 @@ export default {
         this.listLoading = true
         this.$axios.get(`me/report/atp?date=${this.date}&sort_key=${this.sortKey}&sort_value=${this.sortValue}&page=${this.page}&branch_channel_name=${this.search}&branch_channel_channel=${this.outletChannel}`)
           .then(r => {
-            console.log(r)
+            // console.log(r)
           this.data = r.data.data
             this.listLoading = false
           this.total_page = r.data.data.total_page
