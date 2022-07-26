@@ -81,7 +81,7 @@ export default {
     download() {
       var me = this.$store.state.user.user
       var time = this.$moment().format('DD MMM HH.mm')
-      var filename = `Performa Outlet ${me.name} ${time}`
+      var filename = `${time} ${me.name} Performa Outlet`
       this.isDownload = true
       this.$axios({
         method: 'GET',
