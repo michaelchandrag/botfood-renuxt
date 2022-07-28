@@ -97,7 +97,7 @@
           </tr>
         </tbody>
 
-        <tbody v-if="!isLoadingBranch && branchs.length > 1">
+        <tbody v-if="!isLoadingBranch && branchs.length > 0">
           <tr
             v-for="(branch, index) in filtered"
             :key="branch.branch_id"
