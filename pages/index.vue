@@ -6,8 +6,20 @@
       <div>
         <header-navbar class="hidden md:block"></header-navbar>
       </div>
-      <div>
+      <div class="flex justify-between items-center">
         <span class="text-title">Laporan Terkini</span>
+        <div class="mr-6">
+          <button v-if="isDownload"
+            class="w-full cursor-not-allowed  rounded-fd px-3 py-2  bg-green-600 text-white focus:outline-none">
+            <span class="animate-spin">Downloading . . .</span>
+
+          </button>
+          <button v-if="!isDownload"
+            class="w-full rounded-fd px-3 py-2 bg-green-600 text-white focus:outline-none"
+            @click.prevent="download()">
+            <span v-if="!isDownload">Download </span>
+          </button>
+        </div>
       </div>
       <div style="height: 24px"></div>
       <div class="flex flex-col">
@@ -119,6 +131,7 @@ export default {
   data() {
     return {
       data: {},
+      isDownload: false,
       dataItemNotUniform: {},
       GoFood: "",
       GrabFood: "",
@@ -168,6 +181,27 @@ export default {
       this.listLoading = true;
       this.page = this.page + parseFloat(v);
       this.changePageNumber();
+    },
+    download() {
+      var me = this.$store.state.user.user
+      var time = this.$moment().format('DD MMM HH.mm')
+      var filename = `${time} ${me.name} Performa Outlet`
+      this.isDownload = true
+      this.$axios({
+        method: 'GET',
+        url: 'me/channel_report?channel=GoFood&issued_at=' + this.formatDate + '&xlsx=true' + '&item_in_stock=' + this.itemInStock,
+        responseType: 'blob',
+      }).then(r => {
+        this.isDownload = false
+        const url = window.URL.createObjectURL(new Blob([r.data], {
+          'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }));
+        var fileLink = document.createElement('a');
+        fileLink.href = url;
+        fileLink.setAttribute('download', `${filename}.xlsx`);
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      })
     },
     async getItemNotUniform() {
       await this.$axios.get("me/item/not_uniform").then((r) => {
