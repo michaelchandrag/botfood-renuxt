@@ -19,7 +19,8 @@
     <div class="mt-8" :class="showNav ? 'show-sidebar-mobile' : 'hide-sidebar-mobile'">
       <ul>
 
-        <select @change="onChange($event)" v-model="valueDropdown" v-if="!this.$store.state.user.user.is_master" id="countries"
+        <select @change="onChange($event)" v-model="valueDropdown" v-if="!this.$store.state.user.user.is_master"
+          id="countries"
           class="border my-5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option v-for="(a,i) in data" :value="a.brand_id" :key="i">
             {{a.brand_name}}
@@ -47,8 +48,8 @@
               </client-only>
             </div>
           </div>
-
-          <div v-if="selectedMenu === i || $route.name.split('-')[0].toLowerCase() == menu.label.toLowerCase()"
+          <div
+            v-if="selectedMenu === i || $route.name.split('-')[0].toLowerCase() == menu.label.toLowerCase() || (menu.label.toLowerCase() == 'account' && $route.name.split('-')[0].toLowerCase() == 'setting') "
             class="my-3">
             <ul>
               <li v-for="(child, ix) in menu.child" :key="ix" class="" v-show="child.isShow">
@@ -87,9 +88,15 @@ export default {
       subMenuLaporan: false,
       showNav: false,
       selectedMenu: "",
-      valueDropdown: this.$store.state.user.dropdown,
+      valueDropdown: "",
       data: this.$store.state.user.user.user_brands
     };
+  },
+  mounted(){
+    this.$axios.get("/me").then(e=>{
+      this.valueDropdown = e.data.data.user_brand_thumbnail.brand_id
+      this.data = e.data.data.user_brands
+    })
   },
   computed: {
     user() {
@@ -99,6 +106,7 @@ export default {
       return this.user.is_master ? 1 : 2;
     },
   },
+
   methods: {
     keluar() {
       this.$router.push("/login");
