@@ -23,8 +23,8 @@ export default {
 
 <style>
 .icon-height {
-  height: 50px;
-  width: 50px;
+  height: 50px !important;
+  width: 50px !important;
 }
 
 body::-webkit-scrollbar,

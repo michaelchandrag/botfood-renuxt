@@ -4,14 +4,17 @@
 
     <div class="bg-gray-200 wrapper-content have-right-sidebar">
       <div>
+        <header-navbar class="hidden md:block"></header-navbar>
+      </div>
+      <div>
         <span class="text-title">Pengaturan</span>
       </div>
       <div style="height:24px"></div>
       <div class="flex flex-col ">
         <change-password />
       </div>
-    <div class="h-8"></div>
-      <right-sidebar-calendar/>
+      <div class="h-8"></div>
+      <right-sidebar-calendar />
     </div>
   </div>
 </template>

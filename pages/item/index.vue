@@ -4,6 +4,9 @@
 
     <div class="bg-gray-200 wrapper-content">
       <div>
+        <header-navbar class="hidden md:block"></header-navbar>
+      </div>
+      <div>
         <span class="text-title">Laporan Item</span>
       </div>
       <div class="h-8"></div>

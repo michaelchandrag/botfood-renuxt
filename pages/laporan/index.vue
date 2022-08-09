@@ -4,6 +4,9 @@
 
     <div class="bg-gray-200 wrapper-content have-right-sidebar">
       <div>
+        <header-navbar class="hidden md:block"></header-navbar>
+      </div>
+      <div>
         <span class="text-title">Performa Outlet</span>
       </div>
       <div class="h-8"></div>
@@ -87,8 +90,8 @@
                 </div>
                 <div v-if="statusDropdown" class="absolute -ml-24 right-0 shadow-sm rounded-b-fds">
                   <client-only>
-                    <date-picker class="w-64" style="z-index:2;" format="YYYY-MM-DD" :inline="true" :maxDate="new Date()" v-model="date"
-                      autoclose="true" :disabledDates="disabledDates" />
+                    <date-picker class="w-64" style="z-index:2;" format="YYYY-MM-DD" :inline="true"
+                      :maxDate="new Date()" v-model="date" autoclose="true" :disabledDates="disabledDates" />
                   </client-only>
                 </div>
               </div>
@@ -200,7 +203,8 @@
                     <td class="text-center text-text p-4 rounded-l-fds">{{channel.timeline}}</td>
                     <td class="text-center text-text p-4 rounded-r-fds">
                       <span
-                        v-if="$moment.duration(channel.active_time, 'seconds').hours()>0">{{$moment.duration(channel.active_time, "seconds").hours()}}
+                        v-if="$moment.duration(channel.active_time, 'seconds').hours()>0">{{$moment.duration(channel.active_time,
+                        "seconds").hours()}}
                         jam</span>
                       <span>{{$moment.duration(channel.active_time, "seconds").minutes()}} menit</span>
                     </td>
@@ -210,7 +214,8 @@
                       </div>
                       <div v-else>
                         <span
-                          v-if="$moment.duration(channel.outlet_item_not_active_time, 'seconds').hours()>0">{{$moment.duration(channel.outlet_item_not_active_time, "seconds").hours()}}
+                          v-if="$moment.duration(channel.outlet_item_not_active_time, 'seconds').hours()>0">{{$moment.duration(channel.outlet_item_not_active_time,
+                          "seconds").hours()}}
                           jam</span>
                         <span>{{$moment.duration(channel.outlet_item_not_active_time, "seconds").minutes()}}
                           menit</span>
@@ -280,7 +285,7 @@
         </div>
         <!-- table end -->
       </div>
-        <div class="h-8"></div>
+      <div class="h-8"></div>
       <right-sidebar-calendar />
     </div>
 

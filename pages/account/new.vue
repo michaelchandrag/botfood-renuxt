@@ -3,10 +3,10 @@
     <left-sidebar class="px-6 pt-8" />
 
     <div class="bg-gray-200 wrapper-content">
-      <div
-        @click.prevent="$router.push('/account')"
-        class="flex items-center gap-x-2 cursor-pointer"
-      >
+      <div>
+        <header-navbar class="hidden md:block"></header-navbar>
+      </div>
+      <div @click.prevent="$router.push('/account')" class="flex items-center gap-x-2 cursor-pointer">
         <i class="fas fa-chevron-left"></i>
         <span class="text-title">Buat Akun Baru</span>
       </div>
