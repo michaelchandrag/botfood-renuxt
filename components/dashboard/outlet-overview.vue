@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- start -->
-    <div style="padding:24px 32px;margin-bottom:16px;" v-if="!isLoading" class="mr-6 bg-white rounded-fd items-center">
+    <div style="padding:24px 32px;margin-bottom:4px;" v-if="!isLoading" class="bg-white border border-gray-300 rounded-fd items-center">
       <div class="w-6/12 flex items-center">
         <div>
           

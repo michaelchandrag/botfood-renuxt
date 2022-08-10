@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white -ml-6 -mr-5 -mt-10 py-6 mb-7">
+    <div class="bg-white -mx-10 px-7 -mt-10 py-6 mb-7">
         <div class="flex justify-end">
             <!-- This example requires Tailwind CSS v2.0+ -->
             <div class="relative inline-block text-left">

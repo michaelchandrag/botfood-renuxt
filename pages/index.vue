@@ -1,29 +1,30 @@
 <template>
   <div>
-    <left-sidebar class="px-6 pt-8" />
+    <client-only>
+      <left-sidebar class="px-6 pt-8" />
+    </client-only>
 
     <div class="bg-gray-200 wrapper-content">
-      <div>
+      <client-only>
         <header-navbar class="hidden md:block"></header-navbar>
-      </div>
+      </client-only>
       <div class="flex justify-between items-center">
         <span class="text-title">Laporan Terkini</span>
         <div class="mr-6">
           <button v-if="isDownload"
-            class="w-full cursor-not-allowed  rounded-fd px-3 py-2  bg-green-600 text-white focus:outline-none">
+            class="w-full cursor-not-allowed  rounded-lg px-7 py-3  bg-green-600 text-white focus:outline-none">
             <span class="animate-spin">Downloading . . .</span>
 
           </button>
-          <button v-if="!isDownload"
-            class="w-full rounded-fd px-3 py-2 bg-green-600 text-white focus:outline-none"
+          <button v-if="!isDownload" class="w-full rounded-lg px-7 py-3 bg-green-600 text-white focus:outline-none"
             @click.prevent="download()">
             <span v-if="!isDownload">Download </span>
           </button>
         </div>
       </div>
-      <div style="height: 24px"></div>
+      <div style="height: 19px"></div>
       <div class="flex flex-col">
-        <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="grid grid-cols-1 gap-4 mb-4 bg-white p-5 rounded-md md:grid-cols-2">
           <outlet-overview :data="data.GrabFood" channel="GrabFood" />
           <outlet-overview :data="data.GoFood" channel="GoFood" />
           <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
@@ -32,7 +33,7 @@
         <!-- table start -->
         <div>
           <div v-if="isLoading" class="bg-gray-300 animate-pulse rounded-fd h-64"></div>
-          <div v-if="!isLoading" class="bg-white rounded-fd p-8">
+          <div v-if="!isLoading" class="bg-white rounded-md p-8">
             <span class="items-center text-orange-500 inline-block align-middle">
               <svg class="inline-block h-5" fill="orange" viewBox="0 0 24 24">
                 <path

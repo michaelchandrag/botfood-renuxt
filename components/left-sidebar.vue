@@ -16,16 +16,17 @@
 
 
 
-    <div class="mt-8" :class="showNav ? 'show-sidebar-mobile' : 'hide-sidebar-mobile'">
+    <div class="mt-2" :class="showNav ? 'show-sidebar-mobile' : 'hide-sidebar-mobile'">
+      <select @change="onChange($event)" v-model="valueDropdown" v-show="!this.$store.state.user.user.is_master"
+        id="countries"
+        class="border mb-5 mt-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option v-for="(a,i) in this.$store.state.user.user.user_brands" :value="a.brand_id" :key="i">
+          {{a.brand_name}}
+        </option>
+      </select>
       <ul>
 
-        <select @change="onChange($event)" v-model="valueDropdown" v-if="!this.$store.state.user.user.is_master"
-          id="countries"
-          class="border my-5 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option v-for="(a,i) in data" :value="a.brand_id" :key="i">
-            {{a.brand_name}}
-          </option>
-        </select>
+
         <li v-for="(menu, i) in menu" :key="i" class="" v-show="menu.level.includes(userLevel) && menu.isShow">
 
           <div :class="
@@ -88,15 +89,9 @@ export default {
       subMenuLaporan: false,
       showNav: false,
       selectedMenu: "",
-      valueDropdown: "",
+      valueDropdown: this.$store.state.user.dropdown,
       data: this.$store.state.user.user.user_brands
     };
-  },
-  mounted(){
-    this.$axios.get("/me").then(e=>{
-      this.valueDropdown = e.data.data.user_brand_thumbnail.brand_id
-      this.data = e.data.data.user_brands
-    })
   },
   computed: {
     user() {
