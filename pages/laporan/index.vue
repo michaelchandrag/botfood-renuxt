@@ -2,7 +2,7 @@
   <div>
     <left-sidebar class="px-6 pt-8" />
 
-    <div class="bg-gray-200 wrapper-content have-right-sidebar">
+    <div class="bg-gray-200 wrapper-content">
       <div>
         <header-navbar class="hidden md:block"></header-navbar>
       </div>
@@ -286,7 +286,6 @@
         <!-- table end -->
       </div>
       <div class="h-8"></div>
-      <right-sidebar-calendar />
     </div>
 
   </div>

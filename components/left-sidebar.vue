@@ -27,7 +27,8 @@
       <ul>
 
 
-        <li v-for="(menu, i) in menu" :key="i" class="" v-show="menu.level.includes(userLevel) && menu.isShow">
+        <li style="cursor:pointer;" v-for="(menu, i) in menu" :key="i" class=""
+          v-show="menu.level.includes(userLevel) && menu.isShow">
 
           <div :class="
             $route.name === menu.route
@@ -50,7 +51,7 @@
             </div>
           </div>
           <div
-            v-if="selectedMenu === i || $route.name.split('-')[0].toLowerCase() == menu.label.toLowerCase() || (menu.label.toLowerCase() == 'account' && $route.name.split('-')[0].toLowerCase() == 'setting') "
+            v-if="selectedMenu === i || $route.name.split('-')[0].toLowerCase() == menu.label.toLowerCase() || (menu.label.toLowerCase() == 'pengaturan' && $route.name.split('-')[0].toLowerCase() == 'setting') || (menu.label.toLowerCase() == 'pengaturan' && $route.name.split('-')[0].toLowerCase() == 'account') "
             class="my-3">
             <ul>
               <li v-for="(child, ix) in menu.child" :key="ix" class="" v-show="child.isShow">
@@ -118,6 +119,10 @@ export default {
       this.$axios.post("me/user_brand_thumbnail",{
         brand_id: this.valueDropdown
       }).then(a=>{
+        this.$cookies.set("_tk", a.data.data.token, {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7,
+        })
         window.location.reload();
       })
       
