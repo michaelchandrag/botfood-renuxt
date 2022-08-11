@@ -1,17 +1,18 @@
 <template>
   <div>
-    <left-sidebar class="px-6 pt-8" />
+    <client-only><left-sidebar class="px-6 pt-8" /></client-only>
 
     <div class="bg-gray-200 wrapper-content">
+      <div>
+        <client-only><header-navbar class="hidden md:block"></header-navbar></client-only>
+      </div>
       <div class="flex justify-between items-center">
         <div>
           <span class="text-title">Live Report</span>
         </div>
         <div>
-          <button
-            class="text-sm alert px-4 focus:outline-none"
-            @click.prevent="isMuted ? (isMuted = false) : (isMuted = true)"
-          >
+          <button class="text-sm alert px-4 focus:outline-none"
+            @click.prevent="isMuted ? (isMuted = false) : (isMuted = true)">
             <i class="fas fa-volume-up" v-if="!isMuted"></i>
             <i v-else class="fas fa-volume-mute"></i>
           </button>
@@ -21,54 +22,27 @@
         </div>
       </div>
 
-      <div
-        v-if="!isLoadingLiveOutlet"
-        class="mt-4 -ml-[8px]"
-        :class="isNewItem || isNewOutlet ? ' opacity-30' : ''"
-      >
+      <div v-if="!isLoadingLiveOutlet" class="mt-4 -ml-[8px]" :class="isNewItem || isNewOutlet ? ' opacity-30' : ''">
         <client-only>
           <VueSlickCarousel v-bind="slickOptions">
-            <div
-              v-for="(data, indexOutlet) in liveOutlet"
-              :key="indexOutlet"
-              class="rounded-fd bg-white text-sm border p-6 w-72"
-            >
+            <div v-for="(data, indexOutlet) in liveOutlet" :key="indexOutlet"
+              class="rounded-fd bg-white text-sm border p-6 w-72">
               <h1 class="font-bold text-s w-full text-center">
                 {{ data.branch_name }}
               </h1>
 
               <ul class="mt-3">
-                <li
-                  v-for="(channel, indexChannel) in data.branch_channels"
-                  :key="indexChannel"
-                  class="flex justify-between text-xs border-b py-2 relative"
-                >
+                <li v-for="(channel, indexChannel) in data.branch_channels" :key="indexChannel"
+                  v-bind:class="(channel.is_open == 0 && $moment().format('HH:mm:ss') >= channel.branch_open_time && $moment().format('HH:mm:ss') <= channel.branch_close_time)? 'bg-red-300' : 'else_class'"
+                  class="flex justify-between px-2  text-xs border-b py-2 relative">
                   <div class="flex gap-x-1 items-center">
                     <div>
-                      <img
-                        class="h-4"
-                        v-if="channel.channel == 'GoFood'"
-                        src="~/assets/svg/gofood.svg"
-                        alt=""
-                      />
-                      <img
-                        class="h-4"
-                        v-if="channel.channel == 'GrabFood'"
-                        src="~/assets/svg/grabfood.svg"
-                        alt=""
-                      />
-                      <img
-                        class="h-4"
-                        v-if="channel.channel == 'ShopeeFood'"
-                        src="~/assets/svg/shopeefood.svg"
-                        alt=""
-                      />
-                      <img
-                        class="h-4"
-                        v-if="channel.channel == 'TravelokaEats'"
-                        src="~/assets/svg/travelokaeats.svg"
-                        alt=""
-                      />
+                      <img class="h-4" v-if="channel.channel == 'GoFood'" src="~/assets/svg/gofood.svg" alt="" />
+                      <img class="h-4" v-if="channel.channel == 'GrabFood'" src="~/assets/svg/grabfood.svg" alt="" />
+                      <img class="h-4" v-if="channel.channel == 'ShopeeFood'" src="~/assets/svg/shopeefood.svg"
+                        alt="" />
+                      <img class="h-4" v-if="channel.channel == 'TravelokaEats'" src="~/assets/svg/travelokaeats.svg"
+                        alt="" />
                     </div>
                     <span>
                       {{ channel.channel }}
@@ -87,8 +61,7 @@
                     </div>
                   </div>
 
-                  <div
-                    class="
+                  <div class="
                       absolute
                       left-4
                       top-0
@@ -97,18 +70,11 @@
                       flex
                       items-center
                       justify-center
-                    "
-                  >
-                    <div
-                      class="text-xs px-1 rounded bg-[#029835] text-white"
-                      v-if="channel.is_open == 1"
-                    >
+                    ">
+                    <div class="text-xs px-1 rounded bg-[#029835] text-white" v-if="channel.is_open == 1">
                       BUKA
                     </div>
-                    <div
-                      class="text-xs px-1 rounded bg-[#ED2836] text-white"
-                      v-if="channel.is_open == 0"
-                    >
+                    <div class="text-xs px-1 rounded bg-[#ED2836] text-white" v-if="channel.is_open == 0">
                       TUTUP
                     </div>
                   </div>
@@ -118,9 +84,7 @@
           </VueSlickCarousel>
         </client-only>
       </div>
-      <div
-        v-else
-        class="
+      <div v-else class="
           mt-4
           flex
           overflow-x-auto
@@ -130,12 +94,8 @@
           slider
           overflow-hidden
           pb-4
-        "
-      >
-        <section
-          v-for="i in 8"
-          :key="i"
-          class="
+        ">
+        <section v-for="i in 8" :key="i" class="
             flex-shrink-0
             rounded-fd
             bg-gray-300
@@ -145,17 +105,14 @@
             p-6
             h-56
             w-72
-          "
-        ></section>
+          "></section>
       </div>
 
       <div class="text-text">
         <div class="flex flex-wrap -mx-3">
           <div class="w-full md:w-12/12 lg:w-6/12 p-3">
             <div class="relative">
-              <input
-                type="text"
-                class="
+              <input type="text" class="
                   pl-10
                   pr-4
                   py-3
@@ -163,31 +120,19 @@
                   rounded-lg
                   w-full
                   focus:outline-none
-                "
-                v-model="filters.query_branch_channel"
-                placeholder="Nama Outlet, Channel"
-              />
+                " v-model="filters.query_branch_channel" placeholder="Nama Outlet, Channel" />
               <div class="absolute top-0 pt-3 pl-2">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M20.71 19.29L17.31 15.9C18.407 14.5025 19.0022 12.7767 19 11C19 9.41775 18.5308 7.87103 17.6518 6.55544C16.7727 5.23985 15.5233 4.21447 14.0615 3.60897C12.5997 3.00347 10.9911 2.84504 9.43928 3.15372C7.88743 3.4624 6.46197 4.22433 5.34315 5.34315C4.22433 6.46197 3.4624 7.88743 3.15372 9.43928C2.84504 10.9911 3.00347 12.5997 3.60897 14.0615C4.21447 15.5233 5.23985 16.7727 6.55544 17.6518C7.87103 18.5308 9.41775 19 11 19C12.7767 19.0022 14.5025 18.407 15.9 17.31L19.29 20.71C19.383 20.8037 19.4936 20.8781 19.6154 20.9289C19.7373 20.9797 19.868 21.0058 20 21.0058C20.132 21.0058 20.2627 20.9797 20.3846 20.9289C20.5064 20.8781 20.617 20.8037 20.71 20.71C20.8037 20.617 20.8781 20.5064 20.9289 20.3846C20.9797 20.2627 21.0058 20.132 21.0058 20C21.0058 19.868 20.9797 19.7373 20.9289 19.6154C20.8781 19.4936 20.8037 19.383 20.71 19.29ZM5 11C5 9.81332 5.3519 8.65328 6.01119 7.66658C6.67047 6.67989 7.60755 5.91085 8.7039 5.45673C9.80026 5.0026 11.0067 4.88378 12.1705 5.11529C13.3344 5.3468 14.4035 5.91825 15.2426 6.75736C16.0818 7.59648 16.6532 8.66558 16.8847 9.82946C17.1162 10.9933 16.9974 12.1997 16.5433 13.2961C16.0892 14.3925 15.3201 15.3295 14.3334 15.9888C13.3467 16.6481 12.1867 17 11 17C9.4087 17 7.88258 16.3679 6.75736 15.2426C5.63214 14.1174 5 12.5913 5 11Z"
-                    fill="#9E9E9E"
-                  />
+                    fill="#9E9E9E" />
                 </svg>
               </div>
             </div>
           </div>
           <div class="w-full md:w-12/12 lg:w-6/12 p-3">
             <div class="relative">
-              <input
-                type="text"
-                class="
+              <input type="text" class="
                   pl-10
                   pr-4
                   py-3
@@ -195,22 +140,12 @@
                   rounded-lg
                   w-full
                   focus:outline-none
-                "
-                v-model="filters.query_item"
-                placeholder="Nama Outlet, Nama Item, Channel"
-              />
+                " v-model="filters.query_item" placeholder="Nama Outlet, Nama Item, Channel" />
               <div class="absolute top-0 pt-3 pl-2">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M20.71 19.29L17.31 15.9C18.407 14.5025 19.0022 12.7767 19 11C19 9.41775 18.5308 7.87103 17.6518 6.55544C16.7727 5.23985 15.5233 4.21447 14.0615 3.60897C12.5997 3.00347 10.9911 2.84504 9.43928 3.15372C7.88743 3.4624 6.46197 4.22433 5.34315 5.34315C4.22433 6.46197 3.4624 7.88743 3.15372 9.43928C2.84504 10.9911 3.00347 12.5997 3.60897 14.0615C4.21447 15.5233 5.23985 16.7727 6.55544 17.6518C7.87103 18.5308 9.41775 19 11 19C12.7767 19.0022 14.5025 18.407 15.9 17.31L19.29 20.71C19.383 20.8037 19.4936 20.8781 19.6154 20.9289C19.7373 20.9797 19.868 21.0058 20 21.0058C20.132 21.0058 20.2627 20.9797 20.3846 20.9289C20.5064 20.8781 20.617 20.8037 20.71 20.71C20.8037 20.617 20.8781 20.5064 20.9289 20.3846C20.9797 20.2627 21.0058 20.132 21.0058 20C21.0058 19.868 20.9797 19.7373 20.9289 19.6154C20.8781 19.4936 20.8037 19.383 20.71 19.29ZM5 11C5 9.81332 5.3519 8.65328 6.01119 7.66658C6.67047 6.67989 7.60755 5.91085 8.7039 5.45673C9.80026 5.0026 11.0067 4.88378 12.1705 5.11529C13.3344 5.3468 14.4035 5.91825 15.2426 6.75736C16.0818 7.59648 16.6532 8.66558 16.8847 9.82946C17.1162 10.9933 16.9974 12.1997 16.5433 13.2961C16.0892 14.3925 15.3201 15.3295 14.3334 15.9888C13.3467 16.6481 12.1867 17 11 17C9.4087 17 7.88258 16.3679 6.75736 15.2426C5.63214 14.1174 5 12.5913 5 11Z"
-                    fill="#9E9E9E"
-                  />
+                    fill="#9E9E9E" />
                 </svg>
               </div>
             </div>
@@ -218,15 +153,10 @@
         </div>
       </div>
 
-      <div
-        v-if="data.branch_channels && data.items"
-        class="grid grid-cols-2 gap-x-4 mt-2"
-      >
+      <div v-if="data.branch_channels && data.items" class="grid grid-cols-2 gap-x-4 mt-2">
         <div class="rounded-fd bg-white border p-4">
           <div class="flex items-center gap-x-1">
-            <div
-              v-if="animateOutlet.length"
-              class="
+            <div v-if="animateOutlet.length" class="
                 h-5
                 w-5
                 flex
@@ -236,34 +166,24 @@
                 rounded-full
                 text-white
                 bg-[#ED2836]
-              "
-            >
+              ">
               {{ animateOutlet.length }}
             </div>
 
             <h1 class="text-lg font-bold">Aktivitas Outlet</h1>
           </div>
           <ul v-if="!isLoading" class="mt-6 overflow-auto h-[70vh]">
-            <li
-              v-for="(outlet, index) in data.branch_channels"
-              :key="index"
-              :class="
+            <li v-for="(outlet, index) in data.branch_channels" :key="index" :class="
                 animateOutlet.includes(index)
                   ? 'animate-fade-in-up animated'
                   : ''
-              "
-              v-show="filterBranchChannel(outlet)"
-            >
-              <div
-                class="flex justify-between transition ease-in-out delay-150"
-                :class="isNewOutlet ? ' opacity-30' : ''"
-              >
+              " v-show="filterBranchChannel(outlet)">
+              <div class="flex justify-between transition ease-in-out delay-150"
+                :class="isNewOutlet ? ' opacity-30' : ''">
                 <div class="flex items-start gap-x-3">
                   <div class="relative">
-                    <div
-                      class="h-3 w-3 rounded-full relative"
-                      :class="outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                    />
+                    <div class="h-3 w-3 rounded-full relative"
+                      :class="outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'" />
                     <div class="bg-gray-200 w-[2px] my-2 h-14 mx-auto"></div>
                   </div>
 
@@ -272,21 +192,14 @@
                       {{ outlet.branch_channel_name }}
                     </p>
                     <div>
-                      <span
-                        :class="
+                      <span :class="
                           outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'
-                        "
-                        class="text-xs text-white py-1 px-2 rounded-md mr-2"
-                      >
+                        " class="text-xs text-white py-1 px-2 rounded-md mr-2">
                         {{ outlet.branch_channel_channel }}
                       </span>
-                      <span
-                        class="text-xs text-white py-1 px-2 rounded-md"
-                        :class="
+                      <span class="text-xs text-white py-1 px-2 rounded-md" :class="
                           outlet.is_open ? 'bg-[#029835]' : 'bg-[#ED2836]'
-                        "
-                        >{{ outlet.is_open ? "Buka" : "Tutup" }}</span
-                      >
+                        ">{{ outlet.is_open ? "Buka" : "Tutup" }}</span>
                     </div>
                   </div>
                 </div>
@@ -302,19 +215,13 @@
             </li>
           </ul>
           <div v-else class="mt-6">
-            <div
-              v-for="i in 6"
-              :key="i"
-              class="h-24 bg-gray-300 w-full rounded-md animate-pulse mr-6 mb-2"
-            ></div>
+            <div v-for="i in 6" :key="i" class="h-24 bg-gray-300 w-full rounded-md animate-pulse mr-6 mb-2"></div>
           </div>
         </div>
 
         <div class="rounded-fd bg-white border p-4">
           <div class="flex items-center gap-x-1">
-            <div
-              v-if="animateItem.length"
-              class="
+            <div v-if="animateItem.length" class="
                 h-5
                 w-5
                 flex
@@ -324,30 +231,21 @@
                 rounded-full
                 text-white
                 bg-[#ED2836]
-              "
-            >
+              ">
               {{ animateItem.length }}
             </div>
 
             <h1 class="text-lg font-bold">Aktivitas Item</h1>
           </div>
           <ul v-if="!isLoading" class="mt-6 overflow-auto h-[70vh]">
-            <li
-              v-for="(items, index) in data.items"
-              :key="index"
-              :class="animateItem.includes(index) ? 'bounce animated' : ''"
-              v-show="filterItem(items)"
-            >
-              <div
-                class="flex justify-between transition ease-in-out delay-150"
-                :class="isNewItem ? ' opacity-30' : ''"
-              >
+            <li v-for="(items, index) in data.items" :key="index"
+              :class="animateItem.includes(index) ? 'bounce animated' : ''" v-show="filterItem(items)">
+              <div class="flex justify-between transition ease-in-out delay-150"
+                :class="isNewItem ? ' opacity-30' : ''">
                 <div class="flex items-start gap-x-3">
                   <div class="relative">
-                    <div
-                      class="h-3 w-3 rounded-full relative"
-                      :class="items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'"
-                    />
+                    <div class="h-3 w-3 rounded-full relative"
+                      :class="items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'" />
                     <div class="bg-gray-200 w-[2px] my-2 h-20 mx-auto"></div>
                   </div>
                   <div>
@@ -356,23 +254,16 @@
                     </p>
                     <span class="text-xs -mt-2 text-gray-500">{{
                       items.branch_channel_name
-                    }}</span>
+                      }}</span>
                     <div class="mt-2">
-                      <span
-                        :class="
+                      <span :class="
                           items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'
-                        "
-                        class="text-xs text-white py-1 px-2 rounded-md mr-1"
-                      >
+                        " class="text-xs text-white py-1 px-2 rounded-md mr-1">
                         {{ items.branch_channel_channel }}
                       </span>
-                      <span
-                        class="text-xs text-white py-1 px-2 rounded-md"
-                        :class="
+                      <span class="text-xs text-white py-1 px-2 rounded-md" :class="
                           items.in_stock ? 'bg-[#029835]' : 'bg-[#ED2836]'
-                        "
-                        >{{ items.in_stock ? "Aktif" : "Mati" }}</span
-                      >
+                        ">{{ items.in_stock ? "Aktif" : "Mati" }}</span>
                     </div>
                   </div>
                 </div>
@@ -388,11 +279,7 @@
             </li>
           </ul>
           <div v-else class="mt-6">
-            <div
-              v-for="i in 6"
-              :key="i"
-              class="h-24 bg-gray-300 w-full rounded-md animate-pulse mr-6 mb-2"
-            ></div>
+            <div v-for="i in 6" :key="i" class="h-24 bg-gray-300 w-full rounded-md animate-pulse mr-6 mb-2"></div>
           </div>
         </div>
       </div>

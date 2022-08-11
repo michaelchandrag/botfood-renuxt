@@ -22,9 +22,14 @@ export default {
 </script>
 
 <style>
+
 .icon-height {
-  height: 50px;
-  width: 50px;
+  height: 50px !important;
+  width: 50px !important;
+}
+.wrapper-content{
+  overflow-x: hidden;
+  background-color: #E5E5E5 !important;
 }
 
 body::-webkit-scrollbar,
