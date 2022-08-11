@@ -33,7 +33,7 @@
 
               <ul class="mt-3">
                 <li v-for="(channel, indexChannel) in data.branch_channels" :key="indexChannel"
-                  v-bind:class="(channel.is_open == 0)?'bg-red-300':'else_class'"
+                  v-bind:class="(channel.is_open == 0 && $moment().format('HH:mm:ss') >= channel.branch_open_time && $moment().format('HH:mm:ss') <= channel.branch_close_time)? 'bg-red-300' : 'else_class'"
                   class="flex justify-between px-2  text-xs border-b py-2 relative">
                   <div class="flex gap-x-1 items-center">
                     <div>
