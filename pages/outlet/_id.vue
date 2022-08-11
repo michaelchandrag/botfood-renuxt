@@ -1,6 +1,6 @@
 <template>
   <div>
-    <left-sidebar class="px-6 pt-8" />
+    <client-only><left-sidebar class="px-6 pt-8" /></client-only>
 
     <div class="bg-gray-200 wrapper-content have-right-sidebar">
       <div class="flex items-center gap-4 cursor-pointer" @click.prevent="$router.push('/outlet')">

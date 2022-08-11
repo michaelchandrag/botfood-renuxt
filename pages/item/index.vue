@@ -1,10 +1,10 @@
 <template>
   <div>
-    <left-sidebar class="px-6 pt-8" />
+    <client-only><left-sidebar class="px-6 pt-8" /></client-only>
 
     <div class="bg-gray-200 wrapper-content">
       <div>
-        <header-navbar class="hidden md:block"></header-navbar>
+        <client-only><header-navbar class="hidden md:block"></header-navbar></client-only>
       </div>
       <div>
         <span class="text-title">Laporan Item</span>

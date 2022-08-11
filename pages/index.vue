@@ -1,13 +1,9 @@
 <template>
   <div>
-    <client-only>
-      <left-sidebar class="px-6 pt-8" />
-    </client-only>
+      <client-only><left-sidebar class="px-6 pt-8" /></client-only>
 
     <div class="bg-gray-200 wrapper-content">
-      <client-only>
-        <header-navbar class="hidden md:block"></header-navbar>
-      </client-only>
+        <client-only><header-navbar class="hidden md:block"></header-navbar></client-only>
       <div class="flex justify-between items-center">
         <span class="text-title">Laporan Terkini</span>
         <div class="mr-6">
