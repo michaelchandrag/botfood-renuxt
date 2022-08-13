@@ -12,7 +12,8 @@
             />
           </div>
           <div style="margin-top: 40px">
-            Brand <br />
+            Brand / No. HP<br /> 
+            <span class="text-xs text-yellow-600">*Jika anda Area Manager, gunakan nomor HP anda untuk login.</span>
             <input
               v-model="login.slug"
               style="height: 56px"
