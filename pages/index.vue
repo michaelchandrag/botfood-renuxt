@@ -8,7 +8,7 @@
         <span class="text-title">Laporan Terkini</span>
         <div class="mr-6">
           <button v-if="isDownload"
-            class="w-full cursor-not-allowed  rounded-lg px-7 py-3  bg-green-600 text-white focus:outline-none">
+            class="w-full cursor-not-allowed  rounded-lg px-7 py-3  bg-gray-600 text-white focus:outline-none">
             <span class="animate-spin">Downloading . . .</span>
 
           </button>
