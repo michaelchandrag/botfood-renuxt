@@ -90,8 +90,7 @@ export default {
       subMenuLaporan: false,
       showNav: false,
       selectedMenu: "",
-      valueDropdown: this.$store.state.user.dropdown,
-      data: this.$store.state.user.user.user_brands
+      valueDropdown: this.$store.state.user.dropdown
     };
   },
   computed: {

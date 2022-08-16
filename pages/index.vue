@@ -171,6 +171,7 @@ export default {
         const res = await this.$axios.get("/me");
         if (res.data.success) {
           this.$store.commit("user/setUser", res.data.data);
+          this.$store.commit("user/setDropdown", res.data.data.user_brand_thumbnail.brand_id);
         }
       } catch (error) {}
     },
