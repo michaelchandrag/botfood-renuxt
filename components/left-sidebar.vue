@@ -93,6 +93,9 @@ export default {
       valueDropdown: this.$store.state.user.dropdown
     };
   },
+  mounted(){
+    this.setUserData()
+  },
   computed: {
     user() {
       return this.$store.state.user.user;
@@ -103,6 +106,15 @@ export default {
   },
 
   methods: {
+    async setUserData() {
+      try {
+        const res = await this.$axios.get("/me");
+        if (res.data.success) {
+          this.$store.commit("user/setUser", res.data.data);
+          this.$store.commit("user/setDropdown", res.data.data.user_brand_thumbnail.brand_id);
+        }
+      } catch (error) { }
+    },
     keluar() {
       this.$router.push("/login");
     },

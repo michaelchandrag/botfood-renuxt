@@ -161,20 +161,11 @@ export default {
     },
   },
   mounted() {
-    this.setUserData();
     this.getItemNotUniform();
     this.changePage();
   },
   methods: {
-    async setUserData() {
-      try {
-        const res = await this.$axios.get("/me");
-        if (res.data.success) {
-          this.$store.commit("user/setUser", res.data.data);
-          this.$store.commit("user/setDropdown", res.data.data.user_brand_thumbnail.brand_id);
-        }
-      } catch (error) {}
-    },
+    
     changePage(v) {
       this.listLoading = true;
       this.page = this.page + parseFloat(v);
