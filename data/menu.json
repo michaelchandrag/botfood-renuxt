@@ -24,27 +24,39 @@
   },
   {
     "label": "Laporan",
-    "route": "laporan",
+    "route": "",
     "isShow": true,
-    "link": "/laporan",
+    "link": "",
     "icon": "book",
     "level": [
       1,
       2
     ],
-    "child": []
-  },
-  {
-    "label": "Laporan Global",
-    "route": "laporan-global",
-    "isShow": false,
-    "icon": "",
-    "link": "/laporan/:global",
-    "level": [
-      1,
-      2
-    ],
-    "child": []
+    "child": [
+      {
+        "label": "Performa Harian",
+        "route": "laporan",
+        "isShow": true,
+        "link": "/laporan",
+        "level": [
+          1,2
+        ]
+      },
+      {
+        "label": "Rekap",
+        "isShow": true,
+        "route": "laporan-recap",
+        "link": "/laporan/recap",
+        "level": [1,2]
+      },
+      {
+        "label": "Laporan Global",
+        "isShow": false,
+        "route": "laporan-global",
+        "link": "/laporan/global",
+        "level": [1,2]
+      }
+    ]
   },
   {
     "label": "Outlet",
