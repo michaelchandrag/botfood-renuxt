@@ -15,6 +15,7 @@
         <!-- <order /> -->
         <price />
         <global />
+        <quick-summary />
         <warning-activity-outlet/>
       </div>
     </div>
@@ -27,13 +28,15 @@
   import price from '~/components/laporan/price.vue'
   import global from '~/components/laporan/global.vue'
   import warningActivityOutlet from '~/components/laporan/warning-history.vue'
+  import quickSummary from '~/components/laporan/quick-summary.vue'
   export default {
     components: {
       performaOutlet,
       order,
       price,
       global,
-      warningActivityOutlet
+      warningActivityOutlet,
+      quickSummary,
     },
     data() {
       return {}
