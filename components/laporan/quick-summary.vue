@@ -7,7 +7,7 @@
             Aktivitas Item Bermasalah
           </label>
           <label>
-            Laporan yang berisi aktivitas item tidak aktif dan duplikat pada tanggal operasional yang bersangkutan
+            Laporan yang berisi aktivitas item tidak aktif dan duplikat pada tanggal operasional yang bersangkutan. Secara otomatis akan mengambil sampai 2 tanggal ke belakang.
           </label>
         </div>
       </div>
@@ -81,7 +81,9 @@
         })
       },
       disabledDates (date) {
-        return date >= new Date()
+        var now = new Date()
+        var maxDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+        return date >= maxDate
       }
     }
   }

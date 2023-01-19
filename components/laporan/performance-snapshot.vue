@@ -4,17 +4,17 @@
       <div class="md:flex md:items-center mb-6">
         <div class="md:w-full">
           <label class="block font-bold mb-1 md:mb-0 pr-4">
-            Aktivitas Outlet Telat
+            Performa Outlet - Menu Snapshot
           </label>
           <label>
-            Rekap laporan performa harian yang menampilkan aktivitas outlet disekitar jam buka dan jam tutup. Hanya ditampilkan yang telat saja. Pastikan outlet anda sudah melakukan submit jam buka dan jam tutup ke tim BotFood.
+            Laporan rekap performa outlet-menu selama tanggal yang diberikan
           </label>
         </div>
       </div>
       <div class="md:flex md:items-center mb-3 -m-1">
         <div class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3">
           <vue-datepicker-2 v-model="filters.date" placeholder="Tanggal Operasional" style="width:100%;height:50px;"
-            :type="'date'" :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'" :disabled-date="disabledDates">
+            :type="'date'" :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'" :default-value="filters.date" :disabled-date="disabledDates">
             <template #icon-calendar><img src="~/assets/png/icon-calendar.png" width="20px"
                 height="20px"></template>
           </vue-datepicker-2>
@@ -52,22 +52,22 @@
         statusDropdownFrom: false,
         statusDropdownUntil: false,
         filters: {
-          date: null,
-        }
+          date: this.$moment().subtract(1, "days").format('YYYY-MM-DD'),
+        },
       }
     },
     methods: {
       download() {
         this.isDownload = true
         var queryParams = {
-          from_created_at: this.$moment(this.filters.fromDate).format('YYYY-MM-DD 00:00:00'),
-          until_created_at: this.$moment(this.filters.untilDate).format('YYYY-MM-DD 23:59:59'),
+          from_snapshot_time: this.$moment(this.filters.daate).format('YYYY-MM-DD 00:00:00'),
+          until_snapshot_time: this.$moment(this.filters.daate).format('YYYY-MM-DD 23:59:59'),
           xlsx: true
         }
         var queryParams = new URLSearchParams(queryParams).toString()
         this.$axios({
           method: 'GET',
-          url: `me/report/warning_activity_outlet?${queryParams}`,
+          url: `me/report/performance_snapshot?${queryParams}`,
           responseType: 'blob',
         }).then(r => {
           this.isDownload = false
@@ -76,7 +76,7 @@
           }));
           var fileLink = document.createElement('a');
           fileLink.href = url;
-          fileLink.setAttribute('download', 'laporan-aktivitas-outlet-telat.xlsx');
+          fileLink.setAttribute('download', 'performa-outlet-menu-snapshot.xlsx');
           document.body.appendChild(fileLink);
           fileLink.click();
         })

@@ -15,7 +15,7 @@
       <div class="md:flex md:items-center mb-3 -m-1">
         <div class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3">
           <vue-datepicker-2 v-model="daterange" placeholder="Periode Laporan" style="width:100%;height:50px;"
-            :type="'date'" @input="changePeriod()" :range="true" :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'">
+            :type="'date'" @input="changePeriod()" :range="true" :format="'DD/MM/YYYY'" :value-type="'YYYY-MM-DD'" :disabled-date="disabledDates">
             <template #icon-calendar><img src="~/assets/png/icon-calendar.png" width="20px"
                 height="20px"></template>
           </vue-datepicker-2>
@@ -91,6 +91,11 @@
           document.body.appendChild(fileLink);
           fileLink.click();
         })
+      },
+      disabledDates (date) {
+        var now = new Date()
+        var maxDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+        return date >= maxDate
       }
     }
   }

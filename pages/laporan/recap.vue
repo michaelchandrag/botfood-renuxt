@@ -17,6 +17,7 @@
         <global />
         <quick-summary />
         <warning-activity-outlet/>
+        <performance-snapshot/>
       </div>
     </div>
   </div>
@@ -29,6 +30,7 @@
   import global from '~/components/laporan/global.vue'
   import warningActivityOutlet from '~/components/laporan/warning-history.vue'
   import quickSummary from '~/components/laporan/quick-summary.vue'
+  import performanceSnapshot from '~/components/laporan/performance-snapshot.vue'
   export default {
     components: {
       performaOutlet,
@@ -37,6 +39,7 @@
       global,
       warningActivityOutlet,
       quickSummary,
+      performanceSnapshot,
     },
     data() {
       return {}
