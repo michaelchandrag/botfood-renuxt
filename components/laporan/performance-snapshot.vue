@@ -60,8 +60,8 @@
       download() {
         this.isDownload = true
         var queryParams = {
-          from_snapshot_time: this.$moment(this.filters.daate).format('YYYY-MM-DD 00:00:00'),
-          until_snapshot_time: this.$moment(this.filters.daate).format('YYYY-MM-DD 23:59:59'),
+          from_snapshot_time: this.$moment(this.filters.date).format('YYYY-MM-DD 00:00:00'),
+          until_snapshot_time: this.$moment(this.filters.date).format('YYYY-MM-DD 23:59:59'),
           xlsx: true
         }
         var queryParams = new URLSearchParams(queryParams).toString()
