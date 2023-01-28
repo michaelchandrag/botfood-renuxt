@@ -22,7 +22,7 @@
         </div>
         <div class="md:w-1/12 p-1">
         </div>
-        <div class="md:w-3/12 p-1">
+        <div class="md:w-2/12 p-1">
           <div class="">
             <button v-if="isDownload"
               class="cursor-not-allowed shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm">
@@ -32,6 +32,19 @@
               class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm"
               @click.prevent="download()">
               <span v-if="!isDownload">Download</span>
+            </button>
+          </div>
+        </div>
+        <div class="md:w-2/12 p-1">
+          <div class="">
+            <button v-if="isDownloadRaw"
+              class="cursor-not-allowed shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm">
+              <span class="animate-spin">Downloading Data Mentah. . .</span>
+            </button>
+            <button v-if="!isDownloadRaw"
+              class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm"
+              @click.prevent="downloadRaw()">
+              <span v-if="!isDownloadRaw">Download Data Mentah</span>
             </button>
           </div>
         </div>
@@ -50,6 +63,7 @@
     data() {
       return {
         isDownload: false,
+        isDownloadRaw: false,
         statusDropdownFrom: false,
         statusDropdownUntil: false,
         daterange: [],
@@ -88,6 +102,31 @@
           var fileLink = document.createElement('a');
           fileLink.href = url;
           fileLink.setAttribute('download', 'laporan-performa-outlet.xlsx');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+      },
+      downloadRaw() {
+        this.isDownloadRaw = true
+        var queryParams = {
+          start_date: this.$moment(this.filters.fromDate).format('YYYY-MM-DD'),
+          end_date: this.$moment(this.filters.untilDate).format('YYYY-MM-DD'),
+          xlsx: true,
+          type: 'raw'
+        }
+        var queryParams = new URLSearchParams(queryParams).toString()
+        this.$axios({
+          method: 'GET',
+          url: `me/report/atp_period_export?${queryParams}`,
+          responseType: 'blob',
+        }).then(r => {
+          this.isDownloadRaw = false
+          const url = window.URL.createObjectURL(new Blob([r.data], {
+            'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }));
+          var fileLink = document.createElement('a');
+          fileLink.href = url;
+          fileLink.setAttribute('download', 'laporan-performa-outlet-data-mentah.xlsx');
           document.body.appendChild(fileLink);
           fileLink.click();
         })
