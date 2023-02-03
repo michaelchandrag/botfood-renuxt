@@ -290,8 +290,13 @@ export default {
     },
     async getUser(keyword) {
       if (keyword == undefined || keyword == null) keyword = "";
+      var queryParams = {
+        q: keyword,
+        data: 20,
+      }
+      var queryParams = new URLSearchParams(queryParams).toString()
       try {
-        const res = await this.$axios.get("me/user_brands?q=" + keyword);
+        const res = await this.$axios.get("me/user_brands?" + queryParams);
 
         if (res.data.success) {
           this.users = res.data.data.user_brands;

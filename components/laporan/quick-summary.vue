@@ -60,7 +60,7 @@
       download() {
         this.isDownload = true
         var queryParams = {
-          date: this.$moment(this.filters.daate).format('YYYY-MM-DD'),
+          date: this.$moment(this.filters.date).format('YYYY-MM-DD'),
           xlsx: true
         }
         var queryParams = new URLSearchParams(queryParams).toString()
