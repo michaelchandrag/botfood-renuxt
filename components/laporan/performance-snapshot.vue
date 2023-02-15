@@ -14,7 +14,7 @@
           </label>
         </div>
       </div>
-      <div class="md:flex md:items-center mb-3 -m-1" style="min-height: 20vh;">
+      <div class="md:flex mb-3 -m-1 gap-10" style="min-height: 30vh;">
         <div
           class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3"
         >
@@ -37,11 +37,13 @@
           </vue-datepicker-2>
         </div>
         <div class="flex flex-row gap-10">
-          <div >
-            <vue-timepicker v-model="startTimeValue" :hour-range="[['9','23']]" style="height: 50px;width: 100%;"></vue-timepicker>
+          <div>
+            <label for="">Jam Mulai</label>
+            <vue-timepicker v-model="startTimeValue" :hour-range="[['9','23']]" @change="changeHandler"></vue-timepicker>
           </div>
           <div>
-            <vue-timepicker v-model="endTimeValue" :hour-range="[['9','23']]"></vue-timepicker>
+            <label for="">Jam Akhir</label>
+            <vue-timepicker v-model="endTimeValue" :hour-range="[['9','23']]" @change="changeHandlerEnd"></vue-timepicker>
           </div>
         </div>
 
@@ -88,17 +90,29 @@ export default {
       },
       startTimeValue: "09:00",
       endTimeValue: "23:00",
+      jamAwal:"",
+      jamAkhir:""
     };
   },
   methods: {
+    changeHandler(eventData){
+      var hasil=eventData.data
+      console.log(hasil)
+      this.jamAwal=hasil.HH+":"+hasil.mm
+      console.log(this.jamAwal)
+    },
+    changeHandlerEnd(eventData){
+      var hasil=eventData.data
+      this.jamAkhir=hasil.HH+":"+hasil.mm
+    },
     download() {
       this.isDownload = true;
       var queryParams = {
         from_snapshot_time: this.$moment(this.filters.date).format(
-          "YYYY-MM-DD 00:00:00"
+          "YYYY-MM-DD "+this.jamAwal
         ),
         until_snapshot_time: this.$moment(this.filters.date).format(
-          "YYYY-MM-DD 23:59:59"
+          "YYYY-MM-DD "+this.jamAkhir
         ),
         xlsx: true,
       };

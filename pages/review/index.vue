@@ -508,9 +508,9 @@
                           />
                         </div>
                       </div>
-                      <div class="dialog" v-if="dialog">
-                        <div class="dialog-content">
-                          <img :src="imagePopUp" @click="toggleDialog()" />
+                      <div class="dialog" v-if="dialog" @click="toggleDialog()">
+                        <div class="dialog-content" >
+                          <img :src="imagePopUp"  />
                         </div>
                       </div>
                     </td>
