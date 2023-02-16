@@ -39,11 +39,11 @@
         <div class="flex flex-row gap-10 pb-9">
           <div>
             <label for="" style="font-size: small;">Jam Mulai</label>
-            <vue-timepicker v-model="startTimeValue" :hour-range="[['9','23']]" @change="changeHandler"></vue-timepicker>
+            <vue-timepicker v-model="startTimeValue" @change="changeHandler"></vue-timepicker>
           </div>
           <div>
             <label for="">Jam Akhir</label>
-            <vue-timepicker v-model="endTimeValue" :hour-range="[['9','23']]" @change="changeHandlerEnd"></vue-timepicker>
+            <vue-timepicker v-model="endTimeValue" @change="changeHandlerEnd"></vue-timepicker>
           </div>
         </div>
 
