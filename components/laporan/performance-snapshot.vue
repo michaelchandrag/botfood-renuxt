@@ -14,7 +14,7 @@
           </label>
         </div>
       </div>
-      <div class="md:flex mb-3 -m-1 gap-10" style="min-height: 26vh;justify-items: center;align-items: center;">
+      <div class="md:flex mb-3 -m-1 gap-8" style="min-height: 23vh;justify-items: center;align-items: center;">
         <div
           class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative"
         >
@@ -36,9 +36,9 @@
             /></template>
           </vue-datepicker-2>
         </div>
-        <div class="flex flex-row gap-10 pb-9">
+        <div class="flex flex-row gap-5 pb-7">
           <div>
-            <label for="" style="font-size: small;">Jam Mulai</label>
+            <label for="">Jam Mulai</label>
             <vue-timepicker v-model="startTimeValue" @change="changeHandler"></vue-timepicker>
           </div>
           <div>
@@ -157,4 +157,5 @@ export default {
   border: 1px solid black;
   padding: 3px;
 }
+
 </style>
