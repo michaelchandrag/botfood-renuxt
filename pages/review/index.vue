@@ -185,7 +185,7 @@
                 @click.prevent="
                   filters.n_comment === 0
                     ? (filters.n_comment = '')
-                    : (filters.n_comment = 0);
+                    : (filters.n_comment = 0,filters.n_images='');
                   getData();
                 "
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
@@ -205,7 +205,7 @@
                 @click.prevent="
                   filters.n_images === 0
                     ? (filters.n_images = '')
-                    : (filters.n_images = 0);
+                    : (filters.n_images = 0 , filters.n_comment='');
                   getData();
                 "
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
@@ -215,7 +215,7 @@
                     : ''
                 "
               >
-                Dengan gambar
+                Dengan Gambar
                 <i
                   class="fa fa-check ml-2 pt-1"
                   v-if="filters.n_images === 0"
@@ -733,7 +733,7 @@ export default {
         this.filters.page = 1;
       }
       var queryParams = new URLSearchParams(this.filters).toString();
-      console.log(queryParams);
+      //console.log(queryParams);
       this.listLoading = true;
       this.$axios.get(`me/reviews?${queryParams}`).then((r) => {
         this.data = r.data.data;

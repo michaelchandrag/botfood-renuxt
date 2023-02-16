@@ -14,9 +14,9 @@
           </label>
         </div>
       </div>
-      <div class="md:flex mb-3 -m-1 gap-10" style="min-height: 30vh;">
+      <div class="md:flex mb-3 -m-1 gap-10" style="min-height: 26vh;justify-items: center;align-items: center;">
         <div
-          class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative p-3"
+          class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative"
         >
           <vue-datepicker-2
             v-model="filters.date"
@@ -36,9 +36,9 @@
             /></template>
           </vue-datepicker-2>
         </div>
-        <div class="flex flex-row gap-10">
+        <div class="flex flex-row gap-10 pb-9">
           <div>
-            <label for="">Jam Mulai</label>
+            <label for="" style="font-size: small;">Jam Mulai</label>
             <vue-timepicker v-model="startTimeValue" :hour-range="[['9','23']]" @change="changeHandler"></vue-timepicker>
           </div>
           <div>
@@ -97,9 +97,9 @@ export default {
   methods: {
     changeHandler(eventData){
       var hasil=eventData.data
-      console.log(hasil)
+     //console.log(hasil)
       this.jamAwal=hasil.HH+":"+hasil.mm
-      console.log(this.jamAwal)
+      //console.log(this.jamAwal)
     },
     changeHandlerEnd(eventData){
       var hasil=eventData.data
