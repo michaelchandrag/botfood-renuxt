@@ -449,7 +449,7 @@
                 </tbody>
                 <tbody v-if="listLoading">
                   <tr class="h-12" v-for="n in 10" :key="n">
-                    <td v-for="i in 5" :key="i">
+                    <td v-for="i in 6" :key="i">
                       <div
                         class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"
                       ></div>
