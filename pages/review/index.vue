@@ -379,7 +379,7 @@
                   <tr>
                     <th
                       class="py-4 text-text cursor-pointer"
-                      width="30%"
+                      width="20%"
                       :class="
                         filters.sort_key === 'branch_channel_name'
                           ? 'filter'
@@ -550,6 +550,9 @@
                             @click="ShowModal(foto)"
                           />
                         </div>
+                      </div>
+                      <div v-else>
+                        -
                       </div>
                       <div class="dialog" v-if="dialog" @click="toggleDialog()">
                         <div class="dialog-content" >
