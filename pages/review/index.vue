@@ -398,6 +398,44 @@
                     </th>
                     <th
                       class="py-4 text-text cursor-pointer"
+                      width="10%"
+                      :class="
+                        filters.sort_key === 'created_at'
+                          ? 'filter'
+                          : ''
+                      "
+                      @click.prevent="sortPage('created_at')"
+                    >
+                      Tanggal diulas<i
+                        :class="
+                          filters.sort_value === 'asc'
+                            ? 'fa-sort-amount-down'
+                            : 'fa-sort-amount-up'
+                        "
+                        class="fas ml-2"
+                      ></i>
+                    </th>
+                    <th
+                      class="py-4 text-text cursor-pointer"
+                      width="10%"
+                      :class="
+                        filters.sort_key === 'ordered_at'
+                          ? 'filter'
+                          : ''
+                      "
+                      @click.prevent="sortPage('ordered_at')"
+                    >
+                      Tanggal pesanan<i
+                        :class="
+                          filters.sort_value === 'asc'
+                            ? 'fa-sort-amount-down'
+                            : 'fa-sort-amount-up'
+                        "
+                        class="fas ml-2"
+                      ></i>
+                    </th>
+                    <th
+                      class="py-4 text-text cursor-pointer"
                       width="13%"
                       :class="
                         filters.sort_key === 'reviews.rating' ? 'filter' : ''
@@ -413,7 +451,6 @@
                         class="fas ml-2"
                       ></i>
                     </th>
-                    <th class="py-4 text-text" width="10%">Tanggal diulas</th>
                     <th class="py-4 text-text" width="20%">Nama Item</th>
                     <th class="py-4 text-text">
                       Komentar<i class="fas ml-2"></i>
@@ -449,7 +486,7 @@
                 </tbody>
                 <tbody v-if="listLoading">
                   <tr class="h-12" v-for="n in 10" :key="n">
-                    <td v-for="i in 6" :key="i">
+                    <td v-for="i in 7" :key="i">
                       <div
                         class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"
                       ></div>
@@ -465,6 +502,15 @@
                     <td class="text-center text-text p-4">
                       {{ review.branch_channel_name }} -
                       {{ review.branch_channel_channel }}
+                    </td>
+                    <td class="text-center text-text p-4">
+                      {{ $moment(review.created_at).format("DD-MMM-YYYY H:s") }}
+                    </td>
+                    <td v-if="review.ordered_at === null" class="text-center text-text p-4">
+                      -
+                    </td>
+                    <td v-else class="text-center text-text p-4">
+                      {{ $moment(review.ordered_at).format("DD-MMM-YYYY H:s") }}
                     </td>
                     <td class="text-center p-4">
                       <div class="w-full">
@@ -485,9 +531,6 @@
                           "
                         />
                       </div>
-                    </td>
-                    <td class="text-center text-text p-4">
-                      {{ $moment(review.created_at).format("DD-MMM-YYYY H:s") }}
                     </td>
                     <td class="text-center text-left p-4">
                       {{ review.item_name ? review.item_name : "-" }}
