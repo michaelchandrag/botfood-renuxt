@@ -2,7 +2,7 @@
   <div>
     <client-only><left-sidebar class="px-6 pt-8" /></client-only>
 
-    <div class="bg-gray-200 wrapper-content have-right-sidebar">
+    <div class="bg-gray-200 wrapper-content">
       <div class="flex items-center gap-4 cursor-pointer" @click.prevent="$router.push('/outlet')">
         <img class="bg-white p-2 rounded-full" src="~/assets/svg/back.svg" alt="">
         <span class="text-title">
@@ -19,6 +19,7 @@
             <div>
               <img v-if="data.channel=='GrabFood'" class="h-32" src="~/assets/svg/grabfood.svg" alt="">
               <img v-if="data.channel=='GoFood'" class="h-32" src="~/assets/svg/gofood.svg" alt="">
+              <img v-if="data.channel=='ShopeeFood'" class="h-32" src="~/assets/svg/shopeefood.svg" alt="">
             </div>
             <div>
               <div>
@@ -45,14 +46,14 @@
           <div class="h-2">
           </div>
           <div class="flex flex-wrap -m-2">
-            <div class="w-full sm:w-6/12 xl:w-3/12 p-2">
+            <div class="w-full sm:w-6/12 xl:w-2/12 p-2">
               <div @click.prevent="changeTab('outlet')"
                 :class="{'border-green-500 text-green-700 bg-green-200':tab=='outlet'}"
                 class="flex py-3 px-4 cursor-pointer text-gray-500 text-center border-2 border-gray-200 bg-gray-200 rounded-lg w-full focus:outline-none">
                 <span class="mx-auto">Riwayat Outlet</span>
               </div>
             </div>
-            <div class="w-full sm:w-6/12 lg:w-6/12 xl:w-3/12 p-2">
+            <div class="w-full sm:w-6/12 lg:w-2/12 xl:w-2/12 p-2">
               <div @click.prevent="changeTab('item')"
                 :class="{'border-green-500 text-green-700 bg-green-200':tab=='item'}"
                 class="flex py-3 px-4 cursor-pointer text-gray-500 text-center border-2 border-gray-200 bg-gray-200 rounded-lg w-full focus:outline-none">
@@ -115,13 +116,13 @@
 
 
             <div v-if="tab=='item'"
-              class="w-full sm:w-6/12 xl:w-3/12  p-2 cursor-pointer items-center relative">
+              class="w-full sm:w-6/12 xl:w-4/12  p-2 cursor-pointer items-center relative">
               <div @click.prevent="itemDropdown?itemDropdown=false:itemDropdown=true"
                 class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                 <div class="flex-auto">
                   <span v-if="listLoading">Loading...</span>
-                  <span v-if="!listLoading">{{selectedItem.slice(0,12)}}
-                    <span v-if="selectedItem.length>=12">. . .</span>
+                  <span v-if="!listLoading">{{selectedItem.slice(0,30)}}
+                    <span v-if="selectedItem.length>=31">. . .</span>
                   </span>
                 </div>
                 <div>
@@ -384,8 +385,8 @@
 
 
       </div>
-      <div class="h-8"></div>
-      <right-sidebar />
+      <!-- <div class="h-8"></div> -->
+      <!-- <right-sidebar /> -->
     </div>
 
   </div>

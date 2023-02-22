@@ -37,7 +37,7 @@
                   </div>
                 </div>
               </div>
-              <div class="w-6/12 xl:w-3/12 lg:w-6/12 cursor-pointer items-center relative p-2">
+              <div class="w-2/12 xl:w-2/12 lg:w-2/12 cursor-pointer items-center relative p-2">
                 <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
                   class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
                   <div class="flex-auto">
@@ -96,7 +96,7 @@
                 </div>
               </div>
 
-              <div class="w-full xl:w-3/12 cursor-pointer items-center relative p-2">
+              <div class="w-full xl:w-2/12 cursor-pointer items-center relative p-2">
                 <div class="">
                   <button v-if="isDownload"
                     class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
@@ -107,6 +107,20 @@
                     class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
                     @click.prevent="download()">
                     <span v-if="!isDownload">Download</span>
+                  </button>
+                </div>
+              </div>
+              <div class="w-full xl:w-2/12 cursor-pointer items-center relative p-2">
+                <div class="">
+                  <button v-if="isDownloadRaw"
+                    class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
+                    <span class="animate-spin">Downloading Data Mentah. . .</span>
+
+                  </button>
+                  <button v-if="!isDownloadRaw"
+                    class="w-full rounded-fd py-4 border-2 border-green-food bg-blue-200 text-green-food focus:outline-none"
+                    @click.prevent="downloadRaw()">
+                    <span v-if="!isDownloadRaw">Download Data Mentah</span>
                   </button>
                 </div>
               </div>
@@ -313,6 +327,7 @@
         sortValue: 'desc',
         sortKey: 'outlet_item_not_active_time',
         isDownload: false,
+        isDownloadRaw: false,
       }
     },
     middleware: ['auth-ssr'],
@@ -388,7 +403,32 @@
           document.body.appendChild(fileLink);
           fileLink.click();
         })
-      }
+      },
+      downloadRaw() {
+        this.isDownloadRaw = true
+        var queryParams = {
+          start_date: this.$moment(this.date).format('YYYY-MM-DD'),
+          end_date: this.$moment(this.date).format('YYYY-MM-DD'),
+          xlsx: true,
+          type: 'raw'
+        }
+        var queryParams = new URLSearchParams(queryParams).toString()
+        this.$axios({
+          method: 'GET',
+          url: `me/report/atp_period_export?${queryParams}`,
+          responseType: 'blob',
+        }).then(r => {
+          this.isDownloadRaw = false
+          const url = window.URL.createObjectURL(new Blob([r.data], {
+            'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }));
+          var fileLink = document.createElement('a');
+          fileLink.href = url;
+          fileLink.setAttribute('download', 'laporan-performa-outlet-data-mentah.xlsx');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+      },
     },
   }
 
