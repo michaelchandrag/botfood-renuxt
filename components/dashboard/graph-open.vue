@@ -32,7 +32,7 @@
                     .branch_channels"
                   :key="index"
                 >
-                  <img :src="op.branch_channel_channel | imgChannel" alt="" />
+                  <!-- <img :src="op.branch_channel_channel | imgChannel" alt="" /> -->
                   {{ op.branch_channel_name }}
                 </li>
                 <li v-if="!data.open_state[this.openIndex].branch_channels">
@@ -44,14 +44,44 @@
         </div>
 
         <div>
-          <ApexChart
-            width="100%"
-            height="300"
-            type="pie"
-            :options="optionClose"
-            :series="seriesClose"
-            @dataPointSelection="closeSelect"
-          />
+          <h1 class="font-bold">Grafik Close</h1>
+          <div class="grid grid-cols-3">
+            <div class="col-span-2">
+              <ApexChart
+                width="100%"
+                height="500"
+                type="pie"
+                :options="optionClose"
+                :series="seriesClose"
+                @dataPointSelection="closeSelect"
+              />
+            </div>
+
+            <div v-if="data.close_state">
+              <h1 class="font-bold uppercase text-lg" v-if="data.close_state">
+                List
+                {{
+                  data.close_state[this.closeIndex].close_state.replaceAll(
+                    "_",
+                    " "
+                  )
+                }}
+              </h1>
+              <ul>
+                <li
+                  v-for="(op, index) in data.close_state[this.closeIndex]
+                    .branch_channels"
+                  :key="index"
+                >
+                  <!-- <img :src="op.branch_channel_channel | imgChannel" alt="" /> -->
+                  {{ op.branch_channel_name }}
+                </li>
+                <li v-if="!data.close_state[this.closeIndex].branch_channels">
+                  Belum ada Data
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </client-only>
     </div>
@@ -111,10 +141,7 @@ export default {
       closeIndex: 1,
     };
   },
-  // computed: {
-  //   tableOpen() {},
-  //   tableClose() {},
-  // },
+
   filters: {
     imgChannel(v) {
       if (v === "GrabFood") {
