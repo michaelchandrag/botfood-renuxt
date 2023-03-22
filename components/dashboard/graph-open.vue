@@ -1,27 +1,60 @@
 <template>
-  <div class="grid grid-cols-2 gap-2">
-    <client-only>
-      <div>
-        <ApexChart
-          width="100%"
-          height="500"
-          type="pie"
-          :options="optionOpen"
-          :series="seriesOpen"
-        />
-        <div></div>
-      </div>
-      <div>
-        <ApexChart
-          width="100%"
-          height="300"
-          type="pie"
-          :options="optionClose"
-          :series="seriesClose"
-        />
-      </div>
-    </client-only>
-    <input type="text" id="openIndex" @input="openIndex" />
+  <div>
+    <div class="grid grid-cols-2 gap-2" v-if="!loading">
+      <client-only>
+        <div>
+          <h1 class="font-bold">Grafik Open</h1>
+          <div class="grid grid-cols-3">
+            <div class="col-span-2">
+              <ApexChart
+                width="100%"
+                height="500"
+                type="pie"
+                :options="optionOpen"
+                :series="seriesOpen"
+                @dataPointSelection="openSelect"
+              />
+            </div>
+
+            <div v-if="data.open_state">
+              <h1 class="font-bold uppercase text-lg" v-if="data.open_state">
+                List
+                {{
+                  data.open_state[this.openIndex].open_state.replaceAll(
+                    "_",
+                    " "
+                  )
+                }}
+              </h1>
+              <ul>
+                <li
+                  v-for="(op, index) in data.open_state[this.openIndex]
+                    .branch_channels"
+                  :key="index"
+                >
+                  <img :src="op.branch_channel_channel | imgChannel" alt="" />
+                  {{ op.branch_channel_name }}
+                </li>
+                <li v-if="!data.open_state[this.openIndex].branch_channels">
+                  Belum ada Data
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <ApexChart
+            width="100%"
+            height="300"
+            type="pie"
+            :options="optionClose"
+            :series="seriesClose"
+            @dataPointSelection="closeSelect"
+          />
+        </div>
+      </client-only>
+    </div>
   </div>
 </template>
 
@@ -30,6 +63,7 @@ export default {
   name: "GraphOpen",
   data() {
     return {
+      loading: false,
       seriesClose: [],
       seriesOpen: [],
       optionClose: {
@@ -57,12 +91,6 @@ export default {
         chart: {
           width: 380,
           type: "pie",
-          events: {
-            dataPointSelection: function (event, chartContext, config) {
-              const el = document.getElementById("openIndex");
-              el.value = config.dataPointIndex;
-            },
-          },
         },
         responsive: [
           {
@@ -79,25 +107,48 @@ export default {
         ],
       },
       data: [],
+      openIndex: 1,
+      closeIndex: 1,
     };
   },
-  watch: {
-    '$el.querySelector('#openIndex')': {
-      handler(r) {
-        console.log(r);
+  // computed: {
+  //   tableOpen() {},
+  //   tableClose() {},
+  // },
+  filters: {
+    imgChannel(v) {
+      if (v === "GrabFood") {
+        return "~/assets/svg/grabfood.svg";
       }
-    }
+
+      if (v === "GoFood") {
+        return "~/assets/svg/gofood.svg";
+      }
+
+      if (v === "ShopeeFood") {
+        return "~/assets/svg/shopeefood.svg";
+      }
+      if (v === "TravelokaEats") {
+        return "~/assets/svg/travelokaeats.svg";
+      }
+    },
   },
   mounted() {
     this.getData();
   },
   methods: {
-    openIndex(v) {
-      console.log(v);
+    openSelect(event, chartContext, config) {
+      this.openIndex = config.dataPointIndex;
+    },
+    closeSelect(event, chartContext, config) {
+      this.closeIndex = config.dataPointIndex;
     },
     async getData() {
       try {
+        this.loading = true;
         const res = await this.$axios.get("/me/report/daily_outlet_statistics");
+        this.loading = false;
+
         if (res.data.success) {
           this.data = res.data.data;
           console.log(this.data);
