@@ -37,7 +37,7 @@
 
         <!-- start graph -->
         <div class="bg-white p-4 rounded-md mb-3">
-          <graph-open />
+          <graph />
         </div>
         <!-- end graph -->
         <!-- table start -->
@@ -176,13 +176,13 @@
 import outletOverview from "~/components/dashboard/outlet-overview.vue";
 import LeftSidebar from "~/components/left-sidebar.vue";
 import HeaderNavbar from "~/components/header-navbar.vue";
-import GraphOpen from "~/components/dashboard/graph-open.vue";
+import Graph from "~/components/dashboard/graph.vue";
 export default {
   components: {
     outletOverview,
     LeftSidebar,
     HeaderNavbar,
-    GraphOpen,
+    Graph,
   },
   data() {
     return {
