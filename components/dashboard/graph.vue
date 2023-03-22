@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="grid grid-cols-2 gap-2" v-if="!loading">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2" v-if="!loading">
       <client-only>
-        <div>
+        <div class="border-b md:border-0">
           <h1 class="font-bold">Grafik Open</h1>
           <div class="grid grid-cols-3">
             <div class="col-span-2">
