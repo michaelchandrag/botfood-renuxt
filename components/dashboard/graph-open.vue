@@ -17,7 +17,10 @@
             </div>
 
             <div v-if="data.open_state">
-              <h1 class="font-bold uppercase text-lg" v-if="data.open_state">
+              <h1
+                class="font-bold uppercase mb-3 underline"
+                v-if="data.open_state"
+              >
                 List
                 {{
                   data.open_state[this.openIndex].open_state.replaceAll(
@@ -26,13 +29,37 @@
                   )
                 }}
               </h1>
-              <ul>
+              <ul class="h-64 overflow-y-auto text-gray-600">
                 <li
                   v-for="(op, index) in data.open_state[this.openIndex]
                     .branch_channels"
                   :key="index"
+                  class="flex gap-2 py-3 text-sm border-b"
                 >
-                  <!-- <img :src="op.branch_channel_channel | imgChannel" alt="" /> -->
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'GrabFood'"
+                    src="~/assets/svg/grabfood.svg"
+                    alt=""
+                  />
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'GoFood'"
+                    src="~/assets/svg/gofood.svg"
+                    alt=""
+                  />
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'ShopeeFood'"
+                    src="~/assets/svg/shopeefood.svg"
+                    alt=""
+                  />
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'TravelokaEats'"
+                    src="~/assets/svg/travelokaeats.svg"
+                    alt=""
+                  />
                   {{ op.branch_channel_name }}
                 </li>
                 <li v-if="!data.open_state[this.openIndex].branch_channels">
@@ -58,7 +85,10 @@
             </div>
 
             <div v-if="data.close_state">
-              <h1 class="font-bold uppercase text-lg" v-if="data.close_state">
+              <h1
+                class="font-bold uppercase mb-3 underline"
+                v-if="data.close_state"
+              >
                 List
                 {{
                   data.close_state[this.closeIndex].close_state.replaceAll(
@@ -67,13 +97,38 @@
                   )
                 }}
               </h1>
-              <ul>
+              <ul class="h-64 overflow-y-auto text-gray-600">
                 <li
                   v-for="(op, index) in data.close_state[this.closeIndex]
                     .branch_channels"
                   :key="index"
+                  class="flex gap-2 py-3 text-sm border-b"
                 >
-                  <!-- <img :src="op.branch_channel_channel | imgChannel" alt="" /> -->
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'GrabFood'"
+                    src="~/assets/svg/grabfood.svg"
+                    alt=""
+                  />
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'GoFood'"
+                    src="~/assets/svg/gofood.svg"
+                    alt=""
+                  />
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'ShopeeFood'"
+                    src="~/assets/svg/shopeefood.svg"
+                    alt=""
+                  />
+                  <img
+                    class="h-6"
+                    v-if="op.branch_channel_channel == 'TravelokaEats'"
+                    src="~/assets/svg/travelokaeats.svg"
+                    alt=""
+                  />
+
                   {{ op.branch_channel_name }}
                 </li>
                 <li v-if="!data.close_state[this.closeIndex].branch_channels">
