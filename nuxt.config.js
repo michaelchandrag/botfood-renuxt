@@ -70,6 +70,10 @@ export default {
       src: '~/plugins/feather.js',
       mode: "client"
     },
+    {
+      src: '~/plugins/apexchart',
+      ssr: false
+    }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
