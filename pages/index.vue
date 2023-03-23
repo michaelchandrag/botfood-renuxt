@@ -36,7 +36,7 @@
         </div>
 
         <!-- start graph -->
-        <div class="bg-white p-4 rounded-md mb-3">
+        <div class="bg-white p-5 rounded-md mb-3">
           <graph />
         </div>
         <!-- end graph -->
