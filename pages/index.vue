@@ -35,6 +35,13 @@
           <outlet-overview :data="data.TravelokaEats" channel="TravelokaEats" />
         </div>
 
+        <div class="flex justify-end mb-4">
+          <button
+            class="rounded-lg px-7 py-2 bg-green-600 text-white focus:outline-none"
+          >
+            Download
+          </button>
+        </div>
         <!-- start graph -->
         <div class="bg-white p-5 rounded-md mb-3">
           <graph />
