@@ -3,12 +3,13 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2" v-if="!loading">
       <client-only>
         <div class="border-b md:border-0">
-          <h1 class="font-bold">Grafik Open</h1>
+          <h1 class="font-bold">Laporan Outlet Opening</h1>
+          <h1 class="">{{issuedDate}}</h1>
           <div class="grid grid-cols-3">
             <div class="col-span-2">
               <ApexChart
                 width="100%"
-                height="500"
+                height="250"
                 type="pie"
                 :options="optionOpen"
                 :series="seriesOpen"
@@ -18,15 +19,12 @@
 
             <div v-if="data.open_state">
               <h1
-                class="font-bold uppercase mb-3 underline"
+                class="font-bold uppercase mb-3"
                 v-if="data.open_state"
               >
-                List
+                Daftar Outlet
                 {{
-                  data.open_state[this.openIndex].open_state.replaceAll(
-                    "_",
-                    " "
-                  )
+                  dictionaryOpenState[data.open_state[this.openIndex].open_state].text
                 }}
               </h1>
               <ul class="h-64 overflow-y-auto text-gray-600">
@@ -63,7 +61,7 @@
                   {{ op.branch_channel_name }}
                 </li>
                 <li v-if="!data.open_state[this.openIndex].branch_channels">
-                  Belum ada Data
+                  -
                 </li>
               </ul>
             </div>
@@ -71,12 +69,13 @@
         </div>
 
         <div>
-          <h1 class="font-bold">Grafik Close</h1>
+          <h1 class="font-bold">Laporan Outlet Closing</h1>
+          <h1 class="">{{issuedDate}}</h1>
           <div class="grid grid-cols-3">
             <div class="col-span-2">
               <ApexChart
                 width="100%"
-                height="500"
+                height="250"
                 type="pie"
                 :options="optionClose"
                 :series="seriesClose"
@@ -86,15 +85,12 @@
 
             <div v-if="data.close_state">
               <h1
-                class="font-bold uppercase mb-3 underline"
+                class="font-bold uppercase mb-3"
                 v-if="data.close_state"
               >
-                List
+                Daftar Outlet
                 {{
-                  data.close_state[this.closeIndex].close_state.replaceAll(
-                    "_",
-                    " "
-                  )
+                  dictionaryCloseState[data.close_state[this.closeIndex].close_state].text
                 }}
               </h1>
               <ul class="h-64 overflow-y-auto text-gray-600">
@@ -102,37 +98,39 @@
                   v-for="(op, index) in data.close_state[this.closeIndex]
                     .branch_channels"
                   :key="index"
-                  class="flex gap-2 py-3 text-sm border-b"
+                  class="gap-2 py-3 text-sm border-b"
                 >
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'GrabFood'"
-                    src="~/assets/svg/grabfood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'GoFood'"
-                    src="~/assets/svg/gofood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'ShopeeFood'"
-                    src="~/assets/svg/shopeefood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'TravelokaEats'"
-                    src="~/assets/svg/travelokaeats.svg"
-                    alt=""
-                  />
+                  <nuxt-link :to="'/outlet/'+op.branch_channel_id">
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'GrabFood'"
+                      src="~/assets/svg/grabfood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'GoFood'"
+                      src="~/assets/svg/gofood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'ShopeeFood'"
+                      src="~/assets/svg/shopeefood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'TravelokaEats'"
+                      src="~/assets/svg/travelokaeats.svg"
+                      alt=""
+                    />
 
-                  {{ op.branch_channel_name }}
+                    {{ op.branch_channel_name }}
+                  </nuxt-link>
                 </li>
                 <li v-if="!data.close_state[this.closeIndex].branch_channels">
-                  Belum ada Data
+                  -
                 </li>
               </ul>
             </div>
@@ -151,6 +149,41 @@ export default {
       loading: false,
       seriesClose: [],
       seriesOpen: [],
+      issuedDate: this.$moment().subtract(1, "days").format('dddd, DD MMMM YYYY'),
+      dictionaryOpenState: {
+        on_time: {
+          text: 'ONTIME'
+        },
+        ontime_botfood: {
+          text: 'ONTIME*'
+        },
+        early: {
+          text: 'LEBIH AWAL'
+        },
+        late: {
+          text: 'TERLAMBAT'
+        },
+        not_open: {
+          text: 'OFF'
+        },
+      },
+      dictionaryCloseState: {
+        on_time: {
+          text: 'ONTIME'
+        },
+        ontime_botfood: {
+          text: 'ONTIME*'
+        },
+        early: {
+          text: 'LEBIH AWAL'
+        },
+        late: {
+          text: 'LEBIH LAMA'
+        },
+        not_open: {
+          text: 'OFF'
+        },
+      },
       optionClose: {
         chart: {
           width: 380,
@@ -233,14 +266,24 @@ export default {
 
         if (res.data.success) {
           this.data = res.data.data;
-          console.log(this.data);
+          var ctr = 0
           this.data.open_state.forEach((el) => {
-            this.optionOpen.labels.push(el.open_state.replaceAll("_", " "));
+            ctr++
+            var dict = el.open_state
+            if (this.dictionaryOpenState[el.open_state] !== undefined) {
+              dict = this.dictionaryOpenState[el.open_state].text
+              // this.openIndex = ctr
+            }
+            this.optionOpen.labels.push(dict);
             this.seriesOpen.push(el.total);
           });
 
           this.data.close_state.forEach((el) => {
-            this.optionClose.labels.push(el.close_state.replaceAll("_", " "));
+            var dict = el.close_state
+            if (this.dictionaryCloseState[el.close_state] !== undefined) {
+              dict = this.dictionaryCloseState[el.close_state].text
+            }
+            this.optionClose.labels.push(dict);
             this.seriesClose.push(el.total);
           });
         } else {
