@@ -1,13 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-end mb-4">
-      <button
-        class="rounded-lg px-7 py-2 bg-green-600 text-white focus:outline-none"
-      >
-        Download
-      </button>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2" v-if="!loading">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" v-if="!loading">
       <client-only>
         <div class="border-b md:border-0">
           <div class="grid grid-cols-1 md:grid-cols-2">
@@ -36,48 +29,53 @@
                   ].text
                 }}
               </h1>
-              <ul class="h-56 overflow-y-auto text-gray-600">
-                <li
-                  v-for="(op, index) in data.open_state[this.openIndex]
-                    .branch_channels"
-                  :key="index"
-                  @click.prevent="
-                    $router.push(`/outlet/${op.branch_channel_id}`)
-                  "
-                  class="flex gap-2 py-3 text-sm border-b cursor-pointer"
-                >
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'GrabFood'"
-                    src="~/assets/svg/grabfood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'GoFood'"
-                    src="~/assets/svg/gofood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'ShopeeFood'"
-                    src="~/assets/svg/shopeefood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'TravelokaEats'"
-                    src="~/assets/svg/travelokaeats.svg"
-                    alt=""
-                  />
-                  <span>
-                    {{ op.branch_channel_name }}
-                  </span>
-                </li>
-                <li v-if="!data.open_state[this.openIndex].branch_channels">
-                  -
-                </li>
-              </ul>
+              <div class="h-56 relative">
+                <div
+                  class="bg-gradient-to-t from-white -mt-6 absolute z-40 w-full h-20 bottom-0"
+                ></div>
+                <div class="h-56 relative overflow-y-auto text-gray-600">
+                  <div
+                    v-for="(op, index) in data.open_state[this.openIndex]
+                      .branch_channels"
+                    :key="index"
+                    @click.prevent="
+                      $router.push(`/outlet/${op.branch_channel_id}`)
+                    "
+                    class="flex gap-2 py-2 text-sm border-b cursor-pointer"
+                  >
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'GrabFood'"
+                      src="~/assets/svg/grabfood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'GoFood'"
+                      src="~/assets/svg/gofood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'ShopeeFood'"
+                      src="~/assets/svg/shopeefood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'TravelokaEats'"
+                      src="~/assets/svg/travelokaeats.svg"
+                      alt=""
+                    />
+                    <span>
+                      {{ op.branch_channel_name }}
+                    </span>
+                  </div>
+                  <div v-if="!data.open_state[this.openIndex].branch_channels">
+                    -
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -109,48 +107,55 @@
                   ].text
                 }}
               </h1>
-              <ul class="h-56 overflow-y-auto text-gray-600">
-                <li
-                  v-for="(op, index) in data.close_state[this.closeIndex]
-                    .branch_channels"
-                  class="flex gap-2 py-3 text-sm border-b cursor-pointer"
-                  :key="index"
-                  @click.prevent="
-                    $router.push(`/outlet/${op.branch_channel_id}`)
-                  "
-                >
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'GrabFood'"
-                    src="~/assets/svg/grabfood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'GoFood'"
-                    src="~/assets/svg/gofood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'ShopeeFood'"
-                    src="~/assets/svg/shopeefood.svg"
-                    alt=""
-                  />
-                  <img
-                    class="h-6"
-                    v-if="op.branch_channel_channel == 'TravelokaEats'"
-                    src="~/assets/svg/travelokaeats.svg"
-                    alt=""
-                  />
-                  <span>
-                    {{ op.branch_channel_name }}
-                  </span>
-                </li>
-                <li v-if="!data.close_state[this.closeIndex].branch_channels">
-                  -
-                </li>
-              </ul>
+              <div class="h-56 relative">
+                <div
+                  class="bg-gradient-to-t from-white -mt-6 absolute z-40 w-full h-20 bottom-0"
+                ></div>
+                <div class="h-56 overflow-y-auto text-gray-600">
+                  <div
+                    v-for="(op, index) in data.close_state[this.closeIndex]
+                      .branch_channels"
+                    class="flex gap-2 py-2 text-sm border-b cursor-pointer"
+                    :key="index"
+                    @click.prevent="
+                      $router.push(`/outlet/${op.branch_channel_id}`)
+                    "
+                  >
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'GrabFood'"
+                      src="~/assets/svg/grabfood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'GoFood'"
+                      src="~/assets/svg/gofood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'ShopeeFood'"
+                      src="~/assets/svg/shopeefood.svg"
+                      alt=""
+                    />
+                    <img
+                      class="h-6"
+                      v-if="op.branch_channel_channel == 'TravelokaEats'"
+                      src="~/assets/svg/travelokaeats.svg"
+                      alt=""
+                    />
+                    <span>
+                      {{ op.branch_channel_name }}
+                    </span>
+                  </div>
+                  <div
+                    v-if="!data.close_state[this.closeIndex].branch_channels"
+                  >
+                    -
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
