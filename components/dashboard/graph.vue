@@ -154,7 +154,7 @@ export default {
         on_time: {
           text: 'ONTIME'
         },
-        ontime_botfood: {
+        on_time_botfood: {
           text: 'ONTIME*'
         },
         early: {
@@ -171,7 +171,7 @@ export default {
         on_time: {
           text: 'ONTIME'
         },
-        ontime_botfood: {
+        on_time_botfood: {
           text: 'ONTIME*'
         },
         early: {
