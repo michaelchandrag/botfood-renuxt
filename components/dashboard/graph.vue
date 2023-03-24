@@ -10,7 +10,7 @@
                 <h1 class="text-sm text-gray-500">{{ issuedDate }}</h1>
                 <ApexChart
                   width="100%"
-                  height="250"
+                  height="300"
                   type="pie"
                   :options="optionOpen"
                   :series="seriesOpen"
@@ -88,7 +88,7 @@
                 <h1 class="text-sm text-gray-500">{{ issuedDate }}</h1>
                 <ApexChart
                   width="100%"
-                  height="250"
+                  height="300"
                   type="pie"
                   :options="optionClose"
                   :series="seriesClose"
