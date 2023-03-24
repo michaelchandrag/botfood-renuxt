@@ -20,7 +20,7 @@
             class="w-full rounded-lg px-7 py-3 bg-green-600 text-white focus:outline-none"
             @click.prevent="download()"
           >
-            <span v-if="!isDownload">Download </span>
+            <span v-if="!isDownload">Download Status Outlet & Item (Excel)</span>
           </button>
         </div>
       </div>
@@ -34,21 +34,32 @@
           <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
           <outlet-overview :data="data.TravelokaEats" channel="TravelokaEats" />
         </div>
+      </div>
 
-        <div class="flex justify-end mb-4">
+      <div class="flex justify-between items-center">
+        <span class="text-title">Laporan Outlet</span>
+        <div class="mr-6">
           <button
-            class="rounded-lg px-7 py-2 bg-green-600 text-white focus:outline-none"
+            v-if="isDownloadATP"
+            class="w-full cursor-not-allowed rounded-lg px-7 py-3 bg-gray-600 text-white focus:outline-none"
           >
-            Download
+            <span class="animate-spin">Downloading . . .</span>
+          </button>
+          <button
+            v-if="!isDownloadATP"
+            class="w-full rounded-lg px-7 py-3 bg-green-600 text-white focus:outline-none"
+            @click.prevent="downloadATP()"
+          >
+            <span v-if="!isDownloadATP">Download Laporan Outlet (PDF)</span>
           </button>
         </div>
+      </div>
+      <div style="height: 19px"></div>
         <!-- start graph -->
-        <div class="bg-white p-5 rounded-md mb-3">
-          <graph />
-        </div>
+        <graph />
         <!-- end graph -->
         <!-- table start -->
-        <div>
+        <!-- <div>
           <div
             v-if="isLoading"
             class="bg-gray-300 animate-pulse rounded-fd h-64"
@@ -171,8 +182,9 @@
               </table>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- table end -->
+        <div style="height: 19px"></div>
       </div>
       <div class="h-8"></div>
     </div>
@@ -195,6 +207,7 @@ export default {
     return {
       data: {},
       isDownload: false,
+      isDownloadATP: false,
       dataItemNotUniform: {},
       GoFood: "",
       GrabFood: "",
@@ -228,7 +241,7 @@ export default {
   },
   mounted() {
     this.setUserData();
-    this.getItemNotUniform();
+    // this.getItemNotUniform();
     this.changePage();
   },
   methods: {
@@ -272,6 +285,33 @@ export default {
         fileLink.setAttribute("download", `${filename}.xlsx`);
         document.body.appendChild(fileLink);
         fileLink.click();
+      });
+    },
+    downloadATP() {
+      var me = this.$store.state.user.user;
+      var time = this.$moment().subtract(1, "days").format("DD MMM HH.mm");
+      var filename = `${time} ${me.name} Laporan Outlet`;
+      this.isDownloadATP = true;
+      this.$axios({
+        method: "GET",
+        url:
+          "me/report/atp_export_pdf",
+        responseType: "blob",
+      }).then((r) => {
+        this.isDownloadATP = false;
+        const url = window.URL.createObjectURL(
+          new Blob([r.data], {
+            "content-type":
+              "application/pdf",
+          })
+        );
+        var fileLink = document.createElement("a");
+        fileLink.href = url;
+        fileLink.setAttribute("download", `${filename}.pdf`);
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      }).catch((e) => {
+        this.isDownloadATP = false
       });
     },
     async getItemNotUniform() {
