@@ -50,7 +50,7 @@
                   <span v-if="outletChannel=='GoFood'">GoFood</span>
                   <span v-if="outletChannel=='ShopeeFood'">ShopeeFood</span>
                   <span v-if="outletChannel=='TravelokaEats'">TravelokaEats</span>
-                  <span v-if="outletChannel==null">Semua</span>
+                  <span v-if="outletChannel==null">Semua Platform</span>
                 </div>
                 <div>
                   <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
@@ -73,7 +73,7 @@
                   <li @click.prevent="channelDropdown=false,outletChannel='TravelokaEats',getData()"
                     class="bg-white px-4 py-3 w-full">TravelokaEats</li>
                   <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua</li>
+                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Platform</li>
                 </ul>
               </div>
             </div>
@@ -85,7 +85,7 @@
                 <div class="flex-auto">
                   <span v-if="isOutletOpen">Buka</span>
                   <span v-if="isOutletOpen==false">Tutup</span>
-                  <span v-if="isOutletOpen==null">Semua Status</span>
+                  <span v-if="isOutletOpen==null">Semua Status (Buka/Tutup)</span>
                 </div>
                 <div>
                   <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
@@ -104,7 +104,7 @@
                   <li @click.prevent="statusDropdown=false,isOutletOpen=0,getData()" class="bg-white px-4 py-3 w-full">
                     Tutup</li>
                   <li @click.prevent="statusDropdown=false,isOutletOpen=null,getData()"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Status</li>
+                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Status (Buka/Tutup)</li>
                 </ul>
               </div>
             </div>

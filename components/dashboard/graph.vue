@@ -18,12 +18,13 @@
                 />
               </div>
 
-              <div v-if="data.open_state">
+              <div v-if="data.open_state.length > 0">
+                {{data.open_state.length}}
                 <h1
                   class="font-bold text-sm uppercase mb-3"
                   v-if="data.open_state"
                 >
-                  Daftar Outlet
+                 Daftar Outlet
                   {{
                     dictionaryOpenState[
                       data.open_state[this.openIndex].open_state
@@ -96,7 +97,7 @@
                 />
               </div>
 
-              <div v-if="data.close_state">
+              <div v-if="data.close_state.length > 0">
                 <h1
                   class="font-bold text-sm uppercase mb-3"
                   v-if="data.close_state"
@@ -421,7 +422,10 @@ export default {
           },
         ],
       },
-      data: [],
+      data: {
+        open_state: [],
+        close_state: [],
+      },
       openIndex: 1,
       closeIndex: 1,
       gofood_top_ranks: [],

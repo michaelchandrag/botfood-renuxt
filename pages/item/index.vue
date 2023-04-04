@@ -108,7 +108,7 @@
               <div class="flex-auto">
                 <span v-if="itemStatus == true">Aktif</span>
                 <span v-if="itemStatus == false">Tidak Aktif</span>
-                <span v-if="itemStatus == null">Status</span>
+                <span v-if="itemStatus == null">Semua Status (Aktif/Tidak Aktif)</span>
               </div>
               <div>
                 <svg
@@ -153,7 +153,7 @@
                   "
                   class="bg-white px-4 py-3 w-full rounded-b-lg"
                 >
-                  Semua Channel
+                  Semua Status (Aktif/Tidak Aktif)
                 </li>
               </ul>
             </div>
@@ -242,7 +242,7 @@
                 <span v-if="outletChannel == 'TravelokaEats'"
                   >TravelokaEats</span
                 >
-                <span v-if="outletChannel == null">Semua</span>
+                <span v-if="outletChannel == null">Semua Platform</span>
               </div>
               <div>
                 <svg
@@ -311,7 +311,7 @@
                   "
                   class="bg-white px-4 py-3 w-full rounded-b-lg"
                 >
-                  Semua
+                  Semua Platform
                 </li>
               </ul>
             </div>
