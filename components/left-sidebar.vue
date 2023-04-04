@@ -20,7 +20,7 @@
       <select @change="onChange($event)" v-model="valueDropdown" v-show="!this.$store.state.user.user.is_master"
         id="countries"
         class="border mb-5 mt-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option v-for="(a,i) in this.$store.state.user.user.user_brands" :value="a.brand_id" :key="i">
+        <option v-for="(a,i) in this.$store.state.user.user.user_brands" :value="a" :key="i">
           {{a.brand_name}}
         </option>
       </select>
@@ -90,9 +90,17 @@ export default {
       subMenuLaporan: false,
       showNav: false,
       selectedMenu: "",
-      valueDropdown: this.$store.state.user.dropdown,
-      data: this.$store.state.user.user.user_brands
+      valueDropdown: null,
+      data: this.$store.state.user.user.user_brands,
     };
+  },
+  mounted () {
+    this.handleUserBrand()
+  },
+  watch: {
+    '$store.state.user.user.user_brands': function () {
+      this.handleUserBrand()
+    }
   },
   computed: {
     user() {
@@ -104,6 +112,15 @@ export default {
   },
 
   methods: {
+    handleUserBrand () {
+      var userBrands = this.$store.state.user.user.user_brands
+      for (var idx in userBrands) {
+        var userBrand = userBrands[idx]
+        if (userBrand.is_thumbnail == 1) {
+          this.valueDropdown = userBrand
+        }
+      }
+    },
     keluar() {
       this.$router.push("/login");
     },
@@ -117,7 +134,7 @@ export default {
     onChange(e){
       this.$store.commit("user/setDropdown", this.valueDropdown);
       this.$axios.post("me/user_brand_thumbnail",{
-        brand_id: this.valueDropdown
+        brand_id: this.valueDropdown.brand_id
       }).then(a=>{
         this.$cookies.set("_tk", a.data.data.token, {
           path: "/",
