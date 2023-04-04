@@ -19,7 +19,6 @@
               </div>
 
               <div v-if="data.open_state.length > 0">
-                {{data.open_state.length}}
                 <h1
                   class="font-bold text-sm uppercase mb-3"
                   v-if="data.open_state"
