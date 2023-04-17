@@ -5,10 +5,10 @@
       <div class="w-6/12 flex items-center">
         <div>
           
-          <img v-if="channel == 'GrabFood'" class="icon-height" src="~/assets/svg/grabfood.svg" alt="">
-          <img v-if="channel == 'GoFood'" class="icon-height" src="~/assets/svg/gofood.svg" alt="">
-          <img v-if="channel == 'ShopeeFood'" class="icon-height" src="~/assets/svg/shopeefood.svg" alt="">
-          <img v-if="channel == 'TravelokaEats'" class="icon-height" src="~/assets/svg/travelokaeats.svg" alt="">
+          <img v-if="channel == 'GrabFood'" class="icon-height" src="~/assets/svg/grabfood.svg" alt="" style="max-width:none">
+          <img v-if="channel == 'GoFood'" class="icon-height" src="~/assets/svg/gofood.svg" alt="" style="max-width:none">
+          <img v-if="channel == 'ShopeeFood'" class="icon-height" src="~/assets/svg/shopeefood.svg" alt="" style="max-width:none">
+          <img v-if="channel == 'TravelokaEats'" class="icon-height" src="~/assets/svg/travelokaeats.svg" alt=""  style="max-width:none">
         </div>
         <div class="ml-6 md:ml-6">
           <h3 class="block text-md md:text-xl">{{ channel }}</h3>

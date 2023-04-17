@@ -26,13 +26,20 @@
       </div>
       <div style="height: 19px"></div>
       <div class="flex flex-col">
-        <div
-          class="grid grid-cols-1 gap-4 mb-4 bg-white p-5 rounded-md md:grid-cols-2"
-        >
-          <outlet-overview :data="data.GrabFood" channel="GrabFood" />
-          <outlet-overview :data="data.GoFood" channel="GoFood" />
-          <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
-          <outlet-overview :data="data.TravelokaEats" channel="TravelokaEats" />
+        <div class="flex flex-wrap">
+          <div
+            class="grid grid-cols-2 gap-4 mb-4 bg-white p-4 rounded-md md:grid-cols-2 sm:w-6/12"
+          >
+            <outlet-overview :data="data.GrabFood" channel="GrabFood" />
+            <outlet-overview :data="data.GoFood" channel="GoFood" />
+            <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
+            <outlet-overview :data="data.TravelokaEats" channel="TravelokaEats" />
+          </div>
+          <div
+            class="grid gap-4 mb-4 bg-white p-5 rounded-md sm:w-6/12"
+          >
+            <outlet-channel-rating/>
+          </div>
         </div>
       </div>
 
@@ -186,7 +193,7 @@
         <!-- table end -->
         <div style="height: 19px"></div>
       </div>
-      <div class="h-8"></div>
+      <!-- <div class="h-8"></div> -->
     </div>
   </div>
 </template>
@@ -196,12 +203,14 @@ import outletOverview from "~/components/dashboard/outlet-overview.vue";
 import LeftSidebar from "~/components/left-sidebar.vue";
 import HeaderNavbar from "~/components/header-navbar.vue";
 import Graph from "~/components/dashboard/graph.vue";
+import OutletChannelRating from "~/components/outlet/outlet-channel-rating.vue"
 export default {
   components: {
     outletOverview,
     LeftSidebar,
     HeaderNavbar,
     Graph,
+    OutletChannelRating,
   },
   data() {
     return {
