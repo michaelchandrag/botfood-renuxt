@@ -179,7 +179,7 @@
           </div>
           <div class="flex flex-wrap -mx-3">
             <div
-              class="w-full xl:w-4/12 lg:w-4/12 sm:w-12/12 p-2 cursor-pointer items-center flex flex-row gap-3"
+              class="w-full xl:w-6/12 lg:w-6/12 sm:w-12/12 p-2 cursor-pointer items-center flex flex-row gap-3"
             >
               <div
                 @click.prevent="
@@ -219,6 +219,26 @@
                 <i
                   class="fa fa-check ml-2 pt-1"
                   v-if="filters.n_images === 0"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.n_merchant_reply === ''
+                    ? (filters.n_merchant_reply = 0)
+                    : (filters.n_merchant_reply = '');
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.n_merchant_reply === 0
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Dengan Balasan Merchant
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.n_merchant_reply === 0"
                 ></i>
               </div>
             </div>
@@ -456,7 +476,13 @@
                       Komentar<i class="fas ml-2"></i>
                     </th>
                     <th class="py-4 text-text">
+                      Balasan Merchant<i class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text">
                       Gambar<i class="fas ml-2"></i>
+                    </th>
+                    <th class="py-4 text-text">
+                      Review<i class="fas ml-2"></i>
                     </th>
                     <!-- <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='state'?'filter':''" @click.prevent="sortKey='state', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Kondisi<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
                     <!-- <th class="py-4 text-text">Aksi</th><th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='net_price'?'filter':''" @click.prevent="sortKey='net_price', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Diskon<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
@@ -486,7 +512,7 @@
                 </tbody>
                 <tbody v-if="listLoading">
                   <tr class="h-12" v-for="n in 10" :key="n">
-                    <td v-for="i in 7" :key="i">
+                    <td v-for="i in 9" :key="i">
                       <div
                         class="h-4 p-4 bg-gray-300 animate-pulse w-full rounded-lg"
                       ></div>
@@ -539,6 +565,9 @@
                       {{ review.comment ? review.comment : "-" }}
                     </td>
                     <td class="text-center text-left p-4">
+                      {{ review.merchant_reply ? review.merchant_reply : "-" }}
+                    </td>
+                    <td class="text-center text-left p-4">
                       <div v-if="review.images" style="display: flex; flex-direction: column;justify-content: space-between;gap: 10px;align-items: center;align-content: center;">
                         <div
                           v-for="foto in review.images"
@@ -558,6 +587,20 @@
                         <div class="dialog-content" >
                           <img :src="imagePopUp"  />
                         </div>
+                      </div>
+                    </td>
+                    <td class="text-center text-left p-4">
+                      <div class="cursor-pointer h-6 w-6 flex items-center justify-center rounded-md border-2" :class="
+                          review.is_reviewed == 1
+                            ? 'border-green-food bg-green-200'
+                            : 'border-gray-500'
+                        "
+                        @click.prevent="submitReviewed(review)
+                        ">
+                        <i
+                          v-if="review.is_reviewed == 1"
+                          class="fas text-green-food fa-check text-xs"
+                        ></i>
                       </div>
                     </td>
                   </tr>
@@ -700,6 +743,8 @@ export default {
         n_comment: "",
         rating: "",
         n_images: "",
+        n_merchant_reply: "",
+        is_reviewed: "",
       },
       isLoading: true,
       statusDropdown: false,
@@ -737,6 +782,13 @@ export default {
   },
 
   methods: {
+    submitReviewed (review) {
+      if (review.is_reviewed == 0) {
+        review.is_reviewed = 1
+      } else {
+        review.is_reviewed = 0
+      }
+    },
     download() {
       // console.log(this.filters)
       this.isDownload = true;

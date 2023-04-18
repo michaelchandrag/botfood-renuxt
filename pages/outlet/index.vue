@@ -125,6 +125,11 @@
                       Channel
                       <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'" class="fas"></i>
                     </th>
+                    <th class="py-4 text-text cursor-pointer" :class="sortKey==='rating'?'filter':''"
+                      @click.prevent="sortKey='rating', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">
+                      Rating
+                      <i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'" class="fas"></i>
+                    </th>
                     <th class="py-4 text-text cursor-pointer" :class="sortKey==='is_open'?'filter':''"
                       @click.prevent="sortKey='is_open', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">
                       Status
@@ -177,6 +182,9 @@
                       <span v-if="channel.gobiz_is_connected == 1"
                         class="m-1 pr-1 pl-1 focus:outline-none bg-green-200 text-black-500 text-xs rounded-full"
                         disabled><i class="fas fa-check"></i></span>
+                    </td>
+                    <td class="text-center text-text p-4">
+                      <span>{{formatRating(channel.rating)}}</span>
                     </td>
                     <td class="text-center text-text p-4">
                       <span v-if="channel.is_open" class="text-green-500">Buka</span>
@@ -632,6 +640,12 @@
     },
 
     methods: {
+      formatRating (rating) {
+        if (rating == null) {
+          return ''
+        }
+        return Math.floor(rating * 100)/100
+      },
       getData(refresh = false) {
         if (refresh) {
           this.page = 1
