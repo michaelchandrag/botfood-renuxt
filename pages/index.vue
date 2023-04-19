@@ -26,7 +26,7 @@
       </div>
       <div class="h-4"></div>
       <div class="flex flex-col mb-3">
-        <div class="grid grid-cols-2 bg-white rounded-md">
+        <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-md">
           <div
             class="grid grid-cols-2 gap-4 mb-4 bg-white p-4 border-r"
           >
