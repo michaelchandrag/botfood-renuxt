@@ -24,20 +24,18 @@
           </button>
         </div>
       </div>
-      <div style="height: 19px"></div>
-      <div class="flex flex-col">
-        <div class="flex flex-wrap">
+      <div class="h-4"></div>
+      <div class="flex flex-col mb-3">
+        <div class="grid grid-cols-2 bg-white rounded-md">
           <div
-            class="grid grid-cols-2 gap-4 mb-4 bg-white p-4 rounded-md md:grid-cols-2 sm:w-6/12"
+            class="grid grid-cols-2 gap-4 mb-4 bg-white p-4 border-r"
           >
             <outlet-overview :data="data.GrabFood" channel="GrabFood" />
             <outlet-overview :data="data.GoFood" channel="GoFood" />
             <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
             <outlet-overview :data="data.TravelokaEats" channel="TravelokaEats" />
           </div>
-          <div
-            class="grid gap-4 mb-4 bg-white p-5 rounded-md sm:w-6/12"
-          >
+          <div class="p-4 ">
             <outlet-channel-rating/>
           </div>
         </div>
@@ -203,7 +201,7 @@ import outletOverview from "~/components/dashboard/outlet-overview.vue";
 import LeftSidebar from "~/components/left-sidebar.vue";
 import HeaderNavbar from "~/components/header-navbar.vue";
 import Graph from "~/components/dashboard/graph.vue";
-import OutletChannelRating from "~/components/outlet/outlet-channel-rating.vue"
+import OutletChannelRating from "~/components/outlet/outlet-channel-rating.vue";
 export default {
   components: {
     outletOverview,
@@ -303,25 +301,25 @@ export default {
       this.isDownloadATP = true;
       this.$axios({
         method: "GET",
-        url:
-          "me/report/atp_export_pdf",
+        url: "me/report/atp_export_pdf",
         responseType: "blob",
-      }).then((r) => {
-        this.isDownloadATP = false;
-        const url = window.URL.createObjectURL(
-          new Blob([r.data], {
-            "content-type":
-              "application/pdf",
-          })
-        );
-        var fileLink = document.createElement("a");
-        fileLink.href = url;
-        fileLink.setAttribute("download", `${filename}.pdf`);
-        document.body.appendChild(fileLink);
-        fileLink.click();
-      }).catch((e) => {
-        this.isDownloadATP = false
-      });
+      })
+        .then((r) => {
+          this.isDownloadATP = false;
+          const url = window.URL.createObjectURL(
+            new Blob([r.data], {
+              "content-type": "application/pdf",
+            })
+          );
+          var fileLink = document.createElement("a");
+          fileLink.href = url;
+          fileLink.setAttribute("download", `${filename}.pdf`);
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+        .catch((e) => {
+          this.isDownloadATP = false;
+        });
     },
     async getItemNotUniform() {
       await this.$axios.get("me/item/not_uniform").then((r) => {

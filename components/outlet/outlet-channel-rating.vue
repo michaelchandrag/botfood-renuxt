@@ -1,6 +1,6 @@
 <template>
   <div v-if="!loading">
-    <h1><u>Perkembangan Rating</u></h1>
+    <h1 class="font-bold"><u>Perkembangan Rating</u></h1>
     <client-only>
       <ApexChart
         width="100%"
@@ -23,16 +23,28 @@ export default {
       options: {},
       chartOptions: {
         chart: {
-          id: "outlet-channel-rating-graph-line",
+          id: "outline-channel-rating",
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+          categories: [],
+        },
+        stroke: {
+          curve: "smooth",
+        },
+        colors: ["#ff0000", "#0a9830", "#FFA500"],
+        stacked: true,
+        dataLabels: {
+          enabled: false,
+        },
+        xaxis: {
+          categories: [],
+        },
+        yaxis: {
+          min: 4,
+          max: 5,
         },
       },
-      series: [{
-        name: 'series-1',
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
-      }],
+      series: [],
     };
   },
 
@@ -44,18 +56,22 @@ export default {
       try {
         this.loading = true;
         const res = await this.$axios.get("/me/report/rating_statistics");
-        this.series = []
+        this.series = [];
 
         if (res.data.success) {
-          this.data = res.data.data
-          this.chartOptions.xaxis.categories = this.data.chart.dates
+          this.data = res.data.data;
+          this.data.chart.dates.forEach((d) => {
+            this.chartOptions.xaxis.categories.push(
+              this.$moment(d).format("DD MMM YYYY")
+            );
+          });
           this.data.chart.series.forEach((el, index) => {
-            var formattedSerie = {
+            const formattedSerie = {
               name: el.channel,
-              data: el.values
-            }
-            this.series.push(formattedSerie)
-          })
+              data: el.values,
+            };
+            this.series.push(formattedSerie);
+          });
           this.loading = false;
         } else {
           this.$toast.error(res.data.message);
