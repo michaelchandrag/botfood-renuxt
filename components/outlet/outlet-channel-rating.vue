@@ -1,8 +1,10 @@
 <template>
   <div v-if="!loading">
+    <h1><u>Perkembangan Rating</u></h1>
     <client-only>
       <ApexChart
         width="100%"
+        height="350px"
         type="line"
         :options="chartOptions"
         :series="series"

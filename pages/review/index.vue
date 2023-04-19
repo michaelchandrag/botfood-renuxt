@@ -109,7 +109,7 @@
         <!-- table start -->
         <div v-if="!isLoading" class="bg-white rounded-fd p-8 text-text">
           <div class="flex flex-wrap -mx-3">
-            <div class="w-full md:w-12/12 lg:w-6/12 p-3">
+            <div class="w-full md:w-12/12 lg:w-4/12 p-3">
               <div class="relative">
                 <form @submit.prevent="getData">
                   <input
@@ -158,7 +158,7 @@
               </vue-datepicker-2>
             </div>
             <div
-              class="w-full xl:w-3/12 cursor-pointer items-center relative p-2"
+              class="w-full xl:w-2/12 cursor-pointer items-center relative p-2"
             >
               <div class="">
                 <button
@@ -399,7 +399,7 @@
                   <tr>
                     <th
                       class="py-4 text-text cursor-pointer"
-                      width="20%"
+                      width="8%"
                       :class="
                         filters.sort_key === 'branch_channel_name'
                           ? 'filter'
@@ -418,7 +418,7 @@
                     </th>
                     <th
                       class="py-4 text-text cursor-pointer"
-                      width="10%"
+                      width="8%"
                       :class="
                         filters.sort_key === 'created_at'
                           ? 'filter'
@@ -437,7 +437,7 @@
                     </th>
                     <th
                       class="py-4 text-text cursor-pointer"
-                      width="10%"
+                      width="8%"
                       :class="
                         filters.sort_key === 'ordered_at'
                           ? 'filter'
@@ -456,7 +456,7 @@
                     </th>
                     <th
                       class="py-4 text-text cursor-pointer"
-                      width="13%"
+                      width="5%"
                       :class="
                         filters.sort_key === 'reviews.rating' ? 'filter' : ''
                       "
@@ -471,17 +471,17 @@
                         class="fas ml-2"
                       ></i>
                     </th>
-                    <th class="py-4 text-text" width="20%">Nama Item</th>
-                    <th class="py-4 text-text">
+                    <th class="py-4 text-text" width="15%">Nama Item</th>
+                    <th class="py-4 text-text" width="25%">
                       Komentar<i class="fas ml-2"></i>
                     </th>
-                    <th class="py-4 text-text">
+                    <th class="py-4 text-text" width="25%">
                       Balasan Merchant<i class="fas ml-2"></i>
                     </th>
-                    <th class="py-4 text-text">
+                    <th class="py-4 text-text" width="10%">
                       Gambar<i class="fas ml-2"></i>
                     </th>
-                    <th class="py-4 text-text">
+                    <th class="py-4 text-text" width="2%">
                       Review<i class="fas ml-2"></i>
                     </th>
                     <!-- <th class="py-4 text-text cursor-pointer" :class="filters.sort_key==='state'?'filter':''" @click.prevent="sortKey='state', sortValue==='desc' ? sortValue='asc': sortValue='desc',getData(true)">Kondisi<i :class="sortValue==='asc'? 'fa-sort-amount-down': 'fa-sort-amount-up'"  class="fas"></i></th> -->
@@ -782,11 +782,23 @@ export default {
   },
 
   methods: {
-    submitReviewed (review) {
+    async submitReviewed(review) {
       if (review.is_reviewed == 0) {
         review.is_reviewed = 1
       } else {
         review.is_reviewed = 0
+      }
+      try {
+        const res = await this.$axios.post("me/review/submit_reviewed/" + review.id);
+        if (res.data.success) {
+          this.$toast.success("Berhasil menyimpan data", { duration: 2000 });
+          console.log(res.data.data)
+        } else {
+          this.$toast.error("Gagal submit review. Silahkan coba kembali.", { duration: 2000 });
+        }
+      } catch (error) {
+        console.log(error)
+        this.$toast.error("Gagal submit review. Silahkan coba kembali.", { duration: 2000 });
       }
     },
     download() {
