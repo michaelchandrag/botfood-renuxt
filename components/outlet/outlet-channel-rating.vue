@@ -4,7 +4,7 @@
     <client-only>
       <ApexChart
         width="100%"
-        height="350px"
+        height="320px"
         type="line"
         :options="chartOptions"
         :series="series"
@@ -25,23 +25,17 @@ export default {
         chart: {
           id: "outline-channel-rating",
         },
-        xaxis: {
-          categories: [],
-        },
-        stroke: {
-          curve: "smooth",
-        },
         colors: ["#ff0000", "#0a9830", "#FFA500"],
-        stacked: true,
-        dataLabels: {
-          enabled: false,
-        },
         xaxis: {
           categories: [],
         },
         yaxis: {
-          min: 4,
-          max: 5,
+          labels: {
+            formatter: function (value) {
+              const v = value / 10;
+              return v.toFixed(2);
+            },
+          },
         },
       },
       series: [],
@@ -66,10 +60,15 @@ export default {
             );
           });
           this.data.chart.series.forEach((el, index) => {
+            const p = [];
+            el.values.forEach((x) => {
+              p.push(x * 10);
+            });
             const formattedSerie = {
               name: el.channel,
-              data: el.values,
+              data: p,
             };
+
             this.series.push(formattedSerie);
           });
           this.loading = false;
@@ -78,7 +77,7 @@ export default {
         }
       } catch (error) {
         this.$toast.error(error);
-        console.log(error);
+        // console.log(error);
       }
     },
   },
