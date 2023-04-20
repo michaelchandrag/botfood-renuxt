@@ -24,33 +24,6 @@ export default {
       },
       loading: true,
       data: [],
-
-      chartOptions: {
-        chart: {
-          id: "outline-channel-rating",
-        },
-        tooltip: {
-          enabled: true,
-          enabledOnSeries: false,
-          onDatasetHover: {
-            highlightDataSeries: true,
-          },
-        },
-        colors: ["#ff0000", "#0a9830", "#FFA500"],
-        xaxis: {
-          categories: [],
-        },
-        yaxis: {
-          forceNiceScale: true,
-          labels: {
-            formatter: function (value) {
-              const v = value / 10;
-              return v.toFixed(2);
-            },
-          },
-        },
-      },
-      series: [],
     };
   },
 
