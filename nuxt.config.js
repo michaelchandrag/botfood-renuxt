@@ -73,6 +73,11 @@ export default {
     {
       src: '~/plugins/apexchart',
       ssr: false
+    },
+    {
+      src: '~/plugins/chart.js',
+      mode: 'client',
+      ssr: false
     }
   ],
 

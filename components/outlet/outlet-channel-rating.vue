@@ -2,13 +2,9 @@
   <div v-if="!loading">
     <h1 class="font-bold"><u>Perkembangan Rating</u></h1>
     <client-only>
-      <ApexChart
-        width="100%"
-        height="320px"
-        type="line"
-        :options="chartOptions"
-        :series="series"
-      />
+      <div>
+        <line-chartjs :chart-data="chartData" :chart-options="options" />
+      </div>
     </client-only>
   </div>
 </template>
@@ -18,18 +14,34 @@ export default {
   name: "OutletChannelRating",
   data() {
     return {
+      chartData: {
+        labels: [],
+        datasets: [],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
       loading: true,
       data: [],
-      options: {},
+
       chartOptions: {
         chart: {
           id: "outline-channel-rating",
+        },
+        tooltip: {
+          enabled: true,
+          enabledOnSeries: false,
+          onDatasetHover: {
+            highlightDataSeries: true,
+          },
         },
         colors: ["#ff0000", "#0a9830", "#FFA500"],
         xaxis: {
           categories: [],
         },
         yaxis: {
+          forceNiceScale: true,
           labels: {
             formatter: function (value) {
               const v = value / 10;
@@ -51,25 +63,26 @@ export default {
         this.loading = true;
         const res = await this.$axios.get("/me/report/rating_statistics");
         this.series = [];
-
         if (res.data.success) {
           this.data = res.data.data;
-          this.data.chart.dates.forEach((d) => {
-            this.chartOptions.xaxis.categories.push(
-              this.$moment(d).format("DD MMM YYYY")
-            );
-          });
+
           this.data.chart.series.forEach((el, index) => {
-            const p = [];
-            el.values.forEach((x) => {
-              p.push(x * 10);
-            });
             const formattedSerie = {
-              name: el.channel,
-              data: p,
+              label: el.channel,
+              backgroundColor: el.channel.includes("Go")
+                ? "#ff0000"
+                : el.channel.includes("Shop")
+                ? "#FFA500"
+                : el.channel.includes("Grab")
+                ? "#0a9830"
+                : "#00ff",
+              data: el.values,
             };
 
-            this.series.push(formattedSerie);
+            this.chartData.datasets.push(formattedSerie);
+          });
+          this.data.chart.dates.forEach((d) => {
+            this.chartData.labels.push(this.$moment(d).format("DD MMM YYYY"));
           });
           this.loading = false;
         } else {
