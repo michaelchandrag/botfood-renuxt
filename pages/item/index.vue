@@ -451,8 +451,26 @@
                     class="fas"
                   ></i>
                 </th>
-                <th class="py-4 text-text text-center cursor-pointer">
+                <th
+                  class="py-4 text-text text-center cursor-pointer"
+                  :class="sortKey === 'last_not_active_at' ? 'filter' : ''"
+                  @click.prevent="
+                    (sortKey = 'last_not_active_at'),
+                      sortValue === 'desc'
+                        ? (sortValue = 'asc')
+                        : (sortValue = 'desc'),
+                      getData(true)
+                  "
+                >
                   Terakhir Aktif
+                  <i
+                    :class="
+                      sortValue === 'asc'
+                        ? 'fa-sort-amount-down '
+                        : 'fa-sort-amount-up'
+                    "
+                    class="fas"
+                  ></i>
                 </th>
               </tr>
             </thead>
