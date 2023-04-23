@@ -28,7 +28,7 @@
                   <span class="text-xs">{{trend.branch_channel_name}}</span>
                 </div>
                 <div class="flex gap-x-2">
-                  <span> {{trend.rating}} </span>
+                  <span><b> {{trend.rating}} </b></span>
                   <icon-base v-if="trend.trend=='up'" name="arrow-up" color="green" style="stroke-width: 3; width: 18px; height: 18px;" />
                   <icon-base v-else-if="trend.trend=='down'"  name="arrow-down" color="red" style="stroke-width: 3; width: 18px; height: 18px;"/>
                   <span class="text-xs"> ({{trend.before_rating}}) </span>
@@ -55,7 +55,7 @@
                   <span class="text-xs">{{trend.branch_channel_name}}</span>
                 </div>
                 <div class="flex gap-x-2">
-                  <span> {{trend.rating}} </span>
+                  <span> <b>{{trend.rating}} </b></span>
                   <icon-base v-if="trend.trend=='up'" name="arrow-up" color="green" style="stroke-width: 3; width: 18px; height: 18px;" />
                   <icon-base v-else-if="trend.trend=='down'"  name="arrow-down" color="red" style="stroke-width: 3; width: 18px; height: 18px;"/>
                   <span class="text-xs"> ({{trend.before_rating}}) </span>
@@ -83,7 +83,7 @@
                   <span class="text-xs">{{trend.branch_channel_name}}</span>
                 </div>
                 <div class="flex gap-x-2">
-                  <span> {{trend.rating}} </span>
+                  <span> <b>{{trend.rating}}</b> </span>
                   <icon-base v-if="trend.trend=='up'" name="arrow-up" color="green" style="stroke-width: 3; width: 18px; height: 18px;" />
                   <icon-base v-else-if="trend.trend=='down'"  name="arrow-down" color="red" style="stroke-width: 3; width: 18px; height: 18px;"/>
                   <span class="text-xs"> ({{trend.before_rating}}) </span>
