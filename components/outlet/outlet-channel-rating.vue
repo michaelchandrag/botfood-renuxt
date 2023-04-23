@@ -23,16 +23,50 @@ export default {
       options: {},
       chartOptions: {
         chart: {
-          id: "outlet-channel-rating-graph-line",
+          height: 350,
+          type: 'area',
+          toolbar: {
+            show: false,
+          },
+        },
+        title: {
+          align: 'left'
+        },
+        zoom: {
+          type: 'x',
+          enabled: true,
+          autoScaleYaxis: true
+        },
+        colors: ["#ED2836", "#029835", "#FFD580"],
+        grid: {
+          borderColor: '#e7e7e7',
+          row: {
+          },
+        },
+        stroke: {
+          curve: 'smooth',
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+          categories: [],
+          title: {
+            text: 'Tanggal'
+          },
+          type: 'datetime',
         },
+        yaxis: {
+          title: {
+            text: 'Rating'
+          },
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          floating: true,
+          offsetY: -25,
+          offsetX: -5
+        }
       },
-      series: [{
-        name: 'series-1',
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
-      }],
+      series: [],
     };
   },
 
@@ -40,26 +74,27 @@ export default {
     this.getData();
   },
   methods: {
-    async getData() {
+    getData() {
       try {
         this.loading = true;
-        const res = await this.$axios.get("/me/report/rating_statistics");
-        this.series = []
-
-        if (res.data.success) {
-          this.data = res.data.data
-          this.chartOptions.xaxis.categories = this.data.chart.dates
-          this.data.chart.series.forEach((el, index) => {
-            var formattedSerie = {
-              name: el.channel,
-              data: el.values
+        this.$axios.get("/me/report/rating_statistics")
+          .then(res => {
+            this.series = []
+            if (res.data.success) {
+              this.data = res.data.data
+              this.chartOptions.xaxis.categories = this.data.chart.dates
+              this.data.chart.series.forEach((el, index) => {
+                var formattedSerie = {
+                  name: el.channel,
+                  data: el.values
+                }
+                this.series.push(formattedSerie)
+              })
+              this.loading = false;
+            } else {
+              this.$toast.error(res.data.message);
             }
-            this.series.push(formattedSerie)
           })
-          this.loading = false;
-        } else {
-          this.$toast.error(res.data.message);
-        }
       } catch (error) {
         this.$toast.error(error);
         console.log(error);

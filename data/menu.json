@@ -12,6 +12,19 @@
     "child": []
   },
   {
+    "label": "Rating",
+    "route": "rating",
+    "isShow": true,
+    "link": "/rating",
+    "icon": "star",
+    "level": [
+      1,
+      2
+    ],
+    "isNew": true,
+    "child": []
+  },
+  {
     "label": "Live Report",
     "route": "live-report",
     "isShow": true,
@@ -99,7 +112,7 @@
     "route": "review",
     "isShow": true,
     "link": "/review",
-    "icon": "star",
+    "icon": "thumbs-up",
     "level": [
       1,
       2

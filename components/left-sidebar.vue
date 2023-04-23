@@ -42,6 +42,7 @@
                 <icon-base id="menu" :name="menu.icon" />
               </client-only>
               <span class="ml-2">{{ menu.label }}</span>
+              <span v-if="menu.isNew" class="ml-2 text-xs bg-red-500 text-white pl-1 pr-1">Baru!</span>
             </button>
 
             <div v-if="menu.child.length">
