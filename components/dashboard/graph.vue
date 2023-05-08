@@ -23,7 +23,7 @@
                   class="font-bold text-sm uppercase mb-3"
                   v-if="data.open_state"
                 >
-                 Daftar Outlet
+                 Daftar Outlet Opening
                   {{
                     dictionaryOpenState[
                       data.open_state[this.openIndex].open_state
@@ -101,7 +101,7 @@
                   class="font-bold text-sm uppercase mb-3"
                   v-if="data.close_state"
                 >
-                  Daftar Outlet
+                  Daftar Outlet Closing
                   {{
                     dictionaryCloseState[
                       data.close_state[this.closeIndex].close_state

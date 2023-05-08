@@ -762,6 +762,13 @@ export default {
   },
   middleware: ["auth-ssr"],
   mounted() {
+    var startReview = this.$moment().subtract(90, 'days').format("YYYY-MM-DD")
+    var endReview = this.$moment().format("YYYY-MM-DD")
+    this.daterange = []
+    this.daterange.push(startReview)
+    this.daterange.push(endReview)
+    this.filters.from_created_at = this.$moment(startReview).format("YYYY-MM-DD 00:00:00");
+    this.filters.until_created_at = this.$moment(endReview).format("YYYY-MM-DD 23:59:59")
     this.getData(true);
     this.getDataRecap();
   },
