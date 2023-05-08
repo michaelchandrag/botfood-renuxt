@@ -762,7 +762,7 @@ export default {
   },
   middleware: ["auth-ssr"],
   mounted() {
-    var startReview = this.$moment().subtract(90, 'days').format("YYYY-MM-DD")
+    var startReview = this.$moment().subtract(60, 'days').format("YYYY-MM-DD")
     var endReview = this.$moment().format("YYYY-MM-DD")
     this.daterange = []
     this.daterange.push(startReview)
