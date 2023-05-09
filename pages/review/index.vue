@@ -565,7 +565,16 @@
                       {{ review.comment ? review.comment : "-" }}
                     </td>
                     <td class="text-center text-left p-4">
-                      {{ review.merchant_reply ? review.merchant_reply : "-" }}
+                      <span v-if="!allowedToReply(review)">
+                        {{ review.merchant_reply ? review.merchant_reply : "-" }}
+                      </span>
+                      <button
+                        v-else
+                        class="rounded py-2 px-3 border-2 border-indigo-800 bg-blue-200 text-black focus:outline-none"
+                        @click.prevent="handleMerchantReply(review)"
+                      >
+                        <span>Balas ></span>
+                      </button>
                     </td>
                     <td class="text-center text-left p-4">
                       <div v-if="review.images" style="display: flex; flex-direction: column;justify-content: space-between;gap: 10px;align-items: center;align-content: center;">
@@ -711,6 +720,117 @@
 
       <!-- end modal items -->
     </div>
+
+    <!-- modal seamless -->
+      <div v-if="isShowSeamless" class="fixed top-0 flex items-center z-40 left-0 w-screen h-screen py-1 px-2">
+        <div class="w-full max-w-xl bg-white rounded-fds z-40 mx-auto max-h-full" style="height:auto;overflow-y:auto;">
+          <div class="p-4">
+            <div class="bg p-6 relative rounded-fd flex gap-10 items-center">
+              <div class="absolute top-0 right-0">
+                <button @click.prevent="isShowSeamless=false"
+                  class="text-white text-xs sm:text-sm px-3 py-1 text-red-500 mt-4 mr-4 bg-white rounded-full rounded">
+                  <i class="fas fa-times-circle"></i> Close
+                </button>
+              </div>
+              <div>
+                <div>
+                  <span class="text-white font-bold text-sm">{{selectedReview.branch_channel_channel}}</span>
+                </div>
+                <div>
+                  <span class="text-xl leading-loose font-bold text-white">{{selectedReview.branch_channel_name}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="md:items-center mb-6 pl-4">
+              <label class="block text-center mb-1 md:mb-0">
+                Balas Ulasan untuk {{selectedReview.branch_channel_name}} - {{selectedReview.branch_channel_channel}}
+              </label>
+              <!-- <div class="md:w-2/3">
+                <input v-model="connectData.phoneNumber"
+                  class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                  id="gobiz_phone_number" type="text" placeholder="6282133110099"
+                  @keydown="showSendOtpButton = true; showTokenOtp = false">
+              </div> -->
+            </div>
+            <div class="md:items-center pl-4">
+              <img
+                v-for="n in 5"
+                :key="n"
+                :src="
+                  n <= selectedReview.rating
+                    ? require(`~/assets/png/star.png`)
+                    : require(`~/assets/png/star_empty.png`)
+                "
+                style="
+                  width: 15px;
+                  height: 15px;
+                  display: unset;
+                  margin-left: 1px;
+                  margin-right: 1px;
+                "
+              />
+            </div>
+            <div class="md:items-center mb-6 pl-4">
+              <label class="block mb-1 md:mb-0 pr-4">
+                {{selectedReview.comment}}
+              </label>
+            </div>
+            <div class="md:items-center mb-6 pl-4 pr-2">
+              <div class="relative mb-3" data-te-input-wrapper-init>
+                <textarea
+                  class="bg-gray-100 peer block min-h-[auto] w-full rounded border-0 px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                  id="exampleFormControlTextarea1"
+                  v-model="seamlessMerchantReply.text"
+                  rows="3"
+                  placeholder="Your message"></textarea>
+              </div>
+            </div>
+            <div class="md:items-center mb-6 pl-4 pr-2">
+              <div class="md:w-3/3">
+                <button @click.prevent="sendMerchantReply()"
+                  class="w-full shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  type="button">
+                  <span v-if="!isSendingReply">Kirim</span>
+                  <span v-if="isSendingReply">
+                    <svg class="h-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                      style="margin: auto; background: none; display: block; shape-rendering: auto; animation-play-state: running; animation-delay: 0s;"
+                      width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                      <circle cx="50" cy="50" fill="none" stroke="#ffffff" stroke-width="10" r="35"
+                        stroke-dasharray="164.93361431346415 56.97787143782138"
+                        style="animation-play-state: running; animation-delay: 0s;">
+                        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s"
+                          values="0 50 50;360 50 50" keyTimes="0;1"
+                          style="animation-play-state: running; animation-delay: 0s;"></animateTransform>
+                      </circle>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div v-show="errorMessageSeamless.length > 0" class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3">
+                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                  <p>{{errorMessageSeamless}}</p>
+                </div>
+              </div>
+            </div>
+            <div v-show="successMessageSeamless.length > 0" class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3"></div>
+              <div class="md:w-2/3">
+                <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+                  <p>{{successMessageSeamless}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div v-if="isShowSeamless" class="fixed top-0 bg-black opacity-20 left-0 z-20 w-screen h-screen"></div>
+
   </div>
 </template>
 <script>
@@ -722,7 +842,12 @@ export default {
   },
   data() {
     return {
+      isSendingReply: false,
+      isShowSeamless: false,
       isLoadingRecap: true,
+      seamlessMerchantReply: {
+        text: '',
+      },
       last_month: [],
       current_month: [],
       isDownload: false,
@@ -732,6 +857,8 @@ export default {
       stat: {},
       search: "",
       withCommentar: false,
+      errorMessageSeamless: "",
+      successMessageSeamless: "",
       selectedStar: "",
       filters: {
         q: "",
@@ -746,6 +873,7 @@ export default {
         n_merchant_reply: "",
         is_reviewed: "",
       },
+      selectedReview: {},
       isLoading: true,
       statusDropdown: false,
       channelDropdown: false,
@@ -789,6 +917,22 @@ export default {
   },
 
   methods: {
+    sendMerchantReply () {
+      console.log(this.selectedReview)
+      console.log(this.seamlessMerchantReply)
+      this.isShowSeamless = false
+      this.selectedReview = null
+    },
+    handleMerchantReply (review) {
+      this.selectedReview = review
+      this.isShowSeamless = true
+    },
+    allowedToReply (review) {
+      if (review.branch_channel_gobiz_is_connected == 1 && review.merchant_reply == null) {
+        return true
+      }
+      return false
+    },
     async submitReviewed(review) {
       if (review.is_reviewed == 0) {
         review.is_reviewed = 1
@@ -837,26 +981,30 @@ export default {
         fileLink.click();
       });
     },
-    getDataRecap() {
-      this.$axios.get(`me/review/stats`).then((r) => {
-        this.isLoadingRecap = false;
-        this.last_month = r.data.data.last_month;
-        this.current_month = r.data.data.this_month;
-      });
+    async getDataRecap() {
+      try {
+        const res = await this.$axios.get("me/review/stats");
+        if (res.data.success) {
+          this.isLoadingRecap = false;
+          this.last_month = res.data.data.last_month;
+          this.current_month = res.data.data.this_month;
+        }
+      } catch (error) {}
     },
-
-    getData(refresh = false) {
+    async getData(refresh = false) {
       if (refresh) {
         this.filters.page = 1;
       }
       var queryParams = new URLSearchParams(this.filters).toString();
-      //console.log(queryParams);
       this.listLoading = true;
-      this.$axios.get(`me/reviews?${queryParams}`).then((r) => {
-        this.data = r.data.data;
-        this.listLoading = false;
-        this.isLoading = false;
-      });
+      try {
+        const res = await this.$axios.get(`me/reviews?${queryParams}`);
+        if (res.data.success) {
+          this.data = res.data.data;
+          this.listLoading = false;
+          this.isLoading = false;
+        }
+      } catch (error) {}
     },
     sortPage(key) {
       this.filters.sort_key = key;
@@ -920,4 +1068,9 @@ export default {
 .close-icon {
   float: right;
 }
+.bg {
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.3)), url('~/assets/png/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 </style>

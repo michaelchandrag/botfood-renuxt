@@ -767,7 +767,7 @@
           var data = r.data.data
           this.showTokenOtp = false
           this.successMessageSeamless =
-            `Selamat outlet anda telah terhubung dengan ${data.user.outlet_name}. Data pesanan dalam outlet ini akan disinkronisasi setiap 6 jam. Silahkan tutup pop-up ini dengan menekan tombol Close di bagian atas kanan.`
+            `Selamat outlet anda telah terhubung dengan ${data.merchant.outlet_name}. Data pesanan dalam outlet ini akan disinkronisasi setiap 6 jam. Silahkan tutup pop-up ini dengan menekan tombol Close di bagian atas kanan.`
           for (var key in this.data.branch_channels) {
             if (this.selectedOutlet.id == this.data.branch_channels[key].id) {
               this.data.branch_channels[key].gobiz_is_connected = 1
