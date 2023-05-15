@@ -57,6 +57,9 @@ export default {
       src: '~/plugins/formatter'
     },
     {
+      src: '~/plugins/api',
+    },
+    {
       src: '~/plugins/vuex-persist'
     },
     {
@@ -124,7 +127,9 @@ export default {
   moment: {
     locales: ['id']
   },
-
+  env: {
+    goBaseUrl: process.env.GO_URL || 'https://goapi.botfood.id'
+  },
   // tailwindcss: {
   //   config: {
   //     theme: {

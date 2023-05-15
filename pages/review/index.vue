@@ -998,7 +998,7 @@ export default {
       var queryParams = new URLSearchParams(this.filters).toString();
       this.listLoading = true;
       try {
-        const res = await this.$axios.get(`me/reviews?${queryParams}`);
+        const res = await this.$api.get(`me/reviews?${queryParams}`);
         if (res.data.success) {
           this.data = res.data.data;
           this.listLoading = false;

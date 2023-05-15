@@ -12,6 +12,9 @@ export default {
   created() {
     this.$axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.$cookies.get("_tk");
+
+    this.$api.defaults.headers.common["Authorization"] =
+      "Bearer " + this.$cookies.get("_tk");
   },
   computed: {
     user() {
