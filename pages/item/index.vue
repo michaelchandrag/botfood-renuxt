@@ -32,8 +32,8 @@
           <div
             class="
               w-full
-              xl:w-3/12
-              lg:w-3/12
+              xl:w-2/12
+              lg:w-2/12
               sm:w-6/12
               p-2
               cursor-pointer
@@ -162,8 +162,8 @@
           <div
             class="
               w-full
-              xl:w-3/12
-              lg:w-3/12
+              xl:w-2/12
+              lg:w-2/12
               sm:w-6/12
               p-2
               cursor-pointer
@@ -209,8 +209,8 @@
           <div
             class="
               w-full
-              xl:w-3/12
-              lg:w-3/12
+              xl:w-2/12
+              lg:w-2/12
               sm:w-6/12
               p-2
               cursor-pointer
@@ -316,6 +316,23 @@
               </ul>
             </div>
           </div>
+
+          <div class="w-full xl:w-2/12 cursor-pointer items-center relative p-2">
+            <div class="">
+              <button v-if="isDownload"
+                class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
+                <span class="animate-spin">Downloading . . .</span>
+
+              </button>
+              <button v-if="!isDownload"
+                class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
+                @click.prevent="download()">
+                <span v-if="!isDownload">Download</span>
+              </button>
+            </div>
+          </div>
+
+
         </div>
         <div class="h-6"></div>
         <div class="table-responsive">
@@ -753,6 +770,7 @@
 export default {
   data() {
     return {
+      isDownload: false,
       data: "",
       itemName: "",
       isShowIImage: false,
@@ -795,6 +813,32 @@ export default {
     },
   },
   methods: {
+    download() {
+      var item_name = "name=" + this.itemName;
+      var outletName = "branch_channel_name=" + this.outletName;
+      var stock =
+        this.itemStatus == null ? "in_stock=" : "in_stock=" + this.itemStatus;
+      var channel =
+        this.outletChannel == null
+          ? ""
+          : "branch_channel_channel=" + this.outletChannel;
+      this.isDownload = true
+      this.$axios({
+        method: 'GET',
+        url: `me/item/export?${item_name}&${outletName}&${stock}&${channel}`,
+        responseType: 'blob',
+      }).then(r => {
+        this.isDownload = false
+        const url = window.URL.createObjectURL(new Blob([r.data], {
+          'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        }));
+        var fileLink = document.createElement('a');
+        fileLink.href = url;
+        fileLink.setAttribute('download', 'item.xlsx');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      })
+    },
     getData(refresh = false) {
       if (refresh) {
         this.page = 1;
