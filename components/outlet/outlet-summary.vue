@@ -9,6 +9,7 @@
           <img class="w-16 h-16" v-if="channel.channel=='GrabFood'" src="~/assets/svg/grabfood.svg" alt="">
           <img class="w-16 h-16" v-if="channel.channel=='ShopeeFood'" src="~/assets/svg/shopeefood.svg" alt="">
           <img class="w-16 h-16" v-if="channel.channel=='TravelokaEats'" src="~/assets/svg/travelokaeats.svg" alt="">
+          <img class="w-16 h-16" v-if="channel.channel=='AirAsiaFood'" src="~/assets/svg/airasiafood.svg" alt="">
         </div>
       </div>
       <div>

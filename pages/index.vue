@@ -33,7 +33,7 @@
             <outlet-overview :data="data.GrabFood" channel="GrabFood" />
             <outlet-overview :data="data.GoFood" channel="GoFood" />
             <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
-            <outlet-overview :data="data.TravelokaEats" channel="TravelokaEats" />
+            <outlet-overview :data="data.AirAsiaFood" channel="AirAsiaFood" />
           </div>
           <div
             class="grid gap-4 mb-4 bg-white p-5 rounded-md sm:w-6/12"

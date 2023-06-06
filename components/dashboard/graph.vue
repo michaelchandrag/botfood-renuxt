@@ -146,6 +146,12 @@
                         src="~/assets/svg/travelokaeats.svg"
                         alt=""
                       />
+                      <img
+                        class="h-6"
+                        v-if="op.branch_channel_channel == 'AirAsiaFood'"
+                        src="~/assets/svg/airasiafood.svg"
+                        alt=""
+                      />
                       <span>
                         {{ op.branch_channel_name }}
                       </span>

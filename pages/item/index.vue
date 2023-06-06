@@ -239,8 +239,8 @@
                 <span v-if="outletChannel == 'GrabFood'">GrabFood</span>
                 <span v-if="outletChannel == 'GoFood'">GoFood</span>
                 <span v-if="outletChannel == 'ShopeeFood'">ShopeeFood</span>
-                <span v-if="outletChannel == 'TravelokaEats'"
-                  >TravelokaEats</span
+                <span v-if="outletChannel == 'AirAsiaFood'"
+                  >AirAsiaFood</span
                 >
                 <span v-if="outletChannel == null">Semua Platform</span>
               </div>
@@ -298,12 +298,12 @@
                 <li
                   @click.prevent="
                     (channelDropdown = false),
-                      (outletChannel = 'TravelokaEats'),
+                      (outletChannel = 'AirAsiaFood'),
                       getData()
                   "
                   class="bg-white px-4 py-3 w-full"
                 >
-                  TravelokaEats
+                  AirAsiaFood
                 </li>
                 <li
                   @click.prevent="
