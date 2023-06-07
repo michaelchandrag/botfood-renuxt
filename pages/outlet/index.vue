@@ -26,7 +26,7 @@
           <div class="h-2">
           </div>
           <div class="flex flex-wrap -m-2">
-            <div class="w-full xl:w-6/12 lg:w-6/12 p-2">
+            <div class="w-full xl:w-4/12 lg:w-4/12 p-2">
               <div class="relative">
                 <form @submit.prevent="getData">
                   <input @change.prevent="getData" type="text"
@@ -108,6 +108,21 @@
                 </ul>
               </div>
             </div>
+
+            <div class="w-full xl:w-2/12 cursor-pointer items-center relative">
+              <div class="">
+                <button v-if="isDownload"
+                  class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
+                  <span class="animate-spin">Downloading . . .</span>
+
+                </button>
+                <button v-if="!isDownload"
+                  class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
+                  @click.prevent="download()">
+                  <span v-if="!isDownload">Download</span>
+                </button>
+              </div>
+          </div>
 
           </div>
           <div class="mt-6">
@@ -584,6 +599,7 @@
 
     data() {
       return {
+        isDownload: false,
         data: {},
         sorted: {},
         search: '',
@@ -640,6 +656,27 @@
     },
 
     methods: {
+      download() {
+        let name_param = 'name=' + this.search
+        let status_param = this.isOutletOpen == null ? '' : 'is_open=' + this.isOutletOpen
+        let channel_param = this.outletChannel == null ? '' : 'channel=' + this.outletChannel
+        this.isDownload = true
+        this.$axios({
+          method: 'GET',
+          url: `me/branch_channel/export?${name_param}&${status_param}&${channel_param}`,
+          responseType: 'blob',
+        }).then(r => {
+          this.isDownload = false
+          const url = window.URL.createObjectURL(new Blob([r.data], {
+            'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }));
+          var fileLink = document.createElement('a');
+          fileLink.href = url;
+          fileLink.setAttribute('download', 'outlet.xlsx');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+      },
       formatRating (rating) {
         if (rating == null) {
           return ''

@@ -317,7 +317,7 @@
             </div>
           </div>
 
-          <div class="w-full xl:w-2/12 cursor-pointer items-center relative p-2">
+          <div class="w-full xl:w-2/12 cursor-pointer items-center relative">
             <div class="">
               <button v-if="isDownload"
                 class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
