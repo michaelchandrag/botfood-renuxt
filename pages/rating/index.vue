@@ -17,6 +17,9 @@
         <div class="grid grid-cols-1 gap-4 mb-4 bg-white p-4 rounded-md">
           <trend-rating/>
         </div>
+        <div class="grid grid-cols-1 gap-4 mb-4 bg-white p-4 rounded-md">
+          <rating-history/>
+        </div>
       </div>
     </div>
   </div>
@@ -25,10 +28,12 @@
 <script>
 import OutletChannelRating from "~/components/outlet/outlet-channel-rating.vue"
 import TrendRating from "~/components/outlet/trend-rating.vue"
+import RatingHistory from "~/components/laporan/rating-history.vue"
 export default {
   components: {
     OutletChannelRating,
-    TrendRating
+    TrendRating,
+    RatingHistory
   },
   data() {
     return {};
