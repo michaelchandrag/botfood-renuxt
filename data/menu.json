@@ -21,7 +21,6 @@
       1,
       2
     ],
-    "isNew": true,
     "child": []
   },
   {
@@ -105,6 +104,19 @@
       1,
       2
     ],
+    "child": []
+  },
+  {
+    "label": "Variant",
+    "route": "variant",
+    "isShow": true,
+    "link": "/variant",
+    "icon": "list",
+    "level": [
+      1,
+      2
+    ],
+    "isNew": true,
     "child": []
   },
   {
