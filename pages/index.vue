@@ -64,9 +64,13 @@
       <div style="height: 19px"></div>
         <!-- start graph -->
         <graph />
+      <div style="height: 19px"></div>
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-title">Laporan Item</span>
+      </div>
         <!-- end graph -->
         <!-- table start -->
-        <!-- <div>
+        <div>
           <div
             v-if="isLoading"
             class="bg-gray-300 animate-pulse rounded-fd h-64"
@@ -189,7 +193,7 @@
               </table>
             </div>
           </div>
-        </div> -->
+        </div>
         <!-- table end -->
         <div style="height: 19px"></div>
       </div>
@@ -250,7 +254,7 @@ export default {
   },
   mounted() {
     this.setUserData();
-    // this.getItemNotUniform();
+    this.getItemNotUniform();
     this.changePage();
   },
   methods: {
