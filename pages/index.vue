@@ -18,7 +18,7 @@
           <button
             v-if="!isDownload"
             class="w-full rounded-lg px-7 py-3 bg-green-600 text-white focus:outline-none"
-            @click.prevent="download()"
+            @click.prevent="downloadV2()"
           >
             <span v-if="!isDownload">Download Status Outlet & Item (Excel)</span>
           </button>
@@ -280,6 +280,35 @@ export default {
         method: "GET",
         url:
           "me/channel_report?channel=GoFood&issued_at=" +
+          this.formatDate +
+          "&xlsx=true" +
+          "&item_in_stock=" +
+          this.itemInStock,
+        responseType: "blob",
+      }).then((r) => {
+        this.isDownload = false;
+        const url = window.URL.createObjectURL(
+          new Blob([r.data], {
+            "content-type":
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          })
+        );
+        var fileLink = document.createElement("a");
+        fileLink.href = url;
+        fileLink.setAttribute("download", `${filename}.xlsx`);
+        document.body.appendChild(fileLink);
+        fileLink.click();
+      });
+    },
+    downloadV2() {
+      var me = this.$store.state.user.user;
+      var time = this.$moment().format("DD MMM HH.mm");
+      var filename = `${time} ${me.name} Performa Outlet`;
+      this.isDownload = true;
+      this.$api({
+        method: "GET",
+        url:
+          "report/channel_report?channel=GoFood&issued_at=" +
           this.formatDate +
           "&xlsx=true" +
           "&item_in_stock=" +
