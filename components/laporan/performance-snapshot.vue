@@ -14,7 +14,7 @@
           </label>
         </div>
       </div>
-      <div class="md:flex mb-3 -m-1 gap-8" style="min-height: 23vh;justify-items: center;align-items: center;">
+      <div class="md:flex mb-3 -m-1 gap-8" style="justify-items: center;align-items: center;">
         <div
           class="w-full md:w-6/12 lg:w-3/12 cursor-pointer items-center relative"
         >

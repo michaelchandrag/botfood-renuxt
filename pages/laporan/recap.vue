@@ -11,6 +11,7 @@
       </div>
       <div style="height:24px"></div>
       <div class="flex flex-col ">
+        <promo-competitor v-if="isPromoAllowed"/>
         <performa-outlet />
         <!-- <order /> -->
         <price />
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+  import promoCompetitor from '~/components/laporan/promo-competitor.vue'
   import performaOutlet from '~/components/laporan/performa-outlet.vue'
   import order from '~/components/laporan/order.vue'
   import price from '~/components/laporan/price.vue'
@@ -33,6 +35,7 @@
   import performanceSnapshot from '~/components/laporan/performance-snapshot.vue'
   export default {
     components: {
+      promoCompetitor,
       performaOutlet,
       order,
       price,
@@ -42,9 +45,16 @@
       performanceSnapshot,
     },
     data() {
-      return {}
+      return {
+        isPromoAllowed: false,
+      }
     },
-    mounted() {},
+    mounted() {
+      var me = this.$store.state.user.user
+      if (me.id == 34) {
+        this.isPromoAllowed = true
+      }
+    },
     methods: {}
   }
 
