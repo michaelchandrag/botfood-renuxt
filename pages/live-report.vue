@@ -303,6 +303,7 @@ export default {
         query_branch_channel: null,
         query_item: null,
       },
+      localPusher: null,
       isLoading: false,
       isLoadingLiveOutlet: false,
       isRequestLiveOutlet: false,
@@ -454,6 +455,7 @@ export default {
       const channel = pusher.subscribe(brandSlug.toLowerCase());
       const self = this;
       const audio = document.getElementById("sound");
+      this.localPusher = pusher
 
       channel.bind("live-activity", function (data) {
         if (data.message) {
@@ -563,6 +565,11 @@ export default {
       return true;
     },
   },
+  beforeRouteLeave(to, from, next) {
+    this.localPusher.disconnect()
+    console.log('disconnecting')
+    next()
+  }
 };
 </script>
 
