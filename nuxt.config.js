@@ -56,6 +56,10 @@ export default {
     {
       src: '~/plugins/formatter'
     },
+      {
+          src: '~/plugins/vue-modal',
+          ssr: false
+      },
     {
       src: '~/plugins/api',
     },

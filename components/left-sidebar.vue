@@ -14,8 +14,6 @@
       </div>
     </div>
 
-
-
     <div class="mt-2" :class="showNav ? 'show-sidebar-mobile' : 'hide-sidebar-mobile'">
       <select @change="onChange($event)" v-model="valueDropdown" v-show="!this.$store.state.user.user.is_master"
         id="countries"
@@ -143,7 +141,7 @@ export default {
         })
         window.location.reload();
       })
-      
+
     }
   },
 };

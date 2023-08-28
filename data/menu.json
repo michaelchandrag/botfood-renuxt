@@ -132,6 +132,18 @@
     "child": []
   },
   {
+    "label": "Integrasi",
+    "route": "integrasi",
+    "isShow": true,
+    "link": "/integrasi",
+    "icon": "link-2",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
     "label": "Pengaturan",
     "route": "",
     "isShow": true,
