@@ -39,7 +39,7 @@
                        <icon-base name="check"/>
                    </div>
                     <div class="ml-1">
-                        Connected
+                        Terhubung
                     </div>
 
 
@@ -79,7 +79,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-8 mb-3">
               <button @click.prevent="checkAcc(detailChannel.id)" :disabled="loadingCheck" class="rounded-md bg-green-500 text-white p-2">
                 <icon-base name="check"/>
-                Check
+                Cek Integrasi
               </button>
               <button @click.prevent="reconnectAcc(detailChannel.id)" :disabled="loadingReconnect" class="rounded-md bg-purple-500 text-white p-2">
                 <icon-base name="repeat"/>
@@ -87,11 +87,11 @@
               </button>
               <button @click.prevent="syncAcc(detailChannel.id)" :disabled="loadingSync" class="rounded-md bg-blue-500 text-white p-2">
                 <icon-base name="refresh-cw"/>
-                Sync
+                Sinkron ulang outlet
               </button>
               <button @click.prevent="deleteAcc(detailChannel.id)" :disabled="loadingDelete" class="rounded-md bg-red-500 text-white p-2">
                 <icon-base name="trash-2"/>
-                Hapus
+                Hapus Integrasi
               </button>
             </div>
 
@@ -149,11 +149,11 @@ export default {
         const res = await this.$axios.post("me/integrations/delete/"+id);
         this.loadingDelete = false
         if(res.data.success) {
-          this.$toast.success("Berhasil memutuskan koneksi")
+          this.$toast.success("Berhasil memutuskan koneksi", {duration: 2000})
           this.$modal.hide('detailChannel')
           this.getList()
         } else {
-          this.$toast.error("Gagal memutuskan koneksi")
+          this.$toast.error("Gagal memutuskan koneksi", {duration: 2000})
         }
         console.log(res)
       } catch (e) {
@@ -168,12 +168,12 @@ export default {
         this.loadingCheck = false
         if(res.data.success) {
           if(res.data.data.integration_success&&res.data.data.is_integrated) {
-            this.$toast.succes("Akun sudah terkoneksi")
+            this.$toast.success("Integrasi terhubung", {duration: 2000})
           } else {
-            this.$toast.error("Akun belum terkoneksi")
+            this.$toast.error("Integrasi gagal, lakukan Reconnect atau Hapus integrasi ini", {duration: 2000})
           }
         } else {
-          this.$toast.error("Gagal check koneksi")
+          this.$toast.error("Integrasi gagal, lakukan Reconnect atau Hapus integrasi ini", {duration: 2000})
         }
       } catch (e) {
         this.loadingCheck = false
@@ -182,13 +182,13 @@ export default {
     async syncAcc(id) {
       try {
         this.loadingSync = true
-        const res = await this.$axios.post("me/integrations/delete/"+id);
+        const res = await this.$axios.post("me/integrations/sync/"+id);
         this.loadingSync = false
         if(res.data.success) {
-          this.$toast.success("Berhasil sync koneksi")
+          this.$toast.success("Berhasil sinkronisasi outlet", {duration: 2000})
 
         } else {
-          this.$toast.error("Gagal sync koneksi")
+          this.$toast.error("Gagal sinkronisasi outlet", {duration: 2000})
         }
         console.log(res)
       } catch (e) {
@@ -202,9 +202,9 @@ export default {
         const res = await this.$axios.post("me/integrations/reconnect/"+id);
         this.loadingReconnect = false
         if(res.data.success) {
-          this.$toast.success("Berhasil reconnect koneksi")
+          this.$toast.success("Berhasil reconnect integrasi", {duration: 2000})
         } else {
-          this.$toast.error("Gagal reconnect koneksi")
+          this.$toast.error("Gagal reconnect integrasi, silahkan Hapus integrasi ini dan ulang proses integrasi dari awal", {duration: 2000})
         }
         console.log(res)
       } catch (e) {

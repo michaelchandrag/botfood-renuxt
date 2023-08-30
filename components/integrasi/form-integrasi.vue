@@ -12,7 +12,10 @@
                 <icon-base name="info"/>
               </div>
               <div class="text-xs">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar elit at mauris dictum volutpat. Duis faucibus, magna sed blandit lobortis, nisl augue pellentesque velit, vel auctor risus urna eget tellus. Vivamus sem odio, efficitur ac lectus ut, pulvinar sodales eros. Nulla egestas augue ex, a tincidunt dolor euismod ut.
+                Sebelum melakukan integrasi untuk Shopee Partner, persiapkan data-data akun berikut yang akan digunakan untuk integrasi: <br/>
+                1. Nomor HP dan password akun Shopee Partner<br/>
+                2. Role Akun Staf<br/>
+                3. OTP yang akan dikirim ke Nomor HP yang bersangkutan
               </div>
             </div>
 <!--            Info requirement untuk connect-->
@@ -31,7 +34,8 @@
                 <icon-base name="info"/>
               </div>
               <div class="text-xs">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar elit at mauris dictum volutpat. Duis faucibus, magna sed blandit lobortis, nisl augue pellentesque velit, vel auctor risus urna eget tellus. Vivamus sem odio, efficitur ac lectus ut, pulvinar sodales eros. Nulla egestas augue ex, a tincidunt dolor euismod ut.
+                Fitur yang tersedia: <br/>
+                1. Ubah status menu di Shopee
               </div>
             </div>
             <!--            Info requirement untuk connect-->
@@ -41,7 +45,8 @@
                 <icon-base name="info"/>
               </div>
               <div class="text-xs">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar elit at mauris dictum volutpat. Duis faucibus, magna sed blandit lobortis, nisl augue pellentesque velit, vel auctor risus urna eget tellus. Vivamus sem odio, efficitur ac lectus ut, pulvinar sodales eros. Nulla egestas augue ex, a tincidunt dolor euismod ut.
+                WARNING!<br/>
+                Integrasi ini berjalan dengan cara mengotomatiskan browser chrome untuk mengelola Shopee Partner Web, maka dari itu data yang digunakan untuk akses Shopee Partner Web akan kami simpan. Namun jangan khawatir, data tersebut tetap kami enkripsi demi keamanan. 
               </div>
             </div>
             <!--            Info requirement untuk connect-->
@@ -52,7 +57,7 @@
               </button>
               <button :disabled="loading" :class="loading?'bg-gray-400':'bg-green-600'" type="submit" class="flex px-4 py-2 items-center gap-1 text-green-50 rounded-lg">
                 <icon-base name="save"/>
-                {{loading?'Menyimpan...':'Simpan'}}
+                {{loading?'Memproses...':'Tambah'}}
 
               </button>
             </div>
@@ -74,7 +79,7 @@
               </button>
               <button :disabled="loadingOtp" :class="loadingOtp?'bg-gray-400':'bg-green-600'" type="submit" class="flex px-4 py-2 items-center gap-1 text-green-50 rounded-lg">
                 <icon-base name="save"/>
-                {{loadingOtp?'Menyimpan...':'Simpan'}}
+                {{loadingOtp?'Memproses...':'Lanjutkan'}}
               </button>
             </div>
           </form>
