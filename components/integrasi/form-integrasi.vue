@@ -137,6 +137,7 @@ export default  {
           } else {
             this.$modal.hide("form")
             this.$modal.hide("formOtp")
+            this.syncAcc(this.resConnect.integration.id)
             this.$emit('reload')
           }
         }
@@ -145,7 +146,6 @@ export default  {
         this.loading = false
         const err = e.response.data.errors
         if(err) {
-
           try {
             err.forEach(msg=>{
               this.$toast.error(`${msg.code} : ${msg.detail}`)
@@ -168,8 +168,9 @@ export default  {
         });
         this.loadingOtp = false
         if(res.data.success) {
-            this.$modal.show("formOtp")
-            this.$emit('reload')
+          this.$modal.show("formOtp")
+          this.syncAcc(this.resConnect.integration.id)
+          this.$emit('reload')
         } else {
 
         }
@@ -190,7 +191,23 @@ export default  {
       }
 
 
-    }
+    },
+    async syncAcc(id) {
+      try {
+        this.loadingSync = true
+        const res = await this.$axios.post("me/integrations/sync/"+id);
+        this.loadingSync = false
+        if(res.data.success) {
+          this.$toast.success("Berhasil sinkronisasi outlet", {duration: 2000})
+        } else {
+          this.$toast.error("Gagal sinkronisasi outlet", {duration: 2000})
+        }
+        console.log(res)
+      } catch (e) {
+        this.loadingSync = false
+        console.log(e)
+      }
+    },
   }
 }
 </script>
