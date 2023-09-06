@@ -57,24 +57,37 @@
 <!--    end modal form-->
 
     <client-only>
-
         <vmodal name="detailChannel" :adaptive="true" height="auto">
           <div class="p-3">
-            <h1 class="text-center font-bold">
-              {{detailChannel.type_name}}
-            </h1>
-
-            <div>
-              <div class="text-center my-6">
-                <img src="@/assets/svg/shopeefood.svg" class="mx-auto"/>
+            <div class="flex gap-2 items-center">
+              <div class="">
+                <img src="@/assets/svg/shopeefood.svg" class="h-10"/>
               </div>
-              <div class="text-center font-bold text-sm left-0 w-full flex items-center justify-center ">
-                <div>
-                  <span class="font-bold block">
+              <div>
+                <h1 class=" font-bold text-xs">
+                  {{detailChannel.type_name}}
+                </h1>
+                <span class="font-bold text-sm block">
                      {{ detailChannel.username }}
                   </span>
-                </div>
               </div>
+            </div>
+            <div class="mt-3">
+              <h2 class="text-sm font-bold">Channels</h2>
+              <div class="grid grid-cols-3 gap-2 mt-2 max-h-[320px] overflow-y-scroll">
+                  <div v-for="(ch,i) in detailChannel.branch_channels" :key="i" class="bg-gray-100 gap-2 flex items-center rounded-md text-xs p-2">
+                    <div>
+                      <img class="h-8" v-if="ch.channel == 'GoFood'" src="~/assets/svg/gofood.svg" alt="" />
+                      <img class="h-8" v-if="ch.channel == 'GrabFood'" src="~/assets/svg/grabfood.svg" alt="" />
+                      <img class="h-8" v-if="ch.channel == 'ShopeeFood'" src="~/assets/svg/shopeefood.svg"
+                           alt="" />
+                      <img class="h-8" v-if="ch.channel == 'TravelokaEats'" src="~/assets/svg/travelokaeats.svg"
+                           alt="" />
+                      <img class="h-8" v-if="ch.channel == 'AirAsiaFood'" src="~/assets/svg/airasiafood.svg" alt="" />
+                    </div>
+                    {{ch.branch_name}}
+                  </div>
+                </div>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-8 mb-3 text-xs">
               <button @click.prevent="checkAcc(detailChannel.id)" :disabled="loadingCheck" class="rounded-md  text-white p-2" :class="loadingCheck?'bg-gray-300':'bg-green-500'" >
@@ -85,7 +98,6 @@
                 <div v-else>
                   <loader-mini/>
                 </div>
-
               </button>
               <button @click.prevent="reconnectAcc(detailChannel.id)" :disabled="loadingReconnect" class="rounded-md text-white p-2" :class="loadingReconnect?'bg-gray-300':'bg-purple-500'">
                 <div v-if="!loadingReconnect">

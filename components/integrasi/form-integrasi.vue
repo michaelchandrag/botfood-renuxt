@@ -168,7 +168,8 @@ export default  {
         });
         this.loadingOtp = false
         if(res.data.success) {
-          this.$modal.show("formOtp")
+          this.$modal.hide("form")
+          this.$modal.hide("formOtp")
           this.syncAcc(this.resConnect.integration.id)
           this.$emit('reload')
         } else {
@@ -178,7 +179,6 @@ export default  {
         this.loadingOtp = false
         const err = e.response.data.errors
         if(err) {
-
           try {
             err.forEach(msg=>{
               this.$toast.error(`${msg.code} : ${msg.detail}`)
