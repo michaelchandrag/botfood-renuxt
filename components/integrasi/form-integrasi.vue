@@ -19,6 +19,15 @@
               </div>
             </div>
 <!--            Info requirement untuk connect-->
+
+            <div class="mb-2">
+              <label class="text-sm text-gray-600">Channel</label>
+              <select :disabled="loading" class="p-2 w-full rounded-md border outline-none block" v-model.trim="form.type">
+                <option value="">Pilih Channel</option>
+                <option value="shopee_partner_web">Shopee Food</option>
+              </select>
+            </div>
+
             <div class="mb-2">
               <label class="text-sm text-gray-600">Username</label>
               <input :disabled="loading" class="p-2 w-full rounded-md border outline-none block" type="text" placeholder="Masukkan Username" v-model.trim="form.username">
@@ -46,7 +55,7 @@
               </div>
               <div class="text-xs">
                 WARNING!<br/>
-                Integrasi ini berjalan dengan cara mengotomatiskan browser chrome untuk mengelola Shopee Partner Web, maka dari itu data yang digunakan untuk akses Shopee Partner Web akan kami simpan. Namun jangan khawatir, data tersebut tetap kami enkripsi demi keamanan. 
+                Integrasi ini berjalan dengan cara mengotomatiskan browser chrome untuk mengelola Shopee Partner Web, maka dari itu data yang digunakan untuk akses Shopee Partner Web akan kami simpan. Namun jangan khawatir, data tersebut tetap kami enkripsi demi keamanan.
               </div>
             </div>
             <!--            Info requirement untuk connect-->
@@ -96,7 +105,8 @@ export default  {
     return{
       form: {
         username:"",
-        password:""
+        password:"",
+        type:""
       },
       loading: false,
       otp:'',
@@ -114,7 +124,7 @@ export default  {
       try {
         this.loading = true
         const res = await this.$axios.post("me/integrations/connect", {
-          "type": "shopee_partner_web",
+          "type": this.form.type,
           "username": this.form.username,
           "password":  this.form.password
         });

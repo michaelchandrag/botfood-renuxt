@@ -11,8 +11,8 @@
       <div>
         <span class="text-title">Integrasi</span>
       </div>
-        <div class="bg-white p-4 rounded-fd mt-4 min-h-[400px] grid grid-cols-2 md:grid-cols-4 gap-3 cursor-pointer">
-            <div v-if="!loading" @click.prevent="$modal.show('form')" class="bg-gray-50 relative border text-gray-700 h-56 rounded-fd  flex items-center justify-center">
+        <div class="bg-white p-4 rounded-fd mt-4 min-h-[400px] grid grid-cols-2 md:grid-cols-4 gap-3 ">
+            <div v-if="!loading" @click.prevent="$modal.show('form')" class="cursor-pointer bg-gray-50 relative border text-gray-700 h-56 rounded-fd  flex items-center justify-center">
                 <div class="text-center">
                     <span class="text-[90px] block">+</span>
                 </div>
@@ -20,7 +20,7 @@
                     Tambah Integrasi
                 </div>
             </div>
-            <div v-for="(c,i) in listChannel" :key="i" v-show="!loading" @click="detailChannel=c, $modal.show('detailChannel')"  class="bg-gray-50 relative h-56 border text-gray-700 rounded-fd  flex items-center justify-center">
+            <div v-for="(c,i) in listChannel" :key="i" v-show="!loading" @click="detailAcc(c.id)"  class="bg-gray-50 cursor-pointer relative h-56 border text-gray-700 rounded-fd  flex items-center justify-center">
                 <div class="text-center">
                     <img src="@/assets/svg/shopeefood.svg"/>
                 </div>
@@ -76,22 +76,44 @@
                 </div>
               </div>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-8 mb-3">
-              <button @click.prevent="checkAcc(detailChannel.id)" :disabled="loadingCheck" class="rounded-md bg-green-500 text-white p-2">
-                <icon-base name="check"/>
-                Cek Integrasi
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-8 mb-3 text-xs">
+              <button @click.prevent="checkAcc(detailChannel.id)" :disabled="loadingCheck" class="rounded-md  text-white p-2" :class="loadingCheck?'bg-gray-300':'bg-green-500'" >
+                <div v-if="!loadingCheck">
+                  <icon-base name="check"/>
+                  Cek Integrasi
+                </div>
+                <div v-else>
+                  <loader-mini/>
+                </div>
+
               </button>
-              <button @click.prevent="reconnectAcc(detailChannel.id)" :disabled="loadingReconnect" class="rounded-md bg-purple-500 text-white p-2">
-                <icon-base name="repeat"/>
-                Reconnect
+              <button @click.prevent="reconnectAcc(detailChannel.id)" :disabled="loadingReconnect" class="rounded-md text-white p-2" :class="loadingReconnect?'bg-gray-300':'bg-purple-500'">
+                <div v-if="!loadingReconnect">
+                  <icon-base name="repeat"/>
+                  Reconnect
+                </div>
+                <div v-else>
+                  <loader-mini/>
+                </div>
               </button>
-              <button @click.prevent="syncAcc(detailChannel.id)" :disabled="loadingSync" class="rounded-md bg-blue-500 text-white p-2">
-                <icon-base name="refresh-cw"/>
-                Sinkron ulang outlet
+              <button @click.prevent="syncAcc(detailChannel.id)" :disabled="loadingSync" class="rounded-md bg-blue-500 text-white p-2" :class="loadingSync?'bg-gray-300':'bg-blue-500'">
+                <div v-if="!loadingSync">
+                  <icon-base name="refresh-cw"/>
+                  Sinkron ulang outlet
+                </div>
+                <div v-else>
+                  <loader-mini/>
+                </div>
+
               </button>
-              <button @click.prevent="deleteAcc(detailChannel.id)" :disabled="loadingDelete" class="rounded-md bg-red-500 text-white p-2">
-                <icon-base name="trash-2"/>
-                Hapus Integrasi
+              <button @click.prevent="deleteAcc(detailChannel.id)" :disabled="loadingDelete" class="rounded-md bg-red-500 text-white p-2" :class="loadingDelete?'bg-gray-300':'bg-red-500'">
+                <div v-if="!loadingDelete">
+                  <icon-base name="trash-2"/>
+                  Hapus Integrasi
+                </div>
+                <div v-else>
+                  <loader-mini/>
+                </div>
               </button>
             </div>
 
@@ -136,6 +158,24 @@ export default {
           this.listChannel = res.data.data.integrations
         } else {
           this.errorMsg = res.data
+        }
+        console.log(res)
+      } catch (e) {
+        this.loading = false
+        console.log(e)
+      }
+    },
+    // 'https://api.botfood.id/api/v1/me/integrations/detail/14' \
+    async detailAcc(id) {
+      try {
+        this.loadingDelete = true
+        const res = await this.$axios.get("me/integrations/detail/"+id);
+        this.loadingDelete = false
+        if(res.data.success) {
+          this.detailChannel = res.data.data
+          this.$modal.show('detailChannel')
+        } else {
+
         }
         console.log(res)
       } catch (e) {
