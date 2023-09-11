@@ -219,9 +219,9 @@
                         <button
                           class="m-1 focus:outline-none mr-2 bg-yellow-200 text-black-500 text-xs rounded-full px-2 py-1"
                           @click.prevent="showItem(channel.id, index)"><i class="fas fa-eye"></i> Menu</button>
-                        <button v-if="channel.channel == 'GoFood' && channel.gobiz_is_connected == 0"
+                        <!-- <button v-if="channel.channel == 'GoFood' && channel.gobiz_is_connected == 0"
                           class="m-1 focus:outline-none mr-2 bg-blue-200 text-black-500 text-xs rounded-full px-2 py-1"
-                          @click.prevent="checkSeamless(channel)"><i class="fas fa-upload"></i> Hubungkan</button>
+                          @click.prevent="checkSeamless(channel)"><i class="fas fa-upload"></i> Hubungkan</button> -->
                         <button v-if="channel.gobiz_is_connected == 1"
                           class="m-1 focus:outline-none mr-2 text-black-500 bg-green-300 text-xs rounded-full px-2 py-1"
                           @click.prevent="handleOpenStatus(channel, false)"><i class="fas fa-store"></i> Ubah

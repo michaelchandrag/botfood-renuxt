@@ -392,6 +392,152 @@
               </div>
             </div>
           </div>
+          <div class="flex flex-wrap -mx-3">
+            <div
+              class="w-full xl:w-12/12 lg:w-12/12 sm:w-12/12 p-2 cursor-pointer items-center flex flex-row gap-3"
+            >
+              <div
+                @click.prevent="
+                  filters.in_tags.fresh === false
+                    ? (filters.in_tags.fresh = true)
+                    : (filters.in_tags.fresh = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.fresh === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Kesegaran
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.fresh === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.hygiene === false
+                    ? (filters.in_tags.hygiene = true)
+                    : (filters.in_tags.hygiene = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.hygiene === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Kebersihan
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.hygiene === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.value === false
+                    ? (filters.in_tags.value = true)
+                    : (filters.in_tags.value = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.value === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Kualitas
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.value === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.cutlery === false
+                    ? (filters.in_tags.cutlery = true)
+                    : (filters.in_tags.cutlery = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.cutlery === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Alat Makan
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.cutlery === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.packaging === false
+                    ? (filters.in_tags.packaging = true)
+                    : (filters.in_tags.packaging = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.packaging === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Kemasan
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.packaging === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.taste === false
+                    ? (filters.in_tags.taste = true)
+                    : (filters.in_tags.taste = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.taste === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Rasa
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.taste === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.portion === false
+                    ? (filters.in_tags.portion = true)
+                    : (filters.in_tags.portion = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.portion === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Porsi
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.portion === true"
+                ></i>
+              </div>
+            </div>
+          </div>
           <div class="mt-6">
             <div class="table-responsive">
               <table class="table-auto w-full">
@@ -872,6 +1018,15 @@ export default {
         n_images: "",
         n_merchant_reply: "",
         is_reviewed: "",
+        in_tags: {
+          fresh: false,
+          hygiene: false,
+          value: false,
+          cutlery: false,
+          packaging: false,
+          taste: false,
+          portion: false,
+        }
       },
       selectedReview: {},
       isLoading: true,
@@ -995,7 +1150,20 @@ export default {
       if (refresh) {
         this.filters.page = 1;
       }
-      var queryParams = new URLSearchParams(this.filters).toString();
+
+      let my = Object.assign({}, this.filters);
+      const compiledInTags = []
+      for (var key in my.in_tags) {
+        const inTagValue = my.in_tags[key]
+        if (inTagValue == true) {
+          compiledInTags.push(`in_tags[]=${key}`)
+        }
+      }
+      delete my.in_tags
+
+      var queryInTags = compiledInTags.join("&")
+      var queryParams = new URLSearchParams(my).toString()+'&'+queryInTags;
+      console.log(queryParams)
       this.listLoading = true;
       try {
         const res = await this.$api.get(`me/reviews?${queryParams}`);
