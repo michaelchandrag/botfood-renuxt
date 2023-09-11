@@ -624,6 +624,9 @@
                     <th class="py-4 text-text" width="25%">
                       Balasan Merchant<i class="fas ml-2"></i>
                     </th>
+                    <th class="py-4 text-text" width="25%">
+                      Tag<i class="fas ml-2"></i>
+                    </th>
                     <th class="py-4 text-text" width="10%">
                       Gambar<i class="fas ml-2"></i>
                     </th>
@@ -709,6 +712,9 @@
                     </td>
                     <td class="text-center text-left p-4">
                       {{ review.comment ? review.comment : "-" }}
+                    </td>
+                    <td class="text-center text-left p-4">
+                      {{formatTags(review.tags)}}
                     </td>
                     <td class="text-center text-left p-4">
                       <span v-if="!allowedToReply(review)">
@@ -1205,6 +1211,31 @@ export default {
       this.imagePopUp = f;
       this.dialog = true;
     },
+    formatTags (tags) {
+      var result = ''
+      var dict = {
+        fresh: 'Kesegaran',
+        hygiene: 'Kebersihan',
+        value: 'Kualitas',
+        cutlery: 'Alat Makan',
+        packaging: 'Packaging',
+        taste: 'Rasa',
+        portion: 'Porsi',
+      }
+      if (tags == null) {
+        result = '-';
+      } else {
+        var compiledTags = []
+        for (var idx in tags) {
+          var tag = tags[idx]
+          if (dict[tag] !== undefined) {
+            compiledTags.push(dict[tag])
+          }
+        }
+        result = compiledTags.join(", ")
+      }
+      return result
+    }
   },
 };
 </script>
