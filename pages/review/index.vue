@@ -538,6 +538,112 @@
               </div>
             </div>
           </div>
+          <div class="flex flex-wrap -mx-3">
+            <div
+              class="w-full xl:w-12/12 lg:w-12/12 sm:w-12/12 p-2 cursor-pointer items-center flex flex-row gap-3"
+            >
+              <div
+                @click.prevent="
+                  filters.in_tags.order === false
+                    ? (filters.in_tags.order = true)
+                    : (filters.in_tags.order = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.order === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Pesanan Kurang
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.order === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.stock === false
+                    ? (filters.in_tags.stock = true)
+                    : (filters.in_tags.stock = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.stock === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Stok Habis
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.stock === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.picture === false
+                    ? (filters.in_tags.picture = true)
+                    : (filters.in_tags.picture = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.picture === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Tidak Sesuai Gambar
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.picture === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.confirmation === false
+                    ? (filters.in_tags.confirmation = true)
+                    : (filters.in_tags.confirmation = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.confirmation === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Konfirmasi Lambat
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.confirmation === true"
+                ></i>
+              </div>
+              <div
+                @click.prevent="
+                  filters.in_tags.price === false
+                    ? (filters.in_tags.price = true)
+                    : (filters.in_tags.price = false);
+                  getData();
+                "
+                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none flex justify-center"
+                :style="
+                  filters.in_tags.price === true
+                    ? 'color:#029835 !important;border:1px #029835 solid;'
+                    : ''
+                "
+              >
+                Harga
+                <i
+                  class="fa fa-check ml-2 pt-1"
+                  v-if="filters.in_tags.price === true"
+                ></i>
+              </div>
+            </div>
+          </div>
           <div class="mt-6">
             <div class="table-responsive">
               <table class="table-auto w-full">
@@ -621,10 +727,10 @@
                     <th class="py-4 text-text" width="25%">
                       Komentar<i class="fas ml-2"></i>
                     </th>
-                    <th class="py-4 text-text" width="25%">
+                    <th class="py-4 text-text" width="7%">
                       Balasan Merchant<i class="fas ml-2"></i>
                     </th>
-                    <th class="py-4 text-text" width="25%">
+                    <th class="py-4 text-text" width="18%">
                       Tag<i class="fas ml-2"></i>
                     </th>
                     <th class="py-4 text-text" width="10%">
@@ -714,9 +820,6 @@
                       {{ review.comment ? review.comment : "-" }}
                     </td>
                     <td class="text-center text-left p-4">
-                      {{formatTags(review.tags)}}
-                    </td>
-                    <td class="text-center text-left p-4">
                       <span v-if="!allowedToReply(review)">
                         {{ review.merchant_reply ? review.merchant_reply : "-" }}
                       </span>
@@ -727,6 +830,9 @@
                       >
                         <span>Balas ></span>
                       </button>
+                    </td>
+                    <td class="text-center text-left p-4">
+                      {{formatTags(review.tags)}}
                     </td>
                     <td class="text-center text-left p-4">
                       <div v-if="review.images" style="display: flex; flex-direction: column;justify-content: space-between;gap: 10px;align-items: center;align-content: center;">
@@ -1032,6 +1138,11 @@ export default {
           packaging: false,
           taste: false,
           portion: false,
+          order: false,
+          stock: false,
+          picture: false,
+          confirmation: false,
+          price: false,
         }
       },
       selectedReview: {},
@@ -1217,10 +1328,20 @@ export default {
         fresh: 'Kesegaran',
         hygiene: 'Kebersihan',
         value: 'Kualitas',
+        value_contamined: 'Terkontaminasi',
         cutlery: 'Alat Makan',
         packaging: 'Packaging',
+        packaging_bad: 'Kemasan Buruk',
+        packaging_good: 'Kemasan Bagus',
         taste: 'Rasa',
+        taste_good: 'Rasa Enak',
         portion: 'Porsi',
+        order_less: 'Pesanan Kurang',
+        out_of_stock: 'Stok Habis',
+        not_the_same_as_picture: 'Tidak Sama Dengan Gambar',
+        late_confirmation: 'Konfirmasi Lambat',
+        price_expensive: 'Harga Lebih Mahal',
+        price_appropriate: 'Harga Sesuai',
       }
       if (tags == null) {
         result = '-';
