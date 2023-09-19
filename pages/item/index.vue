@@ -242,6 +242,9 @@
                 <span v-if="outletChannel == 'AirAsiaFood'"
                   >AirAsiaFood</span
                 >
+                <span v-if="outletChannel == 'ESBOrder'"
+                  >ESB Order</span
+                >
                 <span v-if="outletChannel == null">Semua Platform</span>
               </div>
               <div>
@@ -304,6 +307,17 @@
                   class="bg-white px-4 py-3 w-full"
                 >
                   AirAsiaFood
+                </li>
+                <li
+                  v-if="brandSlug == 'grainsly'"
+                  @click.prevent="
+                    (channelDropdown = false),
+                      (outletChannel = 'ESBOrder'),
+                      getData()
+                  "
+                  class="bg-white px-4 py-3 w-full"
+                >
+                  ESBOrder
                 </li>
                 <li
                   @click.prevent="
@@ -786,9 +800,11 @@ export default {
       total_page: 1,
       sortValue: "asc",
       sortKey: "",
+      brandSlug: null,
     };
   },
   mounted() {
+    this.brandSlug = this.$store.state.user.user.slug
     this.getData(true);
   },
   watch: {

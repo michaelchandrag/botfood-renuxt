@@ -21,6 +21,7 @@
               <img v-if="data.channel=='GoFood'" class="h-32" src="~/assets/svg/gofood.svg" alt="">
               <img v-if="data.channel=='ShopeeFood'" class="h-32" src="~/assets/svg/shopeefood.svg" alt="">
               <img v-if="data.channel=='AirAsiaFood'" class="h-32" src="~/assets/svg/airasiafood.svg" alt="">
+              <img v-if="data.channel=='ESBOrder'" class="h-32" src="~/assets/svg/esborder.svg" alt="">
             </div>
             <div>
               <div>

@@ -42,7 +42,8 @@
             <outlet-overview :data="data.GrabFood" channel="GrabFood" />
             <outlet-overview :data="data.GoFood" channel="GoFood" />
             <outlet-overview :data="data.ShopeeFood" channel="ShopeeFood" />
-            <outlet-overview :data="data.AirAsiaFood" channel="AirAsiaFood" />
+            <outlet-overview v-if="brandSlug == 'grainsly'" :data="data.ESBOrder" channel="ESBOrder" />
+            <outlet-overview v-if="brandSlug != 'grainsly'" :data="data.AirAsiaFood" channel="AirAsiaFood" />
           </div>
           <div
             class="grid gap-4 mb-4 bg-white p-5 rounded-md sm:w-6/12"
@@ -183,6 +184,14 @@
                                   src="~/assets/svg/travelokaeats.svg"
                                   alt=""
                                 />
+                                <img
+                                  v-if="
+                                    detail.branch_channel_channel ==
+                                    'ESBOrder'
+                                  "
+                                  src="~/assets/svg/esborder.svg"
+                                  alt=""
+                                />
                                 <span
                                   class="mx-2 text-green-500"
                                   v-if="detail.item_in_stock == 1"
@@ -244,6 +253,7 @@ export default {
       listLoading: false,
       page: 1,
       total_page: 1,
+      brandSlug: null,
     };
   },
   middleware: ["auth-ssr"],
@@ -275,6 +285,7 @@ export default {
         if (res.data.success) {
           this.$store.commit("user/setUser", res.data.data);
           var data = res.data.data
+          this.brandSlug = data.slug
           if (data.wablas_group_url !== undefined && data.wablas_group_url != null) {
             this.wablasGroupUrl = data.wablas_group_url
             this.showInfo = true

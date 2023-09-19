@@ -50,6 +50,7 @@
                   <span v-if="outletChannel=='GoFood'">GoFood</span>
                   <span v-if="outletChannel=='ShopeeFood'">ShopeeFood</span>
                   <span v-if="outletChannel=='AirAsiaFood'">AirAsiaFood</span>
+                  <span v-if="outletChannel=='ESBOrder'">ESBOrder</span>
                   <span v-if="outletChannel==null">Semua Platform</span>
                 </div>
                 <div>
@@ -72,6 +73,8 @@
                     class="bg-white px-4 py-3 w-full">ShopeeFood</li>
                   <li @click.prevent="channelDropdown=false,outletChannel='AirAsiaFood',getData()"
                     class="bg-white px-4 py-3 w-full">AirAsiaFood</li>
+                    <li v-if="brandSlug == 'grainsly'" @click.prevent="channelDropdown=false,outletChannel='ESBOrder',getData()"
+                    class="bg-white px-4 py-3 w-full">ESBOrder</li>
                   <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
                     class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Platform</li>
                 </ul>
@@ -633,10 +636,12 @@
         },
         errorMessageSeamless: "",
         successMessageSeamless: "",
+        brandSlug: null,
       }
     },
     middleware: ['auth-ssr'],
     mounted() {
+      this.brandSlug = this.$store.state.user.user.slug
       this.getData(true)
     },
     watch: {

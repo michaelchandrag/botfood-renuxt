@@ -10,6 +10,7 @@
           <img v-if="channel == 'ShopeeFood'" class="icon-height" src="~/assets/svg/shopeefood.svg" alt="" style="max-width:none">
           <img v-if="channel == 'TravelokaEats'" class="icon-height" src="~/assets/svg/travelokaeats.svg" alt=""  style="max-width:none">
           <img v-if="channel == 'AirAsiaFood'" class="icon-height" src="~/assets/svg/airasiafood.svg" alt=""  style="max-width:none">
+          <img v-if="channel == 'ESBOrder'" class="icon-height" src="~/assets/svg/esborder.svg" alt=""  style="max-width:none">
         </div>
         <div class="ml-6 md:ml-6">
           <h3 class="block text-md md:text-xl">{{ channel }}</h3>
