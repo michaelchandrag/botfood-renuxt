@@ -25,6 +25,21 @@
             </button>
           </div>
         </div>
+        <div class="md:w-3/12">
+          <div class="">
+            <div class="">
+            <button v-if="isDownloadVariant"
+              class="cursor-not-allowed shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm">
+              <span class="animate-spin">Downloading Variant . . .</span>
+            </button>
+            <button v-if="!isDownloadVariant"
+              class="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded text-sm"
+              @click.prevent="downloadVariant()">
+              <span v-if="!isDownloadVariant">Download Variant</span>
+            </button>
+          </div>
+          </div>
+        </div>
       </div>
       <!-- <div class="md:flex md:items-center">
         <div class="md:w-1/3"></div>
@@ -43,6 +58,7 @@
     data() {
       return {
         isDownload: false,
+        isDownloadVariant: false,
         statusDropdown: false,
       }
     },
@@ -65,6 +81,28 @@
           var fileLink = document.createElement('a');
           fileLink.href = url;
           fileLink.setAttribute('download', 'laporan-harga.xlsx');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        })
+      },
+      downloadVariant() {
+        this.isDownloadVariant = true
+        var queryParams = {
+          xlsx: true
+        }
+        var queryParams = new URLSearchParams(queryParams).toString()
+        this.$axios({
+          method: 'GET',
+          url: `me/report/variant_price?${queryParams}`,
+          responseType: 'blob',
+        }).then(r => {
+          this.isDownloadVariant = false
+          const url = window.URL.createObjectURL(new Blob([r.data], {
+            'content-type': "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }));
+          var fileLink = document.createElement('a');
+          fileLink.href = url;
+          fileLink.setAttribute('download', 'laporan-harga-variant.xlsx');
           document.body.appendChild(fileLink);
           fileLink.click();
         })
