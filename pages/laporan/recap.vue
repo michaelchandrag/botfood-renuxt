@@ -51,7 +51,7 @@
     },
     mounted() {
       var me = this.$store.state.user.user
-      if (me.id == 34) {
+      if (me.id == 34 || me.id == 27) {
         this.isPromoAllowed = true
       }
     },
