@@ -107,6 +107,18 @@
     "child": []
   },
   {
+    "label": "Aktifitas",
+    "route": "aktifitas",
+    "isShow": true,
+    "link": "/aktifitas",
+    "icon": "activity",
+    "level": [
+      1,
+      2
+    ],
+    "child": []
+  },
+  {
     "label": "Variant",
     "route": "variant",
     "isShow": true,
