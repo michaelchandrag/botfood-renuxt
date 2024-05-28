@@ -91,12 +91,118 @@
 }
 
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(0 0 0 / 41%);
+  z-index: 999999999;
+}
+
+.modal-dialog {
+  margin: 0.5rem;
+  display: flex;
+  align-items: center;
+  width: 520px;
+  position: relative;
+  pointer-events: none;
+}
+.modal-close {
+ float: right;
+ font-size: 1.505rem;
+ font-weight: 700;
+ line-height: 1;
+ color: #000;
+ text-shadow: 0 1px 0 #fff;
+ opacity: .5;
+}
+.modal-content{
+  border-radius: 12px;
+  position: relative;
+  min-height: 40px;
+  box-shadow: 0 0 1px 0 rgba(82, 100, 132, .2), 0 8px 15.52px .48px rgba(28, 43, 70, .15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: var(--bs-modal-color);
+  pointer-events: auto;
+  background-color: #f5f6fa;
+  background-clip: padding-box;
+  border: 0 solid rgba(0, 0, 0, 0);
+  outline: 0;
+}
+.modal-header{
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dbdfea;
+  padding: 1rem 1.25rem;
+}
+.modal-body{
+  position: relative;
+  flex: 1 1 auto;
+  padding:1.25rem;
+}
+.modal-footer{
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid #dbdfea;
+  padding: 1rem 1.25rem;
+}
+
+
 @media(min-width:1400px) {
-    .right-sidebar-calendar{
-      width: 28%;
-    }
-    .wrapper-content.have-right-sidebar{
-      padding-right: calc(28% + 40px);
-      padding-left: 290px;
-    }
+  .right-sidebar-calendar{
+    width: 28%;
+  }
+  .wrapper-content.have-right-sidebar{
+    padding-right: calc(28% + 40px);
+    padding-left: 290px;
+  }
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 520px;
+    margin-right: auto;
+    margin-left: auto;
+    min-height: calc(100% - 3.5rem);
+  }
+  .modal-header{
+    padding: 1rem 1.5rem;
+  }
+  .modal-footer{
+    padding: 1rem 1.5rem;
+  }
+  .modal-body {
+    padding: 1.5rem 1.5rem;
+  }
+  .modal-sm{
+    width: 320px;
+  }
+  .modal-lg {
+    width: 720px;
+  }
+  .modal-xl {
+    width: 980px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-md {
+    max-width: 600px;
+  }
 }
