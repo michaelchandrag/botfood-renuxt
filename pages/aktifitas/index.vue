@@ -33,17 +33,8 @@
             </div>
             <div data-parent="channel-option" class="is-dropdown z-50 absolute shadow-sm rounded-b-fds bg-white rounded-lg mt-1 border-solid border-1 border-gray-200 hidden">
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 text-left">
-                <li>
-                  <a href="#" @click.prevent="handleSelectFilter('channel', 'GrabFood')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">GrabFood</a>
-                </li>
-                <li>
-                  <a href="#" @click.prevent="handleSelectFilter('channel', 'GoFood')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">GoFood</a>
-                </li>
-                <li>
-                  <a href="#" @click.prevent="handleSelectFilter('channel', 'ShopeeFood')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">ShopeeFood</a>
-                </li>
-                <li>
-                  <a href="#" @click.prevent="handleSelectFilter('channel', 'AirAsiaFood')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">AirAsiaFood</a>
+                <li v-for="channel in channels">
+                  <a href="#" @click.prevent="handleSelectFilter('channel', channel.key)" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">{{channel.text}}</a>
                 </li>
                 <li>
                   <a href="#" @click.prevent="handleSelectFilter('channel')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">Semua Channel</a>
@@ -151,124 +142,105 @@
 </template>
 
 <script>
-  import { ref, reactive, onMounted } from 'vue'
-  import { useRouter, useRoute } from 'vue-router'
-
-  import { sleep, handleDropdownCustom } from '@/lib/helper'
+  import { sleep, handleDropdownCustom, handlePaginateCustom } from '@/lib/helper'
 
   import Paginate from '@/components/paginate'
   import Loader from '@/components/loader'
   import Alert from '@/components/alert'
 
   export default {
-    setup(){
-      let load = reactive({status: true, msg:''});
-      let activities = ref([]);
-      let pagination = reactive({
-        limit:10,
-        count:0,
-        max_page: 10,
-        count_page : 0,
-        ready: false,
-        links: [],
-        link_befs : [],
-        prev: null,
-        next:null,
-      });
-      let filter = reactive({outlet:'', item:'', channel:'', date:'', reason:''})
-      let label_filter = reactive({channel:'', reason:''})
+    data(){
+      return{
+        load: {status: true, msg:''},
+        activities : [],
+        pagination : {
+          limit:10,
+          count:0,
+          max_page: 10,
+          count_page : 0,
+          ready: false,
+          links: [],
+          link_befs : [],
+          prev: null,
+          next:null,
+        },
+        filter : {outlet:'', item:'', channel:'', date:'', reason:''},
+        label_filter : {channel:'', reason:''},
+        filter_date: this.$moment().subtract(1, "days").format('YYYY-MM-DD'),
+        channels:[
+          {key: 'GrabFood', text: 'GrabFood'},
+          {key: 'GoFood', text: 'GoFood'},
+          {key: 'ShopeeFood', text: 'ShopeeFood'},
+          {key: 'AirAsiaFood', text: 'AirAsiaFood'},
+        ],
+      };
+    },
+    mounted() {
+      this.filter.date = this.filter_date;
+      this.loadList();
+    },
+    methods: {
+      sleep, handleDropdownCustom, handlePaginateCustom,
 
-      onMounted(() => { })
+      async loadList(is_load = false, from_pagination = false) {
+        if(is_load) await this.handleLoad(true, '');
+        if(!from_pagination) await this.initPagination(true);
 
-      async function handleLoad(is_load = false, msg = ''){
-        load.msg = msg;
-        await sleep(100);
-        load.status = is_load;
-      }
-
-      async function initPagination(is_reset = false){
-        if(is_reset){
-          pagination.page = 1;
-          pagination.limit = 10;
-          pagination.count = 0;
-        }else{
-          pagination.count_page = Math.ceil(parseInt(pagination.count)/parseInt(pagination.limit))
-          var pg = (pagination.page>pagination.max_page) ? pagination.page : 1, nPg = 0;
-          var is_links = [], is_link_befs = [];
-          for(var cpg = pg; cpg<=pagination.count_page; cpg++){
-            is_links.push(cpg);
-            if(nPg==10){ break; }
-            nPg++;
-          }
-
-          if(pg>pagination.max_page){
-            let forBpg = (nPg<3) ? 10 : 5, forBpg2 = (nPg<3) ? 5 : 3;
-            for(var bpg = pg-forBpg; bpg<pg-forBpg2; bpg++){
-             is_link_befs.push(bpg);
-           }
-         }
-
-         pagination.links = is_links;
-         pagination.link_befs = is_link_befs;
-         pagination.prev =  (pagination.page>1) ? parseInt(pagination.page)-1 : false
-         pagination.next = (pagination.page<pagination.count_page) ? parseInt(pagination.page)+1 : false;
-         pagination.ready = (pagination.count_page > 1) ? true : false;
-       }
-     }
-
-     async function handleSelectFilter(source, value = '', label = null){
-      if(!label) label = value;
-      filter[source] = value;
-      label_filter[source] = label;
-      await handleDropdownCustom(`${source}-option`);
-    }
-
-    return {load, activities, handleLoad, filter, label_filter, pagination, initPagination, handleDropdownCustom, handleSelectFilter}
-  },
-  data() {
-    return{
-      filter_date: this.$moment().subtract(1, "days").format('YYYY-MM-DD'),
-    }
-  },
-  mounted() {
-    this.filter.date = this.filter_date;
-    this.loadList();
-  },
-  methods: {
-    async loadList(is_load = false, from_pagination = false) {
-      if(is_load) await this.handleLoad(true, '');
-      if(!from_pagination) await this.initPagination(true);
-
-      var params = `me/activity/warning_item_list?page=${this.pagination.page}&data=`;
-      params = `${params}&date=${this.filter.date}&branch_channel_name=${this.filter.outlet}&item_name=${this.filter.item}&branch_channel_channel=${this.filter.channel}&n_reason=${this.filter.reason}`;
-      this.$axios.get(params).then( async (respone) => {
-        var resData = respone.data;
-        var resMsg = (!resData.success || (resData.success && (!resData.data || !resData.data.recap_warning_activities || !resData.data.recap_warning_activities.length))) ? 'Tidak ada data ditemukan' : 'Data loaded';
-        if(resData.success && resData.data){
-          resData = resData.data;
-          if(resData.recap_warning_activities && resData.recap_warning_activities.length){
-            let countData = (resData.total_data) ? resData.total_data : resData.recap_warning_activities.length;
-            let limitData = (resData.limit_data) ? resData.limit_data : 20;
-            resData.recap_warning_activities.forEach((act, idx) =>{
+        var params = `me/activity/warning_item_list?page=${this.pagination.page}&data=`;
+        params = `${params}&date=${this.filter.date}&branch_channel_name=${this.filter.outlet}&item_name=${this.filter.item}&branch_channel_channel=${this.filter.channel}&n_reason=${this.filter.reason}`;
+        this.$axios.get(params).then( async (respone) => {
+          var resData = respone.data;
+          var resMsg = (!resData.success || (resData.success && (!resData.data || !resData.data.recap_warning_activities || !resData.data.recap_warning_activities.length))) ? 'Tidak ada data ditemukan' : 'Data loaded';
+          if(resData.success && resData.data){
+            resData = resData.data;
+            if(resData.recap_warning_activities && resData.recap_warning_activities.length){
+              let countData = (resData.total_data) ? resData.total_data : resData.recap_warning_activities.length;
+              let limitData = (resData.limit_data) ? resData.limit_data : 20;
+              resData.recap_warning_activities.forEach((act, idx) =>{
                 if(!act.reason){
                   resData.recap_warning_activities[idx].reason = '';
                 }
-            })
-            this.activities = resData.recap_warning_activities;
-            this.pagination.count = parseInt(countData);
-            this.pagination.limit = parseInt(limitData);
-            await this.initPagination();
+              })
+              this.activities = resData.recap_warning_activities;
+              this.pagination.count = parseInt(countData);
+              this.pagination.limit = parseInt(limitData);
+              await this.initPagination();
+            }
           }
-        }
-        return this.handleLoad(false, resMsg);
-      }).catch( error => {
-        return this.handleLoad(false, 'Failed process data or data not found');
-      });
-    },
-    async handlePagination(page){
-      this.pagination.page = page;
-      return this.loadList(true, true);
-    }
+          return this.handleLoad(false, resMsg);
+        }).catch( error => {
+          return this.handleLoad(false, 'Failed process data or data not found');
+        });
+      },
+      async handlePagination(page){
+        this.pagination.page = page;
+        return this.loadList(true, true);
+      },
+      async handleLoad(is_load = false, msg = ''){
+        this.load.msg = msg;
+        await this.sleep(100);
+        this.load.status = is_load;
+      },
+      async initPagination(is_reset = false){
+        if(is_reset){
+          this.pagination.page = 1;
+          this.pagination.limit = 10;
+          this.pagination.count = 0;
+        }else{
+          var parse_pagination = await handlePaginateCustom(this.pagination);
+          this.pagination.links = parse_pagination.links;
+          this.pagination.link_befs = parse_pagination.link_befs;
+          this.pagination.prev =  parse_pagination.prev;
+          this.pagination.next = parse_pagination.next;
+          this.pagination.ready = parse_pagination.ready;
+       }
+     },
+     async handleSelectFilter(source, value = '', label = null){
+        if(!label) label = value;
+        this.filter[source] = value;
+        this.label_filter[source] = label;
+        await this.handleDropdownCustom(`${source}-option`);
+      },
   },
   watch: {
     filter_date: {
