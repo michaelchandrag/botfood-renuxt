@@ -162,6 +162,9 @@
   border-top: 1px solid #dbdfea;
   padding: 1rem 1.25rem;
 }
+.min-h-150{
+  min-height: 150px;
+}
 
 
 @media(min-width:1400px) {
