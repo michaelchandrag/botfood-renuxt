@@ -335,6 +335,9 @@
         this.load.msg = msg;
         await this.sleep(100);
         this.load.status = is_load;
+        if(is_load){
+          this.activities = [];
+        }
       },
       async initPagination(is_reset = false){
         if(is_reset){
