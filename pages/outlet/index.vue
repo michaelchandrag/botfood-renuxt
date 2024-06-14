@@ -195,7 +195,9 @@
                 <tbody v-if="!listLoading">
                   <tr v-for="(channel, index) in data.branch_channels" :key="channel.id"
                     class="hover:bg-gray-200 border-b">
-                    <td class="text-center text-text p-4">{{channel.name}}</td>
+                    <td class="text-center text-text p-4">
+                      <a :href="channel.shareable_link" target="_blank" class="text-blue-500 hover:underline">{{channel.name}}</a>
+                    </td>
                     <td class="text-center text-text p-4">{{channel.channel}}
                       <span v-if="channel.gobiz_is_connected == 1"
                         class="m-1 pr-1 pl-1 focus:outline-none bg-green-200 text-black-500 text-xs rounded-full"
