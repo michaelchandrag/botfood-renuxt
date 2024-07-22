@@ -128,7 +128,7 @@
                         </div>
                       </td>
                       <td class="p-2 pr-4 text-slate-500 dark:text-slate-400 w-2/6">
-                        <input type="text" @keyup.prevent="handleUpdateItem('remarks', idx)" v-model="activities[idx].remarks" :id="`activity-remarks-${idx}`" :class="[(activity.process_remarks === 1) ? 'bg-yellow-50' : ( (activity.process_remarks === 2) ? 'bg-red-50' : 'bg-white' )]" class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:border-gray-500 text-sm" placeholder="Remark..">
+                        <input type="text" @change.prevent="handleUpdateItem('remarks', idx)" v-model="activities[idx].remarks" :id="`activity-remarks-${idx}`" :class="[(activity.process_remarks === 1) ? 'bg-yellow-50' : ( (activity.process_remarks === 2) ? 'bg-red-50' : 'bg-white' )]" class="appearance-none block w-full text-gray-700 border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:border-gray-500 text-sm" placeholder="Remark..">
                       </td>
                     </tr>
                   </tbody>
@@ -378,6 +378,7 @@
           if(resData.success && resData.data){
             this.activities[index][`process_${source}`] = 0;
             this.activities[index][`${source}_before`] = this.activities[index][source];
+            this.$toast.success("Berhasil menyimpan data", { duration: 1500 });
           }else{
             this.handleAlertCustom(resData, false, false);
             return this.callbackFailUpdateItem(source, index);
