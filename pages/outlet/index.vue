@@ -63,7 +63,7 @@
                 </div>
 
               </div>
-              <div v-if="channelDropdown" class="absolute w-full shadow-sm rounded-b-fds">
+              <div v-if="channelDropdown" class="dropdown-item absolute w-full shadow-sm rounded-b-fds">
                 <ul class="w-full border-gray-300">
                   <li @click.prevent="channelDropdown=false,outletChannel='GrabFood',getData()"
                     class="bg-white px-4 py-3 w-full">GrabFood</li>
@@ -100,7 +100,7 @@
                 </div>
 
               </div>
-              <div v-if="statusDropdown" class="absolute w-full shadow-sm rounded-b-fds">
+              <div v-if="statusDropdown" class="dropdown-item absolute w-full shadow-sm rounded-b-fds">
                 <ul class="w-full border-gray-300">
                   <li @click.prevent="statusDropdown=false,isOutletOpen=1,getData()" class="bg-white px-4 py-3 w-full">
                     Buka</li>
