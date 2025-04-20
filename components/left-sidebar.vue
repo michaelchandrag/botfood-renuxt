@@ -1,6 +1,6 @@
 <template>
-  <div class="fixed top-0 bg-white h-screen pt-2 sidebar-group">
-    <div class="flex justify-between items-center" :class="showNav ? '' : 'pb-8'">
+  <div id="header-main" class="fixed top-0 bg-white h-screen pt-2 sidebar-group">
+    <div id="header-content" class="flex justify-between items-center" :class="showNav ? '' : 'pb-8'">
       <nuxt-link to="/">
         <img src="~/assets/svg/logo.svg" class="h-6" alt="" />
       </nuxt-link>

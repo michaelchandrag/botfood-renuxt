@@ -1,6 +1,6 @@
 <template>
   <div v-if="!loading">
-    <h1><u>Perkembangan Rating</u></h1>
+    <h1 class="mb-7 md:mb-0"><u>Perkembangan Rating</u></h1>
     <client-only>
       <ApexChart
         width="100%"
