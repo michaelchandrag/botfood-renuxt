@@ -607,7 +607,7 @@
                   >
                 </td>
                 <td class="text-center text-text p-4 rounded-r-fds">
-                  {{ item.branch_channel_name }}
+                  <a :href="item.shareable_link" target="_blank" class="text-blue-500 hover:underline">{{item.branch_channel_name}}</a>
                 </td>
                 <td class="text-text text-center">
                   {{ item.branch_channel_channel }}
