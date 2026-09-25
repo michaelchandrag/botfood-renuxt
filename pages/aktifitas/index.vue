@@ -36,12 +36,12 @@
                 </svg></div>
               </div>
               <div data-parent="channel-option" class="is-dropdown z-50 absolute w-full shadow-lg rounded-lg border border-2 border-gray-200 hidden bg-white">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 text-left">
+                <ul class="py-2 text-sm text-gray-700 text-left">
                   <li v-for="channel in channels">
-                    <a href="#" @click.prevent="handleSelectFilter('channel', channel.key)" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">{{channel.text}}</a>
+                    <a href="#" @click.prevent="handleSelectFilter('channel', channel.key)" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-normal">{{channel.text}}</a>
                   </li>
                   <li>
-                    <a href="#" @click.prevent="handleSelectFilter('channel')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">Semua Channel</a>
+                    <a href="#" @click.prevent="handleSelectFilter('channel')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-normal">Semua Channel</a>
                   </li>
                 </ul>
               </div>
@@ -56,15 +56,36 @@
                 </svg></div>
               </div>
               <div data-parent="reason-option" class="is-dropdown z-50 absolute w-full shadow-lg rounded-lg border border-2 border-gray-200 hidden bg-white">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 text-left">
+                <ul class="py-2 text-sm text-gray-700 text-left">
                   <li>
-                    <a href="#" @click.prevent="handleSelectFilter('reason', 0, 'Dengan Alasan')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">Dengan Alasan</a>
+                    <a href="#" @click.prevent="handleSelectFilter('reason', 0, 'Dengan Alasan')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-normal">Dengan Alasan</a>
                   </li>
                   <li>
-                    <a href="#" @click.prevent="handleSelectFilter('reason', 1, 'Tanpa Alasan')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">Tanpa Alasan</a>
+                    <a href="#" @click.prevent="handleSelectFilter('reason', 1, 'Tanpa Alasan')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-normal">Tanpa Alasan</a>
                   </li>
                   <li>
-                    <a href="#" @click.prevent="handleSelectFilter('reason')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-normal">Semua Status</a>
+                    <a href="#" @click.prevent="handleSelectFilter('reason')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-normal">Semua Status</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Filter Alasan (dari API /reasons) -->
+            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
+              <div id="reason_key-option" @click.prevent="handleDropdownCustom('reason_key-option')" class="border flex py-2 px-4 border-gray-300 rounded-lg w-full focus:outline-none bg-white">
+                <div class="flex-auto text-sm truncate">
+                  <span>{{ (!label_filter.reason_key) ? 'Semua Alasan' : label_filter.reason_key }}</span>
+                </div>
+                <div><svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
+                </svg></div>
+              </div>
+              <div data-parent="reason_key-option" class="is-dropdown z-50 absolute w-full shadow-lg rounded-lg border border-2 border-gray-200 hidden bg-white" style="max-height:300px; overflow-y:auto;">
+                <ul class="py-2 text-sm text-gray-700 text-left">
+                  <li>
+                    <a href="#" @click.prevent="handleSelectFilter('reason_key')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-normal">Semua Alasan</a>
+                  </li>
+                  <li v-for="r in reasons" :key="r.key">
+                    <a href="#" @click.prevent="handleSelectFilter('reason_key', r.key, r.text)" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-normal">{{ r.text }}</a>
                   </li>
                 </ul>
               </div>
@@ -249,14 +270,13 @@
           prev: null,
           next:null,
         },
-        filter : {outlet:'', item:'', channel:'', date:'', reason:''},
-        label_filter : {channel:'', reason:''},
+        filter : {outlet:'', item:'', channel:'', date:'', reason:'', reason_key:''},
+        label_filter : {channel:'', reason:'', reason_key:''},
         filter_date: this.$moment().format('YYYY-MM-DD'),
         channels:[
           {key: 'GrabFood', text: 'GrabFood'},
           {key: 'GoFood', text: 'GoFood'},
           {key: 'ShopeeFood', text: 'ShopeeFood'},
-          {key: 'AirAsiaFood', text: 'AirAsiaFood'},
           ],
         reasons: [],
         openMassal: false,
@@ -276,6 +296,7 @@
     },
     mounted() {
       this.filter.date = this.filter_date;
+      this.loadReason();
       this.loadList();
     },
     methods: {
@@ -287,6 +308,7 @@
 
         var this_endpoint = `me/activity/warning_item_list?page=${this.pagination.page}&data=${this.pagination.limit}`;
         this_endpoint = `${this_endpoint}&date=${this.filter.date}&branch_channel_name=${this.filter.outlet}&item_name=${this.filter.item}&branch_channel_channel=${this.filter.channel}&n_reason=${this.filter.reason}`;
+        if(this.filter.reason_key) this_endpoint += `&reason=${encodeURIComponent(this.filter.reason_key)}`;
 
         await this.sleep(100);
         this.$axios.get(this_endpoint).then( async (respone) => {
@@ -312,7 +334,6 @@
               this.pagination.limit = parseInt(limitData);
               await this.initPagination();
             }
-            await this.loadReason();
           }
           return this.handleLoad(false, resMsg);
         }).catch( error => {
