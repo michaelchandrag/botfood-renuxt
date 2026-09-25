@@ -21,12 +21,15 @@
         <div class="h-6"></div>
         <div v-if="isLoading" class="bg-gray-300 h-64 rounded-fd animate-pulse"></div>
         <!-- table start -->
-        <div v-if="!isLoading" class="bg-white rounded-fd p-8 text-text">
+        <div v-if="!isLoading" class="bg-white rounded-fd p-4 sm:p-8 text-text">
 
-          <div class="h-2">
-          </div>
+          <!-- overlay transparan: klik di luar dropdown untuk menutup -->
+          <div v-if="channelDropdown || statusDropdown" class="fixed inset-0 z-40"
+            @click="channelDropdown=false; statusDropdown=false"></div>
+
           <div class="flex flex-wrap -m-2">
-            <div class="w-full xl:w-4/12 lg:w-4/12 p-2">
+            <!-- search -->
+            <div class="w-full lg:w-4/12 p-2">
               <div class="relative">
                 <form @submit.prevent="getData">
                   <input @change.prevent="getData" type="text"
@@ -42,90 +45,90 @@
                 </div>
               </div>
             </div>
-            <div class="w-full xl:w-3/12 lg:w-3/12  sm:w-6/12 p-2 cursor-pointer items-center relative">
-              <div @click.prevent="channelDropdown?channelDropdown=false:channelDropdown=true"
-                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
-                <div class="flex-auto">
-                  <span v-if="outletChannel=='GrabFood'">GrabFood</span>
-                  <span v-if="outletChannel=='GoFood'">GoFood</span>
-                  <span v-if="outletChannel=='ShopeeFood'">ShopeeFood</span>
-                  <span v-if="outletChannel=='AirAsiaFood'">AirAsiaFood</span>
-                  <span v-if="outletChannel=='ESBOrder'">ESBOrder</span>
-                  <span v-if="outletChannel==null">Semua Platform</span>
-                </div>
-                <div>
-                  <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
+
+            <!-- channel -->
+            <div class="w-full sm:w-6/12 lg:w-3/12 p-2">
+              <div class="relative cursor-pointer">
+                <div @click.prevent="channelDropdown=!channelDropdown; statusDropdown=false"
+                  class="border flex items-center py-3 px-4 border-gray-300 rounded-lg w-full bg-white">
+                  <div class="flex-auto truncate min-w-0">
+                    <span v-if="outletChannel=='GrabFood'">GrabFood</span>
+                    <span v-if="outletChannel=='GoFood'">GoFood</span>
+                    <span v-if="outletChannel=='ShopeeFood'">ShopeeFood</span>
+                    <span v-if="outletChannel=='AirAsiaFood'">AirAsiaFood</span>
+                    <span v-if="outletChannel=='ESBOrder'">ESBOrder</span>
+                    <span v-if="outletChannel==null">Semua Platform</span>
+                  </div>
+                  <svg class="ml-2 flex-none" width="8" height="5" viewBox="0 0 8 5" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
                       fill="#9E9E9E" />
                   </svg>
                 </div>
-
-              </div>
-              <div v-if="channelDropdown" class="dropdown-item absolute w-full shadow-sm rounded-b-fds">
-                <ul class="w-full border-gray-300">
-                  <li @click.prevent="channelDropdown=false,outletChannel='GrabFood',getData()"
-                    class="bg-white px-4 py-3 w-full">GrabFood</li>
-                  <li @click.prevent="channelDropdown=false,outletChannel='GoFood',getData()"
-                    class="bg-white px-4 py-3 w-full">GoFood</li>
-                  <li @click.prevent="channelDropdown=false,outletChannel='ShopeeFood',getData()"
-                    class="bg-white px-4 py-3 w-full">ShopeeFood</li>
-                  <li @click.prevent="channelDropdown=false,outletChannel='AirAsiaFood',getData()"
-                    class="bg-white px-4 py-3 w-full">AirAsiaFood</li>
+                <div v-if="channelDropdown"
+                  class="absolute left-0 right-0 mt-1 z-50 bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
+                  <ul class="w-full text-gray-700">
+                    <li @click.prevent="channelDropdown=false,outletChannel='GrabFood',getData()"
+                      class="px-4 py-3 hover:bg-gray-100">GrabFood</li>
+                    <li @click.prevent="channelDropdown=false,outletChannel='GoFood',getData()"
+                      class="px-4 py-3 hover:bg-gray-100">GoFood</li>
+                    <li @click.prevent="channelDropdown=false,outletChannel='ShopeeFood',getData()"
+                      class="px-4 py-3 hover:bg-gray-100">ShopeeFood</li>
+                    <li @click.prevent="channelDropdown=false,outletChannel='AirAsiaFood',getData()"
+                      class="px-4 py-3 hover:bg-gray-100">AirAsiaFood</li>
                     <li v-if="brandSlug == 'grainsly'" @click.prevent="channelDropdown=false,outletChannel='ESBOrder',getData()"
-                    class="bg-white px-4 py-3 w-full">ESBOrder</li>
-                  <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Platform</li>
-                </ul>
+                      class="px-4 py-3 hover:bg-gray-100">ESBOrder</li>
+                    <li @click.prevent="channelDropdown=false,outletChannel=null,getData()"
+                      class="px-4 py-3 hover:bg-gray-100">Semua Platform</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
-
-            <div class="w-full xl:w-3/12 lg:w-3/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
-              <div @click.prevent="statusDropdown?statusDropdown=false:statusDropdown=true"
-                class="border flex py-3 px-4 border-gray-300 rounded-lg w-full focus:outline-none">
-                <div class="flex-auto">
-                  <span v-if="isOutletOpen">Buka</span>
-                  <span v-if="isOutletOpen==false">Tutup</span>
-                  <span v-if="isOutletOpen==null">Semua Status (Buka/Tutup)</span>
-                </div>
-                <div>
-                  <svg class="float-right mt-2" width="8" height="5" viewBox="0 0 8 5" fill="none"
+            <!-- status -->
+            <div class="w-full sm:w-6/12 lg:w-3/12 p-2">
+              <div class="relative cursor-pointer">
+                <div @click.prevent="statusDropdown=!statusDropdown; channelDropdown=false"
+                  class="border flex items-center py-3 px-4 border-gray-300 rounded-lg w-full bg-white">
+                  <div class="flex-auto truncate min-w-0">
+                    <span v-if="isOutletOpen">Buka</span>
+                    <span v-if="isOutletOpen==false">Tutup</span>
+                    <span v-if="isOutletOpen==null">Semua Status (Buka/Tutup)</span>
+                  </div>
+                  <svg class="ml-2 flex-none" width="8" height="5" viewBox="0 0 8 5" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M0.710051 1.71L3.30005 4.3C3.69005 4.69 4.32005 4.69 4.71005 4.3L7.30005 1.71C7.93005 1.08 7.48005 0 6.59005 0H1.41005C0.520051 0 0.0800515 1.08 0.710051 1.71Z"
                       fill="#9E9E9E" />
                   </svg>
                 </div>
-
-              </div>
-              <div v-if="statusDropdown" class="dropdown-item absolute w-full shadow-sm rounded-b-fds">
-                <ul class="w-full border-gray-300">
-                  <li @click.prevent="statusDropdown=false,isOutletOpen=1,getData()" class="bg-white px-4 py-3 w-full">
-                    Buka</li>
-                  <li @click.prevent="statusDropdown=false,isOutletOpen=0,getData()" class="bg-white px-4 py-3 w-full">
-                    Tutup</li>
-                  <li @click.prevent="statusDropdown=false,isOutletOpen=null,getData()"
-                    class="bg-white px-4 py-3 w-full rounded-b-lg">Semua Status (Buka/Tutup)</li>
-                </ul>
+                <div v-if="statusDropdown"
+                  class="absolute left-0 right-0 mt-1 z-50 bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
+                  <ul class="w-full text-gray-700">
+                    <li @click.prevent="statusDropdown=false,isOutletOpen=1,getData()" class="px-4 py-3 hover:bg-gray-100">
+                      Buka</li>
+                    <li @click.prevent="statusDropdown=false,isOutletOpen=0,getData()" class="px-4 py-3 hover:bg-gray-100">
+                      Tutup</li>
+                    <li @click.prevent="statusDropdown=false,isOutletOpen=null,getData()"
+                      class="px-4 py-3 hover:bg-gray-100">Semua Status (Buka/Tutup)</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
-            <div class="w-full xl:w-2/12 cursor-pointer items-center relative">
-              <div class="">
-                <button v-if="isDownload"
-                  class="w-full cursor-not-allowed  rounded-fd py-4 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none">
-                  <span class="animate-spin">Downloading . . .</span>
-
-                </button>
-                <button v-if="!isDownload"
-                  class="w-full rounded-fd py-4 border-2 border-green-food bg-green-200 text-green-food focus:outline-none"
-                  @click.prevent="download()">
-                  <span v-if="!isDownload">Download</span>
-                </button>
-              </div>
-          </div>
+            <!-- download -->
+            <div class="w-full lg:w-2/12 p-2">
+              <button v-if="isDownload"
+                class="w-full cursor-not-allowed rounded-lg py-3 border-2 border-gray-500 bg-gray-200 text-gray-500 focus:outline-none whitespace-nowrap">
+                <span class="animate-spin">Downloading . . .</span>
+              </button>
+              <button v-if="!isDownload"
+                class="w-full rounded-lg py-3 border-2 border-green-food bg-green-200 text-green-food focus:outline-none whitespace-nowrap"
+                @click.prevent="download()">
+                <span>Download</span>
+              </button>
+            </div>
 
           </div>
           <div class="mt-6">

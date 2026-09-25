@@ -51,16 +51,7 @@
               <div class="w-1/2">
                 <input
                   type="text"
-                  class="
-                    py-2
-                    mt-1
-                    px-3
-                    text-sm
-                    border border-gray-300
-                    rounded-lg
-                    w-full
-                    focus:outline-none
-                  "
+                  class="py-2 mt-1 px-3 text-sm border border-gray-300 rounded-lg w-full focus:outline-none"
                   v-model="search"
                   placeholder="Cari . . . "
                 />
@@ -70,26 +61,12 @@
               <div class="flex items-center gap-x-3">
                 <div
                   @click.prevent="selectAllAction()"
-                  class="
-                    cursor-pointer
-                    h-6
-                    w-6
-                    flex
-                    items-center
-                    justify-center
-                    rounded-md
-                    border-2
-                  "
-                  :class="
-                    selectAll
-                      ? 'border-green-food bg-green-200'
-                      : 'border-gray-500'
-                  "
+                  class="cursor-pointer h-6 w-6 flex items-center justify-center rounded-md border-2"
+                  :class="selectAll ? 'border-green-food bg-green-200' : 'border-gray-500'"
                 >
-                  <i
-                    v-if="selectAll"
-                    class="fas text-green-food fa-check text-xs"
-                  ></i>
+                  <svg v-if="selectAll" class="h-4 w-4 text-green-food" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
                 </div>
                 <span> Pilih Semua </span>
               </div>
@@ -99,7 +76,7 @@
 
         <tbody v-if="!isLoadingBranch && branchs.length > 0">
           <tr
-            v-for="(branch, index) in filtered"
+            v-for="branch in filtered"
             :key="branch.branch_id"
             class="hover:bg-gray-200 border-b"
           >
@@ -108,31 +85,13 @@
             </td>
             <td class="text-left text-text p-4 rounded-r-fds">
               <div
-                class="
-                  cursor-pointer
-                  h-6
-                  w-6
-                  flex
-                  items-center
-                  justify-center
-                  rounded-md
-                  border-2
-                "
-                :class="
-                  branch.user_branch_is_active
-                    ? 'border-green-food bg-green-200'
-                    : 'border-gray-500'
-                "
-                @click.prevent="
-                  branchs[index].user_branch_is_active
-                    ? (branchs[index].user_branch_is_active = 0)
-                    : (branchs[index].user_branch_is_active = 1)
-                "
+                class="cursor-pointer h-6 w-6 flex items-center justify-center rounded-md border-2"
+                :class="branch.user_branch_is_active ? 'border-green-food bg-green-200' : 'border-gray-500'"
+                @click.prevent="branch.user_branch_is_active = branch.user_branch_is_active ? 0 : 1"
               >
-                <i
-                  v-if="branch.user_branch_is_active"
-                  class="fas text-green-food fa-check text-xs"
-                ></i>
+                <svg v-if="branch.user_branch_is_active" class="h-4 w-4 text-green-food" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
               </div>
             </td>
           </tr>
@@ -141,9 +100,7 @@
         <tbody v-if="isLoadingBranch">
           <tr v-for="i in 10" :key="i" class="mb-3">
             <td colspan="8" class="py-1">
-              <div
-                class="bg-gray-300 rounded-lg w-full h-8 animate animate-pulse"
-              ></div>
+              <div class="bg-gray-300 rounded-lg w-full h-8 animate animate-pulse"></div>
             </td>
           </tr>
         </tbody>
@@ -157,14 +114,7 @@
 
       <button
         @click.prevent="saveBranchsUser(selectedUser.user_id)"
-        class="
-          mt-2
-          text-white text-text
-          py-3
-          rounded-lg
-          w-full
-          focus:outline-none
-        "
+        class="mt-2 text-white text-text py-3 rounded-lg w-full focus:outline-none"
         :class="isLoading ? 'bg-gray-400' : 'bg-green-food'"
       >
         <span v-if="!isLoading">Simpan</span>
@@ -172,15 +122,7 @@
           <svg
             class="h-5"
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            style="
-              margin: auto;
-              background: none;
-              display: block;
-              shape-rendering: auto;
-              animation-play-state: running;
-              animation-delay: 0s;
-            "
+            style="margin: auto; background: none; display: block; shape-rendering: auto;"
             width="200px"
             height="200px"
             viewBox="0 0 100 100"
@@ -194,7 +136,6 @@
               stroke-width="10"
               r="35"
               stroke-dasharray="164.93361431346415 56.97787143782138"
-              style="animation-play-state: running; animation-delay: 0s"
             >
               <animateTransform
                 attributeName="transform"
@@ -203,7 +144,6 @@
                 dur="1s"
                 values="0 50 50;360 50 50"
                 keyTimes="0;1"
-                style="animation-play-state: running; animation-delay: 0s"
               ></animateTransform>
             </circle>
           </svg>
@@ -211,7 +151,6 @@
       </button>
     </div>
 
-    <!-- {{ branchs }} -->
     <loader-full v-if="isLoading" />
   </div>
 </template>
@@ -233,11 +172,6 @@ export default {
   },
   computed: {},
   watch: {
-    searchUser: {
-      handler(r) {
-        console.log(r);
-      },
-    },
     search: {
       handler(r) {
         this.filteredBranchs(r);
@@ -250,12 +184,6 @@ export default {
         } else {
           this.getUserBranchs(r.user_id);
         }
-      },
-      deep: true,
-    },
-    branchs: {
-      handler(r) {
-        this.$forceUpdate();
       },
       deep: true,
     },
@@ -276,28 +204,17 @@ export default {
       return (this.filtered = filtered);
     },
     selectAllAction() {
-      if (!this.selectAll) {
-        this.selectAll = true;
-        this.filtered.forEach((b, index) => {
-          this.filtered[index].user_branch_is_active = 1;
-        });
-      } else {
-        this.selectAll = false;
-        this.filtered.forEach((b, index) => {
-          this.filtered[index].user_branch_is_active = 0;
-        });
-      }
+      this.selectAll = !this.selectAll;
+      const value = this.selectAll ? 1 : 0;
+      this.filtered.forEach((b) => {
+        b.user_branch_is_active = value;
+      });
     },
     async getUser(keyword) {
       if (keyword == undefined || keyword == null) keyword = "";
-      var queryParams = {
-        q: keyword,
-        data: 20,
-      }
-      var queryParams = new URLSearchParams(queryParams).toString()
+      const queryParams = new URLSearchParams({ q: keyword, data: 20 }).toString();
       try {
         const res = await this.$axios.get("me/user_brands?" + queryParams);
-
         if (res.data.success) {
           this.users = res.data.data.user_brands;
         }
@@ -313,8 +230,12 @@ export default {
         if (res.data.success) {
           this.branchs = res.data.data;
           this.filtered = this.branchs;
+          this.search = "";
+          this.selectAll = false;
         }
-      } catch (error) {}
+      } catch (error) {
+        this.isLoadingBranch = false;
+      }
     },
 
     async saveBranchsUser(id) {
@@ -325,7 +246,6 @@ export default {
         this.isLoading = false;
         if (res.data.success) {
           this.$toast.success("Berhasil menyimpan data", { duration: 2000 });
-          this.branchs = payload;
         } else {
           this.$toast.error("Gagal menyimpan data", { duration: 2000 });
         }

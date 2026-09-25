@@ -8,8 +8,8 @@
           <h1 class="text-title text-left text-2xl font-extrabold tracking-wider text-gray-900">Aktifitas</h1>
         </div>
         <div class="content-head-action">
-          <div class="flex flex-wrap -m-2">
-            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
+          <div class="filter-bar">
+            <div class="relative cursor-pointer">
               <div class="relative">
                 <input v-model="filter.outlet" v-on:keyup.enter="loadList(true)" type="search" placeholder="Outlet" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:outline-none text-sm">
                 <div class="absolute top-0 pt-2 pl-2">
@@ -18,7 +18,7 @@
               </div>
             </div>
 
-            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
+            <div class="relative cursor-pointer">
               <div class="relative">
                 <input v-model="filter.item" v-on:keyup.enter="loadList(true)" type="search" placeholder="Item" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full focus:outline-none text-sm">
                 <div class="absolute top-0 pt-2 pl-2">
@@ -26,9 +26,9 @@
                 </div>
               </div>
             </div>
-            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
+            <div class="relative cursor-pointer">
               <div id="channel-option" @click.prevent="handleDropdownCustom('channel-option')" class="border flex py-2 px-4 border-gray-300 rounded-lg w-full focus:outline-none bg-white">
-                <div class="flex-auto text-sm">
+                <div class="flex-auto text-sm truncate min-w-0">
                   <span>{{ (!label_filter.channel) ? 'Semua Channel' : label_filter.channel }}</span>
                 </div>
                 <div><svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -46,9 +46,9 @@
                 </ul>
               </div>
             </div>
-            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
+            <div class="relative cursor-pointer">
               <div id="reason-option" @click.prevent="handleDropdownCustom('reason-option')"  class="border flex py-2 px-4 border-gray-300 rounded-lg w-full focus:outline-none bg-white">
-                <div class="flex-auto text-sm">
+                <div class="flex-auto text-sm truncate min-w-0">
                   <span>{{ (!label_filter.reason) ? 'Semua Status' : label_filter.reason }}</span>
                 </div>
                 <div><svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -70,7 +70,7 @@
               </div>
             </div>
             <!-- Filter Alasan (dari API /reasons) -->
-            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
+            <div class="relative cursor-pointer">
               <div id="reason_key-option" @click.prevent="handleDropdownCustom('reason_key-option')" class="border flex py-2 px-4 border-gray-300 rounded-lg w-full focus:outline-none bg-white">
                 <div class="flex-auto text-sm truncate">
                   <span>{{ (!label_filter.reason_key) ? 'Semua Alasan' : label_filter.reason_key }}</span>
@@ -90,26 +90,26 @@
                 </ul>
               </div>
             </div>
-            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
+            <div class="relative cursor-pointer">
               <div id="date-option" @click.prevent="handleDropdownCustom('date-option')" class="border flex py-2 px-4 border-gray-300 rounded-lg w-full focus:outline-none bg-white">
-                <div class="flex-auto text-sm">
+                <div class="flex-auto text-sm truncate min-w-0">
                   <span>{{filter.date}}</span>
                 </div>
                 <div><svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
                 </svg></div>
               </div>
-              <div data-parent="date-option" class="is-dropdown z-50 absolute w-full hidden">
+              <div data-parent="date-option" class="is-dropdown z-50 absolute right-0 hidden">
                 <client-only>
                   <date-picker class="text-sm" format="YYYY-MM-DD" :inline="true"
                   :maxDate="new Date()" v-model="filter_date" autoclose="true" :disabledDates="{from: new Date()}" />
                 </client-only>
               </div>
             </div>
-            <div class="w-full xl:w-2/12 lg:w-2/12 sm:w-6/12 p-2 cursor-pointer items-center relative">
-              <div class="content-head-action flex justify-between gap-2">
-                <button @click.prevent="loadList(true)" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 rounded-lg text-sm py-2 w-full">Filter</button>
-                <button type="button" @click.prevent="handleOpenMassal" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 rounded-lg text-sm py-2 w-full">Edit Massal</button>
+            <div class="filter-actions">
+              <div class="flex gap-2">
+                <button @click.prevent="loadList(true)" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 rounded-lg text-sm py-2 px-4 w-full whitespace-nowrap">Filter</button>
+                <button type="button" @click.prevent="handleOpenMassal" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 rounded-lg text-sm py-2 px-4 w-full whitespace-nowrap">Edit Massal</button>
               </div>
             </div>
           </div>
@@ -464,3 +464,22 @@
     name: 'aktifitas',
   };
 </script>
+
+<style scoped>
+  .filter-bar {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .filter-actions { grid-column: 1 / -1; }
+
+  @media (min-width: 768px) {
+    .filter-bar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* Desktop: semua filter + tombol dalam 1 baris */
+  @media (min-width: 1280px) {
+    .filter-bar { grid-template-columns: repeat(6, minmax(0, 1fr)) auto; }
+    .filter-actions { grid-column: auto; }
+  }
+</style>

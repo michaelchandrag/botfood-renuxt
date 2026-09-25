@@ -11,15 +11,7 @@
             <input
               type="text"
               required
-              class="
-                py-2
-                mt-1
-                px-3
-                border border-gray-300
-                rounded-lg
-                w-full
-                focus:outline-none
-              "
+              class="py-2 mt-1 px-3 border border-gray-300 rounded-lg w-full focus:outline-none"
               v-model="user.name"
               placeholder="Masukkan Nama"
             />
@@ -29,15 +21,7 @@
             <input
               type="text"
               required
-              class="
-                py-2
-                mt-1
-                px-3
-                border border-gray-300
-                rounded-lg
-                w-full
-                focus:outline-none
-              "
+              class="py-2 mt-1 px-3 border border-gray-300 rounded-lg w-full focus:outline-none"
               v-model="user.phone_number"
               placeholder="Masukkan Nomor Telepon (cth: 628781111111)"
             />
@@ -48,15 +32,7 @@
             <input
               type="password"
               required
-              class="
-                py-2
-                mt-1
-                px-3
-                border border-gray-300
-                rounded-lg
-                w-full
-                focus:outline-none
-              "
+              class="py-2 mt-1 px-3 border border-gray-300 rounded-lg w-full focus:outline-none"
               v-model="user.password"
               placeholder="****** (6 digit karakter)"
             />
@@ -66,29 +42,16 @@
           </div>
 
           <div>
-            <label class="text-sm text-gray-500" for=""
-              >Konfirmasi Password</label
-            >
+            <label class="text-sm text-gray-500" for="">Konfirmasi Password</label>
             <input
               type="password"
               required
-              class="
-                py-2
-                mt-1
-                px-3
-                border border-gray-300
-                rounded-lg
-                w-full
-                focus:outline-none
-              "
+              class="py-2 mt-1 px-3 border border-gray-300 rounded-lg w-full focus:outline-none"
               v-model="user.confirm_password"
               placeholder="******"
             />
             <span
-              v-if="
-                user.confirm_password.length > 1 &&
-                user.confirm_password !== user.password
-              "
+              v-if="user.confirm_password.length > 1 && user.confirm_password !== user.password"
               class="text-xs text-red-500"
             >
               * Konfirmasi Password tidak sama
@@ -101,9 +64,7 @@
         <table class="table-auto w-full">
           <thead>
             <tr class="border-b">
-              <th class="py-4 text-text text-left cursor-pointer">
-                Nama Outlet
-              </th>
+              <th class="py-4 text-text text-left cursor-pointer">Nama Outlet</th>
               <th class="py-4 text-text text-left cursor-pointer">Status</th>
             </tr>
           </thead>
@@ -113,16 +74,7 @@
                 <div class="w-1/2">
                   <input
                     type="text"
-                    class="
-                      py-2
-                      mt-1
-                      px-3
-                      text-sm
-                      border border-gray-300
-                      rounded-lg
-                      w-full
-                      focus:outline-none
-                    "
+                    class="py-2 mt-1 px-3 text-sm border border-gray-300 rounded-lg w-full focus:outline-none"
                     v-model="search"
                     placeholder="Cari Outlet . . . "
                   />
@@ -132,26 +84,12 @@
                 <div class="flex items-center gap-x-3">
                   <div
                     @click.prevent="selectAllAction()"
-                    class="
-                      cursor-pointer
-                      h-6
-                      w-6
-                      flex
-                      items-center
-                      justify-center
-                      rounded-md
-                      border-2
-                    "
-                    :class="
-                      selectAll
-                        ? 'border-green-food bg-green-200'
-                        : 'border-gray-500'
-                    "
+                    class="cursor-pointer h-6 w-6 flex items-center justify-center rounded-md border-2"
+                    :class="selectAll ? 'border-green-food bg-green-200' : 'border-gray-500'"
                   >
-                    <i
-                      v-if="selectAll"
-                      class="fas text-green-food fa-check text-xs"
-                    ></i>
+                    <svg v-if="selectAll" class="h-4 w-4 text-green-food" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
                   </div>
                   <span> Pilih Semua </span>
                 </div>
@@ -161,7 +99,7 @@
 
           <tbody v-if="!isLoadingBranch">
             <tr
-              v-for="(branch, index) in filtered"
+              v-for="branch in filtered"
               :key="branch.branch_id"
               class="hover:bg-gray-200 border-b"
             >
@@ -170,31 +108,13 @@
               </td>
               <td class="text-left text-text p-4 rounded-r-fds">
                 <div
-                  class="
-                    cursor-pointer
-                    h-6
-                    w-6
-                    flex
-                    items-center
-                    justify-center
-                    rounded-md
-                    border-2
-                  "
-                  :class="
-                    branch.user_branch_is_active
-                      ? 'border-green-food bg-green-200'
-                      : 'border-gray-500'
-                  "
-                  @click.prevent="
-                    branchs[index].user_branch_is_active
-                      ? (branchs[index].user_branch_is_active = 0)
-                      : (branchs[index].user_branch_is_active = 1)
-                  "
+                  class="cursor-pointer h-6 w-6 flex items-center justify-center rounded-md border-2"
+                  :class="branch.user_branch_is_active ? 'border-green-food bg-green-200' : 'border-gray-500'"
+                  @click.prevent="branch.user_branch_is_active = branch.user_branch_is_active ? 0 : 1"
                 >
-                  <i
-                    v-if="branch.user_branch_is_active"
-                    class="fas text-green-food fa-check text-xs"
-                  ></i>
+                  <svg v-if="branch.user_branch_is_active" class="h-4 w-4 text-green-food" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
                 </div>
               </td>
             </tr>
@@ -203,15 +123,7 @@
           <tbody v-if="isLoadingBranch">
             <tr v-for="i in 10" :key="i" class="mb-3">
               <td colspan="8" class="py-1">
-                <div
-                  class="
-                    bg-gray-300
-                    rounded-lg
-                    w-full
-                    h-8
-                    animate animate-pulse
-                  "
-                ></div>
+                <div class="bg-gray-300 rounded-lg w-full h-8 animate animate-pulse"></div>
               </td>
             </tr>
           </tbody>
@@ -234,8 +146,6 @@
       </div>
     </form>
     <loader-full v-if="isLoading" />
-
-    <!-- {{ branchs }} -->
   </div>
 </template>
 
@@ -294,17 +204,11 @@ export default {
       return (this.filtered = filtered);
     },
     selectAllAction() {
-      if (!this.selectAll) {
-        this.selectAll = true;
-        this.filtered.forEach((b, index) => {
-          this.filtered[index].user_branch_is_active = 1;
-        });
-      } else {
-        this.selectAll = false;
-        this.filtered.forEach((b, index) => {
-          this.filtered[index].user_branch_is_active = 0;
-        });
-      }
+      this.selectAll = !this.selectAll;
+      const value = this.selectAll ? 1 : 0;
+      this.filtered.forEach((b) => {
+        b.user_branch_is_active = value;
+      });
     },
     async getBranchs(id) {
       try {
@@ -328,7 +232,6 @@ export default {
         if (res.data.success) {
           this.$toast.success("Berhasil menyimpan data", { duration: 2000 });
           this.$router.push("/account");
-          // this.branchs = res.data.data.update;
         } else {
           this.$toast.error("Gagal menyimpan data", { duration: 2000 });
         }
